@@ -111,7 +111,7 @@
 				</div>
 			    </div>
 			    <div class="row form-group">
-			    <div class="col col-md-3" ><label for="select" class=" form-control-label">Bác Sĩ</label></div>
+			    <div class="col col-md-3" ><label for="select" class=" form-control-label">Bác Sĩ Điều trị</label></div>
 			    <div class="col-12 col-md-9">
 				    <select class="form-control" name="doctor_id" id="select_doctor" ></select>
 			    </div>
