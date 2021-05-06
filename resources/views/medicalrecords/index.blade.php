@@ -99,7 +99,7 @@
 				</div>
 			    </div>
 			    <div class="row form-group">
-				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chọn Thuốc</label></div>
+				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chọn Thuốc điều trị</label></div>
 				<div class="col-12 col-md-9">
 					<select name="medicine_id" class="form-control" id="select_medicine">
 						@foreach ($medicine  as $medicine)
