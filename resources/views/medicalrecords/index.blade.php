@@ -76,7 +76,7 @@
 				<div class="col col-md-3"><label for="select" class=" form-control-label">Chọn bệnh nhân</label></div>
 				<div class="col-12 col-md-9">
 					    <select name="patient_id" class="form-control">
-						    <option disabled selected> Chọn bệnh nhân</option>}
+						    <option disabled selected>Chọn bệnh nhân</option>}
 						    @foreach ($patient  as $patient)
 						    <option value="{{ $patient->patient_id }}">
 							    {{ $patient->first_name }} {{ $patient->last_name }}

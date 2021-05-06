@@ -51,9 +51,8 @@ class DoctorController extends Controller
         return view('doctor.view_insert_excel');
     }
     public function process_insert_excel(DoctorRequest $rq){
-          Excel::import(new DoctorImport, $rq->file('excel_doctor')->path());
-          return redirect()->route('doctor.show');
-
+        Excel::import(new DoctorImport, $rq->file('excel_doctor')->path());
+        return redirect()->route('doctor.show');
     }
     public function delete($doctor_id){
         Doctor::find($doctor_id)->delete();
@@ -61,12 +60,10 @@ class DoctorController extends Controller
 
     }
     public function view_update($doctor_id){
-    	
         $doctor= Doctor::find($doctor_id);
     	return view('doctor.edit',[
     		'doctor'=> $doctor,
     	]);
-
     }
     public function process_update(DoctorRequest $rq,$doctor_id){
         $first_name    = $rq->first_name;
