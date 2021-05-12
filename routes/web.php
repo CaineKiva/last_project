@@ -3,11 +3,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-route::get('hehe',function()
-{
-	return "hehe";
-});
+// route::get("hello",function()
+// {
+// 	return "heello";
+// });
 
 route::get("login", "LoginController@login")->name("login");
 
@@ -219,3 +218,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 	});
 
 });
+
+
+
+
