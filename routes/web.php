@@ -3,6 +3,12 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+route::get('hehe',function()
+{
+	return "hehe";
+});
+
 route::get("login", "LoginController@login")->name("login");
 
 // login students

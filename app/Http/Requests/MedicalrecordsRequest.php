@@ -60,5 +60,6 @@ class MedicalrecordsRequest extends FormRequest
     //         'address' => 'Địa chỉ',
     //         'gender' => 'Giới tính',
     //     ];
-    // }
+    }
 }
+
