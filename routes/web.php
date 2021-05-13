@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Route;
 // 	return "heello";
 // });
 
+//  giao dien khach hang
+route::get("layout","FrontendController@layout")->name("layout");
+
+
+
+
+
 route::get("login", "LoginController@login")->name("login");
 
 // login students
