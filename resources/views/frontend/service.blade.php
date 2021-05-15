@@ -51,7 +51,7 @@
              <div class="appointment-form">
                 <h3><span>+</span> Book Appointment</h3>
                 <div class="form">
-                   <form action="index.html">
+                   <form action="#">
                       <fieldset>
                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="row">
@@ -67,21 +67,14 @@
                                </div>
                             </div>
                          </div>
+                         
                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 select-section">
                             <div class="row">
                                <div class="form-group">
-                                  <select class="form-control">
-                                     <option>Day</option>
-                                     <option>Sunday</option>
-                                     <option>Monday</option>
-                                  </select>
+                                 <input type="date" id="date" />
                                </div>
                                <div class="form-group">
-                                  <select class="form-control">
-                                     <option>Time</option>
-                                     <option>AM</option>
-                                     <option>PM</option>
-                                  </select>
+                                  <input type="time" id="time" />
                                </div>
                             </div>
                          </div>
