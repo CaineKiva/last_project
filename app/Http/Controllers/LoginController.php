@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Doctor;
 use App\Models\Nurse;
+use App\Models\Patient;
 use Hash;
 use Illuminate\Http\Request;
 use Session;
@@ -30,6 +31,25 @@ class LoginController extends Controller {
 			return redirect()->route('index');
 		} else {
 			return redirect()->route('login')->with('error', 'Sai');
+		}
+	}
+
+	// public function login_patient() {
+	// 	return view('login.login_patient');
+	// }
+	public function process_login_patient(Request $rq) {
+		$patient = Patient::where('email', $rq->email)->first();
+
+		if (isset($patient)) {
+			Session::put('patient_id', $patient->patient_id);
+			Session::put('last_name', $patient->last_name);
+			Session::put('first_name', $patient->first_name);
+			Session::put('contact_phone', $patient->contact_phone);
+			Session::put('password', $patient->password);
+			Session::put('email', $patient->email);
+			return redirect()->route('layout');
+		} else {
+			return redirect()->route('layout')->with('error', 'Sai');
 		}
 	}
 	
@@ -58,37 +78,44 @@ class LoginController extends Controller {
 		}
 	}
 
-	// login teacher
+	// login nurse
 	public function login_nurse() {
 		return view('login.login_nurse');
 	}
 	public function process_login_nurse(Request $rq) {
-		$nurse = Teacher::where('email', $rq->email)->first();
+		$nurse = Nurse::where('email', $rq->email)->first();
 
-		if (isset($nurse) && Hash::check($rq->password, $nurse->password)) {
-			Session::put('id', $nurse->id);
+		if (isset($nurse)) {
+			Session::put('nurse_id', $nurse->nurse_id);
 			Session::put('first_name', $nurse->first_name);
 			Session::put('last_name', $nurse->last_name);
 			Session::put('birthday', $nurse->birthday);
 			Session::put('phone', $nurse->phone);
-			Session::put('address', $nurse->address);
 			Session::put('gender', $nurse->gender);
+			Session::put('address', $nurse->address);
 			Session::put('email', $nurse->email);
 			Session::put('password', $nurse->password);
-
 			return redirect()->route('index');
 
 		} else {
-			return redirect()->route('login');
+			return redirect()->route('login')->with('error', 'Sai');
 		}
 	}
 
-	// log out
+	// logout
 	public function logout() {
 		Session::flush();
 
 		return redirect()->route('login')->with('sussess', 'Bye');
 
 	}
+	// logout patient
+	public function logout_patient() {
+		Session::flush();
+
+		return redirect()->back();
+
+	}
 
 }
+// && Hash::check($rq->password, $nurse->password)

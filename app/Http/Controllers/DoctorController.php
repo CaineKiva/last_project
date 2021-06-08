@@ -10,6 +10,7 @@ use App\Models\Patient;
 use App\Models\Medicine;
 use App\Models\Supplier;
 use App\Models\Medicalrecords;
+use App\Models\Appointment;
 use Session;
 use DB;
 // use App\Models\Patient;
@@ -33,7 +34,7 @@ class DoctorController extends Controller
 
     }
     // public function subject_Doctor(){
-    //     $subjects= Subject::get();
+    //     $subjects= Subject::get();jkdfgkfdfgdfg
     //     $subject_Doctor= Subject_Doctor::get();
     //     return view('Doctor.Doctor_subject',[
     //         'subject_Doctor'=> $subject_Doctor,
@@ -43,9 +44,9 @@ class DoctorController extends Controller
     public function view_insert(){
     	return view('doctor.insert');
     }
-    public function process_insert(DoctorRequest $rq){
+    public function process_insert(Request $rq){
     	Doctor::create($rq->all()); 
-        return redirect()->route('doctor.doctor_index');
+        return redirect()->back();
     }
     public function view_insert_excel(){
         return view('doctor.view_insert_excel');
@@ -65,31 +66,27 @@ class DoctorController extends Controller
     		'doctor'=> $doctor,
     	]);
     }
-    public function process_update(DoctorRequest $rq,$doctor_id){
-        $first_name    = $rq->first_name;
-        $last_name    = $rq->last_name;
-        $date    = $rq->date;
+    public function process_update(Request $rq){
+        $doctor_id = $rq->get('doctor_id');
+        $first_name = $rq->first_name;
+        $last_name = $rq->last_name;
+        $birthday = $rq->birthday;
         $address = $rq->address;
-        $gender  = $rq->gender;
-        $email   = $rq->email;
-        $phone   = $rq->phone;
-        
-        $password = $rq->password;
-    	DB::table('Doctor')->where('doctor_id',$doctor_id)->update([
+        $gender = $rq->gender;
+        $email = $rq->email;
+        $phone = $rq->phone;
+    	Doctor::where('doctor_id',$doctor_id)->update([
     		'first_name'=> $first_name,
             'last_name'=> $last_name,
-    		'date'=> $date,
+    		'birthday'=> $birthday,
     		'address'=> $address,
     		'gender'=> $gender,
             'email' => $email,
             'phone' => $phone,
-           
-            'password' => $password,
     	]);
-        // SinhVienLop::find($id)->update($rq->all());
-       
-    	return redirect()->route('doctor.show');
+    	return redirect()->back();
     }
+
     public function view_list(){
         $speciallist =Speciallist::get();
         $doctor = Doctor::get();
@@ -101,6 +98,33 @@ class DoctorController extends Controller
             'doctor'=> $doctor,
             'patient'=> $patient,
             'medicine' => $medicine,
+            'array_list' => $array_list,
+            'search'=> $search,
+        ]);
+    }
+    public function appointment_list(Request $rq){
+        $speciallist =Speciallist::get();
+        $doctor = Doctor::get();
+        $patient = Patient::get();
+        $search = $rq->search;
+        $array_list = Appointment::where('doctor_id',Session::get('doctor_id'))->where('status','0')->join('patient','appointment.patient_id','patient.patient_id')->where('last_name','like',"%$search%")->paginate(10);
+        return view('doctor.appointment_list',[
+            'speciallist'=> $speciallist, 
+            'doctor'=> $doctor,
+            'patient'=> $patient,
+            'array_list' => $array_list,
+            'search'=> $search,
+        ]);
+    }
+    public function update_appointment(){
+        $speciallist =Speciallist::get();
+        $doctor = Doctor::get();
+        $patient = Patient::get();
+        $array_list = Appointment::where('doctor_id',Session::get('doctor_id'))->where('status','0')->get();
+        return view('doctor.appointment_list',[
+            'speciallist'=> $speciallist, 
+            'doctor'=> $doctor,
+            'patient'=> $patient,
             'array_list' => $array_list,
         ]);
     }

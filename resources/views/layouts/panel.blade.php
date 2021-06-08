@@ -83,14 +83,41 @@
 
         @if (Session::get('doctor_id'))
             <li class="active">
-                        <li class="active">
-                            <a href="{{ route('index') }}"> <i class="menu-icon fa fa-dashboard"></i>Bác Sĩ: {{ Session::get('last_name') }}</a>
-                        </li>
-                    </li>
+                <li class="active">
+                    <a href="{{ route('index') }}"> <i class="menu-icon fa fa-dashboard"></i>Bác Sĩ : {{ Session::get('last_name') }}</a>
+                </li>
+            </li>
+            <li class="menu-item-has-children dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-user-md "></i>Lịch Hẹn Khám Bệnh</a>
+                <ul class="sub-menu children dropdown-menu">
+                <li><i class="fa fas fa-list-alt"></i><a href="{{ route('doctor.appointment_list') }}">Danh sách Lịch hẹn</a></li>
+                </ul>
+            </li>
             <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-user-md "></i>Lịch Sử Khám Bệnh</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fas fa-list-alt"></i><a href="{{ route('doctor.view_list') }}">Danh sách bệnh án</a></li>
+                        <li><i class="fas fa-edit"></i><a href="">Cập nhật thông tin</a></li>
+                    </ul>
+                </li>
+        @endif
+
+        @if (Session::get('nurse_id'))
+            <li class="active">
+                <li class="active">
+                    <a href="{{ route('index') }}"> <i class="menu-icon fa fa-dashboard"></i>Y tá : {{ Session::get('last_name') }}</a>
+                </li>
+            </li>
+            <li class="menu-item-has-children dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-user-md "></i>Lịch Hẹn Khám Bệnh</a>
+                <ul class="sub-menu children dropdown-menu">
+                <li><i class="fa fas fa-list-alt"></i><a href="{{ route('appointment.appointment_list') }}">Danh sách Lịch hẹn</a></li>
+                </ul>
+            </li>
+            <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-user-md "></i>Lịch Sử Khám Bệnh</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fas fa-list-alt"></i><a href="">Danh sách bệnh án</a></li>
                         <li><i class="fas fa-edit"></i><a href="">Cập nhật thông tin</a></li>
                     </ul>
                 </li>

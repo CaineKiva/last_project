@@ -11,17 +11,26 @@ use App\Models\Patient;
 use App\Models\Supplier;
 use App\Models\Medicine;
 use App\Models\Medicalrecords;
-use App\Models\Teacher;
+use App\Models\Appointment;
 use DB;
 use Session;
 
 class AjaxController extends Controller
 {
+    public function doctor_information(Request $rq){
+        $doctor_id = $rq->get('doctor_id');
+        $doctor = Doctor::where('doctor_id',$doctor_id)->get();
+        return $doctor;
+    }
     public function doctor_speciallist(Request $rq){
- 
         $speciallist_id = $rq->get('speciallist_id');
         $doctor = Doctor::where('speciallist_id',$speciallist_id)->get();
         return $doctor;
+    }
+    public function appointment_patient(Request $rq){
+        $patient_id = $rq->get('patient_id');
+        $appointment = Appointment::where('patient_id',$patient_id)->where('status','0')->paginate(5);
+        return $appointment;
     }
     public function medicine_supplier(Request $rq){
         $medicine_id = $rq->get('medicine_id');

@@ -20,6 +20,10 @@ class CheckLogin
             return $next($request);
         }elseif(Session::has('doctor_id')){
             return $next($request);
+        }elseif(Session::has('nurse_id')){
+            return $next($request);
+        }elseif(Session::has('patient_id')){
+            return $next($request);
         }else{
             return redirect()-> route('login')->with('erron','sai cmnr');
         }

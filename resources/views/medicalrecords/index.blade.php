@@ -113,12 +113,14 @@
 			    <div class="row form-group">
 			    <div class="col col-md-3" ><label for="select" class=" form-control-label">Bác Sĩ Điều trị</label></div>
 			    <div class="col-12 col-md-9">
-				    <select class="form-control" name="doctor_id" id="select_doctor" ></select>
+				    <select class="form-control" name="doctor_id" id="select_doctor" >
+				    	<option selected="selected">Chọn Bác Sĩ</option>
+				    </select>
 			    </div>
                 </div>
                 <div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Phí khám bệnh</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="text-input" name="price" placeholder="Text" class="form-control" value="{{ old('price') }}">{{ $errors->first('price') }}</div>
+					<div class="col-12 col-md-9"><input type="text" id="text-input" name="price" placeholder="Text" class="form-control" value="<?php echo (int)1000 + (int)20; ?>">{{ $errors->first('price') }}</div>
 				</div>
 
 				<div class="row form-group">
@@ -139,7 +141,7 @@
 		</div>
 	</div>
 </div>
-
+{{$array_list->appends(['search' => $search])->links()}}
 @endsection
 
 
@@ -168,11 +170,11 @@
 		})
 	});
 function show() {
-  document.getElementById("form_insert").style.display = "block";
+    document.getElementById("form_insert").style.display = "block";
 }
 
 function hiden() {
-  document.getElementById("form_insert").style.display = "none";
+  	document.getElementById("form_insert").style.display = "none";
 }
 </script>
 

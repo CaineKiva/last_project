@@ -97,7 +97,7 @@
                                         {{-- <button type="" class="btn social facebook btn-flat btn-addon mb-3">Sign in Admin</button> --}}
                                         <a href="{{ route('login_admin') }}" class="btn social facebook btn-flat btn-addon mb-3">Sign in Admin</a>
                                         <a href="{{ route('login_doctor') }}" class="btn btn-success btn-flat m-b-30 m-t-30">Sign Teacher</a>
-                                        {{-- <a href="{{ route('login_student') }}" class="btn social twitter btn-flat btn-addon mt-2">Sign in Student</a> --}}
+                                        <a href="{{ route('login_nurse') }}" class="btn social twitter btn-flat btn-addon mt-2">Sign in Student</a>
                                         {{-- <button type="" class="btn btn-success btn-flat m-b-30 m-t-30">Sign Teacher</button>
                                         <button type="" class="btn social twitter btn-flat btn-addon mt-2">Sign in Student</button> --}}
                                     </div>

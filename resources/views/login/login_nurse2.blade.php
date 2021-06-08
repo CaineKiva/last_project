@@ -25,12 +25,16 @@
 	<div class="container">
 		<h1>Welcome</h1>
 
-		<form class="form">
-			<div>
-				<a href="{{ route('login_admin') }} " class="select_login">Sign in Admin</a>
-				<a href="{{ route('login_doctor') }}" class="select_login">Sign in Doctor</a>
-				<a href="{{ route('login_nurse') }}" class="select_login">Sign in Nurse</a>
-			</div>
+		<form class="form" action="{{ route('process_login_nurse') }}" method="post">
+			@csrf
+
+			<input type="email" name="email" placeholder="Username">
+			<input type="password" name="password" placeholder="Password">
+			<button type="submit" id="login-button">Login</button>
+
+			<br><br>
+
+				<a href="{{ route('login') }}" class="select_login">Back</a>
 
 
 		</form>

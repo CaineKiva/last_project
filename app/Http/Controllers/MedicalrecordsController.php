@@ -15,18 +15,20 @@ use DB;
 
 class MedicalrecordsController extends Controller
 {
-	public function Medicalrecords_index(){
+	public function Medicalrecords_index(Request $rq){
 		$speciallist =Speciallist::get();
 		$doctor = Doctor::get();
 		$patient = Patient::get();
 		$medicine = Medicine::get();
-		$array_list = Medicalrecords::latest()->get();
+		$search = $rq->search;
+		$array_list = Medicalrecords::latest()->join('patient','medicalrecords.patient_id','patient.patient_id')->where('last_name','like',"%$search%")->paginate(10);
 		return view('medicalrecords.index',[
 			'speciallist'=> $speciallist, 
 			'doctor'=> $doctor,
 			'patient'=> $patient,
 			'medicine' => $medicine,
 			'array_list' => $array_list,
+			'search'=> $search,
 		]);
 	}
 	public function Medicalrecords_doctor(){
@@ -34,7 +36,7 @@ class MedicalrecordsController extends Controller
 		$doctor = Doctor::get();
 		$patient = Patient::get();
 		$medicine = Medicine::get();
-		$array_list = Medicalrecords::where('doctor_id',Session::get('doctor_id'))->latest()->get();
+		$array_list = Medicalrecords::where('doctor_id',Session::get('doctor_id'))->get();
 		return view('medicalrecords.index',[
 			'speciallist'=> $speciallist, 
 			'doctor'=> $doctor,

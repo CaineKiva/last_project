@@ -7,6 +7,8 @@ use DB;
 use App\Models\Speciallist;
 use App\Models\Competence;
 use App\Models\Doctor;
+use App\Models\Medicalrecords;
+use App\Models\Patient;
 // use App\Http\Requests\DisciplineRequest;
 
 class SpeciallistController extends Controller
@@ -20,11 +22,25 @@ class SpeciallistController extends Controller
         ]);
     }
     public function doctor_list(Request $rq,$speciallist_id){
+        $competence = Competence::get();
         $speciallist = Speciallist::find($speciallist_id);
-    	$array_list = Doctor::where('speciallist_id',$speciallist_id)->get();
+        $search = $rq->search;
+    	$array_list = Doctor::where('speciallist_id',$speciallist_id)->where('last_name','like',"%$search%")->paginate(10);
         return view('speciallist.doctor_list',[
-            'array_list'=> $array_list,
+            'competence' => $competence,
             'speciallist' => $speciallist,
+            'array_list'=> $array_list,
+            'search'=> $search,
+        ]);
+    }
+    public function patient_list(Request $rq,$speciallist_id){
+        $patient = Patient::get();
+        $speciallist = Speciallist::find($speciallist_id);
+        $array_list = Medicalrecords::where('speciallist_id',$speciallist_id)->get();
+        return view('speciallist.patient_list',[
+            'patient' => $patient,
+            'speciallist' => $speciallist,
+            'array_list'=> $array_list,
         ]);
     }
     public function view_insert(){

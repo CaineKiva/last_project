@@ -11,21 +11,33 @@ use Illuminate\Support\Facades\Route;
 //  giao dien khach hang
 route::get("layout","FrontendController@layout")->name("layout");
 
+$controller = "AppointmentController";
+route::group(["prefix" => "appointment", "as" => "appointment."], function () use ($controller) {
+	route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
+	route::post("process_insert", "$controller@process_insert")->name("process_insert");
+	route::post("process_update", "$controller@process_update")->name("process_update");
+});	
 
-
-
+$controller = "AjaxController";
+route::group(["prefix" => "ajax", "as" => "ajax."], function () use ($controller) {
+	route::get("doctor_speciallist", "$controller@doctor_speciallist")->name("doctor_speciallist");
+	route::get("doctor_information", "$controller@doctor_information")->name("doctor_information");
+	route::get("appointment_patient", "$controller@appointment_patient")->name("appointment_patient");
+});	
 
 route::get("login", "LoginController@login")->name("login");
 
 // login students
-route::get("login_student", "LoginController@login_student")->name("login_student");
-route::post("process_login_student", "LoginController@process_login_student")->name("process_login_student");
+route::get("login_nurse", "LoginController@login_nurse")->name("login_nurse");
+route::post("process_login_nurse", "LoginController@process_login_nurse")->name("process_login_nurse");
 // login admin
 route::get("login_admin", "LoginController@login_admin")->name("login_admin");
 route::post("process_login_admin", "LoginController@process_login_admin")->name("process_login_admin");
-// login teacher
+// login doctor
 route::get("login_doctor", "LoginController@login_doctor")->name("login_doctor");
 route::post("process_login_doctor", "LoginController@process_login_doctor")->name("process_login_doctor");
+// login patient
+route::post("process_login_patient", "LoginController@process_login_patient")->name("process_login_patient");
 
 // middleware
 route::group(['middleware' => 'CheckLogin'], function () {
@@ -35,6 +47,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 	$controller = "LoginController";
 	route::group(["prefix" => "login", "as" => "login."], function () use ($controller) {
 		route::get("logout", "$controller@logout")->name("logout");
+		route::get("logout_patient", "$controller@logout_patient")->name("logout_patient");
 	});
 
 	// Doctor
@@ -42,6 +55,8 @@ route::group(['middleware' => 'CheckLogin'], function () {
 	route::group(["prefix" => "doctor", "as" => "doctor."], function () use ($controller) {
 		route::get("doctor_index", "$controller@doctor_index")->name("doctor_index");
 		route::get("view_list", "$controller@view_list")->name("view_list");
+		route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
+		route::post("update_appointment", "$controller@update_appointment")->name("update_appointment");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
             route::get("", "$controller@show")->name("show");
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
@@ -50,7 +65,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 			route::post("process_insert_excel", "$controller@process_insert_excel")->name("process_insert_excel");
 			route::get("delete/{doctor_id}", "$controller@delete")->name("delete");
 			route::get("view_update/{doctor_id}", "$controller@view_update")->name("view_update");
-			route::post("process_update/{doctor_id}", "$controller@process_update")->name("process_update");
+			route::post("process_update", "$controller@process_update")->name("process_update");
 			// route::get("assignment_subject_doctor", "$controller@assignment_subject_doctor")->name("assignment_subject_doctor");
 			// route::post("process_assignment_subject_doctor", "$controller@process_assignment_subject_doctor")->name("process_assignment_subject_doctor");
 			// route::get("subject_doctor", "$controller@subject_doctor")->name("subject_doctor");
@@ -107,6 +122,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		route::get("index_list", "$controller@index_list")->name("index_list");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
 			route::get("doctor_list/{speciallist_id}", "$controller@doctor_list")->name("doctor_list");
+			route::get("patient_list/{speciallist_id}", "$controller@patient_list")->name("patient_list");
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
 			route::post("process_insert", "$controller@process_insert")->name("process_insert");
 			route::get("delete/{speciallist_id}", "$controller@delete")->name("delete");
@@ -115,6 +131,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		});
 
 	});
+
 
 	// nganh hoc
 	$controller = "DisciplineController";
@@ -181,25 +198,26 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		});
 	});
 
-	//ajax
-	$controller = "AjaxController";
-	route::group(["prefix" => "ajax", "as" => "ajax."], function () use ($controller) {
+	// //ajax
+	// $controller = "AjaxController";
+	// route::group(["prefix" => "ajax", "as" => "ajax."], function () use ($controller) {
 
-		route::get("doctor_speciallist", "$controller@doctor_speciallist")->name("doctor_speciallist");
-		route::get("medicine_supplier", "$controller@medicine_supplier")->name("medicine_supplier");
-		// route::get("assignment_discipline_subject", "$controller@assignment_discipline_subject")->name("assignment_discipline_subject");
-		// route::get("listpoint_subject", "$controller@listpoint_subject")->name("listpoint_subject");
-		// route::get("listpoint_class", "$controller@listpoint_class")->name("listpoint_class");
-		// route::get("assignment_class_td", "$controller@assignment_class_td")->name("assignment_class_td");
-		// route::get("subject_teacher", "$controller@subject_teacher")->name("subject_teacher");
-		// route::get("assignment_class_subject", "$controller@assignment_class_subject")->name("assignment_class_subject");
-		// route::get("listpoint", "$controller@listpoint")->name("listpoint");
-		// route::get("listpoint_students", "$controller@listpoint_students")->name("listpoint_students");
-		// route::get("test_class", "$controller@test_class")->name("test_class");
-		// route::get("view_assignment", "$controller@view_assignment")->name("view_assignment");
-		// route::get("history_listpoint", "$controller@history_listpoint")->name("history_listpoint");
-	});
-	
+	// 	route::get("doctor_speciallist", "$controller@doctor_speciallist")->name("doctor_speciallist");
+	// 	route::get("medicine_supplier", "$controller@medicine_supplier")->name("medicine_supplier");
+	// 	// route::get("assignment_discipline_subject", "$controller@assignment_discipline_subject")->name("assignment_discipline_subject");
+	// 	// route::get("listpoint_subject", "$controller@listpoint_subject")->name("listpoint_subject");
+	// 	// route::get("listpoint_class", "$controller@listpoint_class")->name("listpoint_class");
+	// 	// route::get("assignment_class_td", "$controller@assignment_class_td")->name("assignment_class_td");
+	// 	// route::get("subject_teacher", "$controller@subject_teacher")->name("subject_teacher");
+	// 	// route::get("assignment_class_subject", "$controller@assignment_class_subject")->name("assignment_class_subject");
+	// 	// route::get("listpoint", "$controller@listpoint")->name("listpoint");
+	// 	// route::get("listpoint_students", "$controller@listpoint_students")->name("listpoint_students");
+	// 	// route::get("test_class", "$controller@test_class")->name("test_class");
+	// 	// route::get("view_assignment", "$controller@view_assignment")->name("view_assignment");
+	// 	// route::get("history_listpoint", "$controller@history_listpoint")->name("history_listpoint");
+	// });
+
+
 	// diem danh
 	$controller = "ListpointsController";
 	route::group(["prefix" => "listpoints", "as" => "listpoints."], function () use ($controller) {

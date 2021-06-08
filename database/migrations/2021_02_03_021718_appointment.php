@@ -17,8 +17,8 @@ class Appointment extends Migration
             $table->increments('appointment_id');
             $table->datetime('time');
             $table->text('symptom');
-            $table->String('room');
-            $table->boolean('status');
+            $table->String('room')->nullable();
+            $table->boolean('status')->nullable();
             $table->integer('doctor_id')->unsigned();
             $table->integer('speciallist_id')->unsigned();
             $table->integer('patient_id')->unsigned();

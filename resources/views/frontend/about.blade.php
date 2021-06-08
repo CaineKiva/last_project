@@ -66,7 +66,7 @@
                    <a href="{{ asset('public/images/clinic_01.jpg') }}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="flaticon-unlink"></i></a>
                    <img src="{{ asset('public/images/clinic_01.jpg') }}" alt="" class="img-responsive">
                 </div>
-                <h3>Digital Control Center pppppppppppp</h3>
+                <h3>Digital Control Center</h3>
              </div>
              <!-- end service -->
           </div>

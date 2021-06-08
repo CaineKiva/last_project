@@ -15,7 +15,7 @@ class PatientController extends Controller
     public function patient_index(Request $rq){
         $search = $rq->search;
         $speciallist = Speciallist::get();
-        $array_list = Patient::where('last_name','like',"%$search%")->paginate(10);
+        $array_list = Patient::where('last_name','like',"%$search%")->paginate(5);
         return view('patient.index',[
          'array_list' => $array_list,
          'speciallist' => $speciallist,
@@ -35,8 +35,8 @@ class PatientController extends Controller
     	return view('patient.insert');
     }
     public function process_insert(PatientRequest $rq){
-    	Doctor::create($rq->all()); 
-        return redirect()->route('patient.doctor_index');
+    	Patient::create($rq->all()); 
+        return redirect()->back();
     }
     public function view_insert_excel(){
         return view('patient.view_insert_excel');
@@ -46,8 +46,8 @@ class PatientController extends Controller
           return redirect()->route('patient.show');
     }
     public function delete($patient_id){
-        Doctor::find($patientr_id)->delete();
-    	return redirect()->route('patient.doctor_index');
+        Patient::find($patient_id)->delete();
+    	return redirect()->route('patient.patient_index');
 
     }
     public function view_update($patient_id){

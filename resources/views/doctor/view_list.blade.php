@@ -49,7 +49,7 @@
 				{{ $medicalrecords->speciallist->speciallist_name }}
 			</td>
 			<td align="center">
-				{{ $medicalrecords->hospitalized_day }}
+				{{ date('d-m-Y', strtotime($medicalrecords->created_at)) }}
 			</td>
 			<th scope="col" align="center" style="text-align: right;">
 				<a href="{{ route('medicalrecords.view_update',['medicalrecords_id' => $medicalrecords->medicalrecords_id]) }}" class="btn btn-success fas fa-edit" style="color: white;"></a>

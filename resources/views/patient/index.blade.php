@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('titles',"Giáo Viên ")
+@section('titles',"Danh sách các bệnh nhân")
 @section('content')
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <style type="text/css">
@@ -20,7 +20,7 @@
 <div id="list">
 <table class="table" id="list">
 	<tr>
-		<td align="right" colspan="6">
+		<td align="right" colspan="7">
 			<button class="btn btn-primary fas fa-pencil-alt" style="color: white;" onclick="show()"></button>
 		</td>
 	</tr>
@@ -28,7 +28,8 @@
 		<th scope="col" style="text-align: center;">Họ và Tên</th>
 		<th scope="col" style="text-align: center;">Tuổi</th>
 		<th scope="col" style="text-align: center;">Giới tính</th>
-		<th scope="col" style="text-align: center;">Điện thoại</th>
+		<th scope="col" style="text-align: center;">SĐT liên hệ</th>
+		<th scope="col" style="text-align: center;">Email</th>
 		<th></th>
     </tr>
     <tbody>
@@ -53,7 +54,16 @@
 				{{ $patient->contact_phone }}
 			</td>
 			<td align="center">
-				<a href="{{ route('patient.delete',['patient_id' => $patient->patient_id]) }}" class="btn btn-success fas fa-edit" style="color: white;"></a>
+				@php
+				if ($patient->email != null){
+					echo $patient->email;
+				}else {
+					echo "Không có email";
+				}
+                @endphp
+			</td>
+			<td align="center">
+				<a href="" class="btn btn-success fas fa-edit" style="color: white;"></a>
 				<a href="{{ route('patient.delete',['patient_id' => $patient->patient_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;"></a>
 			</td>
 		</tr>
@@ -119,7 +129,7 @@
 					<div class="col-12 col-md-9"><input type="password" id="text-input" name="password" placeholder="Mật khẩu có tối thiểu 8 ký tự" class="form-control" class="form-control" value="{{ old('password') }}">{{ $errors->first('password') }}</div>
 				</div>
                 <div class="card-footer" align="center" >
-					<button class="btn btn-success btn-sm" >
+					<button class="btn btn-success btn-sm" onclick="show()">
 					<i class="far fa-check-circle"></i>Submit</button>
 		        </div>
 			</form>
