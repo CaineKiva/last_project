@@ -54,7 +54,7 @@
           @if (!empty(Session::get('patient_id')))
           <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
              <div class="appointment-form">
-                <h3 style="text-align: center;"><a data-scroll onclick="show_appointment()" class="appointment data  show" patient_id = "{{ Session::get('patient_id') }}" style="color: white"> Xem lịch hẹn khám</h3>
+                <h3 style="text-align: center;"><button data-scroll onclick="show_appointment()" class="appointment data  show" patient_id = "{{ Session::get('patient_id') }}" style="color: white; margin: auto;">Xem lịch hẹn khám</button></h3>
                 <div class="form">
                    <form action="" id="routes" method="post" enctype="multipart/form-data">@csrf
                       <fieldset>
