@@ -109,10 +109,10 @@
     <div>
       <table class="table" id="list">
         <tr>
-          <th scope="col" style="text-align: center; font-size: 15px">Thời gian hẹn khám</th>
-          <th scope="col" style="text-align: center; font-size: 15px">Chuyên Khoa</th>
-          <th scope="col" style="text-align: center; font-size: 15px">Bác Sĩ</th>
-          <th scope="col" style="text-align: center; font-size: 15px">Phòng khám</th>
+          <th scope="col" style="text-align: center; font-size: 17px">Thời gian hẹn khám</th>
+          <th scope="col" style="text-align: center; font-size: 17px">Chuyên Khoa</th>
+          <th scope="col" style="text-align: center; font-size: 17px">Bác Sĩ</th>
+          <th scope="col" style="text-align: center; font-size: 17px">Phòng khám</th>
         </tr>
         <tbody id="show_appointment_patient" style="text-align: center;">
         
@@ -122,7 +122,44 @@
   </div>
 </div>
 
-<script type="text/javascript">
+@push('js')
+<script type="text/javascript" >
+  jQuery(document).ready(function($) {
+    $(document).on('click', '.appointment.data.show', function (){
+      console.log($(this).attr('patient_id'));
+      var patient_id = $(this).attr('patient_id');
+      $("#show_appointment_patient").html('');
+      $.ajax({
+        url: '{{ route('ajax.appointment_patient') }}',
+        type: 'GET',
+        dataType: 'json',
+        data: {patient_id : patient_id},
+      })
+      .done(function(response) {
+        var room;
+        $(response['data']).each(function(index,value)
+          {
+            if (value.room == null) {
+              console.log(value.room);
+              room = "Chưa có phòng khám";
+            } else {
+              room = value.room;
+            }
+            $("#show_appointment_patient").append(`   
+              <tr>
+                <td scope="col" style="text-align: center; font-size: 17px">${value.time}</td>
+                <td scope="col" style="text-align: center; font-size: 17px">${value.speciallist_name}</td>
+                <td scope="col" style="text-align: center; font-size: 17px">${value.first_name} ${value.last_name}</td>
+                <td scope="col" style="text-align: center; font-size: 17px">${room}
+               
+                </td>
+              </tr>
+            `)
+          })
+      })
+    });
+  });
+
 function show_login() {
     document.getElementById("form_login").style.display = "block";
 }
@@ -130,6 +167,7 @@ function hiden_login() {
     document.getElementById("form_login").style.display = "none";
 }
 </script>
+@endpush
 <style type="text/css">
   #header{
     position: absolute;
