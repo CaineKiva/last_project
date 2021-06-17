@@ -77,8 +77,8 @@
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">
 			<div class="row form-group">
-			<div class="col-12 col-md-11"><strong>Thêm Bác Sĩ</</strong></div>
-			<div class="col-12 col-md-1"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;"></div>
+<!-- 			<div class="col-12 col-md-10.5"><strong></</strong></div> -->
+			<div class="col-12 col-md-12"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;" value="[X]"></div>
 			</div>
 		</div>
 		<div class="card-body card-block" >
@@ -96,7 +96,7 @@
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Ngày sinh</label></div>
-					<div class="col-12 col-md-9"><input type="date" id="birthday" name="birthday" placeholder="Text" class="form-control"  value="{{ old('birthday') }}">{{ $errors->first('birthday') }}</div>
+					<div class="col-12 col-md-9"><input type="date" id="birthday" name="birthday" placeholder="Text" class="form-control"  >{{ $errors->first('birthday') }}</div>
 				</div>
 				<div class="row form-group">
 				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chọn Khoa</label></div>
@@ -126,14 +126,14 @@
 			    </div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Số điện thoại</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="phone" name="phone" placeholder="Nhập SĐT" class="form-control" value="{{ old('phone') }}">{{ $errors->first('phone') }}</div>
+					<div class="col-12 col-md-9"><input type="text" id="phone" name="phone" placeholder="Nhập SĐT" class="form-control" >{{ $errors->first('phone') }}</div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label class=" form-control-label">Giới tính</label></div>
 					<div class="col col-md-9">
 						<div class="form-check-inline form-check">
 							<label for="inline-radio1" class="form-check-label ">
-								<input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam
+								<input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam    
 							</label>
 							<label for="inline-radio2" class="form-check-label ">
 								<input type="radio" id="inline-radio2" name="gender" value="0" class="form-check-input" @if (old('gender')==='0')checked @endif>Nữ
@@ -144,15 +144,15 @@
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="email-input" class=" form-control-label">Email</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="email" name="email" placeholder="...@gmail.com" class="form-control" value="{{ old('email') }}">{{ $errors->first('email') }}</div>
+					<div class="col-12 col-md-9"><input type="text" id="email" name="email" placeholder="...@gmail.com" class="form-control">{{ $errors->first('email') }}</div>
 				</div>
                	<div class="row form-group">
 					<div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Địa chỉ</label></div>
-					<div class="col-12 col-md-9"><textarea name="address" id="address" rows="9" placeholder="Nhập địa chỉ" class="form-control" style="height: 60px; resize: none;">{{ old('address') }}</textarea>{{ $errors->first('address') }}</div>
+					<div class="col-12 col-md-9"><textarea name="address" id="address" rows="9" placeholder="Nhập địa chỉ" class="form-control" style="height: 60px; resize: none;"></textarea>{{ $errors->first('address') }}</div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="password-input" class=" form-control-label" id="password_label">Mật khẩu</label></div>
-					<div class="col-12 col-md-9"><input id="password_input" type="password" name="password" placeholder="Mật khẩu có tối thiểu 8 ký tự" class="form-control" class="form-control" value="{{ old('password') }}">{{ $errors->first('password') }}</div>
+					<div class="col-12 col-md-9"><input id="password_input" type="password" name="password" placeholder="Mật khẩu có tối thiểu 8 ký tự" class="form-control" class="form-control">{{ $errors->first('password') }}</div>
 				</div>
                 <div class="card-footer" align="center" >
 					<button class="btn btn-success btn-sm">
@@ -186,24 +186,18 @@
                    	$("#first_name").val(response[0]['first_name']);
                    	$("#last_name").val(response[0]['last_name']);
                    	$("#birthday").val(response[0]['birthday']);
+                   	$("#speciallist_id").val(response[0]['speciallist_id']);
                    	$("#competence_id").val(response[0]['competence_id']);
                    	$("#phone").val(response[0]['phone']);
                    	$("#address").val(response[0]['address']);
                    	$("#email").val(response[0]['email']);
                    	$("#gender").val(response[0]['gender']);
-                   	$(response).each(function()
-					{
-                        $("#speciallist_id").append(`
-							<option value='(response[0]['competence_id'])' selected='selected'>
-							</option>`)
-					})
-				})
+			})
 		});
 
 		$(document).on('click', '.btn.btn-primary.fas.fa-pencil-alt', function (){
 			$("#routes").attr('action','{{ route('doctor.process_insert') }}');
-			$("input").val('');
-			$("textarea").val('');
+			$("#routes").trigger("reset");
 		});
 
 	});

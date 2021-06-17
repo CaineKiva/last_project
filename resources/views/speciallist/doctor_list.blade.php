@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('titles', "Danh sách các bác sĩ")
+@section('titles', "Danh sách các bác sĩ $speciallist->speciallist_name")
 @section('content')
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <style type="text/css">
@@ -11,6 +11,7 @@
 		position: fixed;
 		width: 60%;
         top: 0%;
+        z-index: 9999;
 	}
 	#textarea-input{
 		resize: none;
@@ -60,9 +61,10 @@
 					{{$doctor->email}}
 				</td>
 				<th scope="col" align="center" style="text-align: right;">
-				<a href="{{ route('doctor.view_update',['doctor_id' => $doctor->doctor_id]) }}" class="btn btn-success fas fa-edit" style="color: white;"></a>
+				<button class="btn btn-success fas fa-edit" style="color: white;" onclick="update()" doctor_id = "{{$doctor->doctor_id}}"></button>
+				
 				<a href="{{ route('doctor.delete',['doctor_id' => $doctor->doctor_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;"></a>
-			</th>
+				</th>
 			</tr>
 			@endforeach
 			<br>
@@ -70,62 +72,59 @@
 	<button type="submit"></button> --}}
 </tbody>
 </table>
+
 <div id="form_insert" style="display: none ;">
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">
 			<div class="row form-group">
-			<div class="col-12 col-md-11"><strong>Thêm Bác sĩ </</strong></div>
-			<div class="col-12 col-md-1"><input type="reset" align="right" class="btn btn-danger fas fa-user" value="x" onclick="hiden()" style="color: white;"></div>
+			<div class="col-12 col-md-11"><strong>Thêm Bác Sĩ</</strong></div>
+			<div class="col-12 col-md-1"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;"></div>
 			</div>
 		</div>
 		<div class="card-body card-block" >
-			<form action="{{ route('doctor.process_insert') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+			<form action="" id="routes" method="post" enctype="multipart/form-data" class="form-horizontal">
 				@csrf
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Họ</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="text-input" name="first_name" placeholder="Nhập Họ (chỉ được nhập các chữ cái)" class="form-control" value="{{ old('first_name') }}">{{ $errors->first('first_name') }}</div>
+					<div class="col-12 col-md-9">
+						<input type="hidden" id="doctor_id" name="doctor_id" class="form-control">
+						<input type="hidden" id="speciallist_id" name="speciallist_id" class="form-control" value="{{ $speciallist->speciallist_id }}">
+						<input type="text" id="first_name" name="first_name" placeholder="Nhập Họ (chỉ được nhập các chữ cái)" class="form-control">{{ $errors->first('first_name') }}</div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Tên</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="text-input" name="last_name" placeholder="Nhập Tên (chỉ được nhập các chữ cái)" class="form-control" value="{{ old('last_name') }}">{{ $errors->first('last_name') }}</div>
+					<div class="col-12 col-md-9"><input type="text" id="last_name" name="last_name" placeholder="Nhập Tên (chỉ được nhập các chữ cái)" class="form-control">{{ $errors->first('last_name') }}</div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Ngày sinh</label></div>
-					<div class="col-12 col-md-9"><input type="date" id="text-input" name="birthday" placeholder="Text" class="form-control"  value="{{ old('birthday') }}">{{ $errors->first('birthday') }}</div>
+					<div class="col-12 col-md-9"><input type="date" id="birthday" name="birthday" placeholder="Text" class="form-control"  value="{{ old('birthday') }}">{{ $errors->first('birthday') }}</div>
 				</div>
-				<div class="row form-group">
-					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Số điện thoại</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="text-input" name="phone" placeholder="Nhập SĐT" class="form-control" value="{{ old('phone') }}">{{ $errors->first('phone') }}
-					
-					<input type="hidden" id="text-input" name="speciallist_id" placeholder="Text" class="form-control" value="{{ $speciallist->speciallist_id }}">
-					
-					<input type="hidden" id="text-input" name="competence_id" placeholder="Text" class="form-control" value="3"></div>
-				</div>
-				<div class="row form-group">
+			    <div class="row form-group">
 				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chức vụ</label></div>
 				<div class="col-12 col-md-9">
-					<select name="competence_id" class="form-control">
-						@foreach ($competence  as $competence)
-						    <option value="{{ $competence->competence_id }}" 					@if($competence->competence_id == 3){
-						    		selected;
-						    	}
-						    	@endif>
+					<select name="competence_id" class="form-control" id="select_speciallist">
+						<option selected="selected">Chức vụ</option>
+						@foreach ($competence as $competence)
+						    <option value="{{ $competence->competence_id }}">
 							    {{ $competence->competence_name }}
 							</option>
 						@endforeach
 					</select>
 				</div>
 			    </div>
-
+				<div class="row form-group">
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Số điện thoại</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="phone" name="phone" placeholder="Nhập SĐT" class="form-control" value="{{ old('phone') }}">{{ $errors->first('phone') }}</div>
+				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label class=" form-control-label">Giới tính</label></div>
 					<div class="col col-md-9">
 						<div class="form-check-inline form-check">
 							<label for="inline-radio1" class="form-check-label ">
-								<input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam
+								<input type="radio" id="gender" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam &emsp;
 							</label>
 							<label for="inline-radio2" class="form-check-label ">
-								<input type="radio" id="inline-radio2" name="gender" value="0" class="form-check-input" @if (old('gender')==='0')checked @endif>Nữ
+								<input type="radio" id="gender" name="gender" value="0" class="form-check-input" @if (old('gender')==='0')checked @endif>Nữ
 							</label>
 						</div>
 						{{ $errors->first('gender') }}
@@ -133,19 +132,19 @@
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="email-input" class=" form-control-label">Email</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="email-input" name="email" placeholder="...@gmail.com" class="form-control" value="{{ old('email') }}">{{ $errors->first('email') }}</div>
+					<div class="col-12 col-md-9"><input type="text" id="email" name="email" placeholder="...@gmail.com" class="form-control" value="{{ old('email') }}">{{ $errors->first('email') }}</div>
 				</div>
                	<div class="row form-group">
 					<div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Địa chỉ</label></div>
-					<div class="col-12 col-md-9"><textarea name="address" id="textarea-input" rows="9" placeholder="Nhập địa chỉ" class="form-control">{{ old('address') }}</textarea>{{ $errors->first('address') }}</div>
+					<div class="col-12 col-md-9"><textarea name="address" id="address" rows="9" placeholder="Nhập địa chỉ" class="form-control" style="height: 60px; resize: none;">{{ old('address') }}</textarea>{{ $errors->first('address') }}</div>
 				</div>
 				<div class="row form-group">
-					<div class="col col-md-3"><label for="password-input" class=" form-control-label">Mật khẩu</label></div>
-					<div class="col-12 col-md-9"><input type="password" id="text-input" name="password" placeholder="Mật khẩu có tối thiểu 8 ký tự" class="form-control" class="form-control" value="{{ old('password') }}">{{ $errors->first('password') }}</div>
+					<div class="col col-md-3"><label for="password-input" class=" form-control-label" id="password_label">Mật khẩu</label></div>
+					<div class="col-12 col-md-9"><input id="password_input" type="password" name="password" placeholder="Mật khẩu có tối thiểu 8 ký tự" class="form-control" class="form-control" value="{{ old('password') }}">{{ $errors->first('password') }}</div>
 				</div>
                 <div class="card-footer" align="center" >
-					<button class="btn btn-success btn-sm" onclick="show()">
-					<i class="far fa-check-circle"></i>Submit</button>
+					<button class="btn btn-success btn-sm">
+					<i class="far fa-check-circle"></i> Submit</button>
 		        </div>
 			</form>
 		</div>
@@ -153,12 +152,54 @@
 </div>
 {{$array_list->appends(['search' => $search])->links()}}
 @endsection
-<script type="text/javascript">
+
+@push('js')
+<script type="text/javascript" >
+	jQuery(document).ready(function($) {
+		$(document).on('click', '.btn.btn-success.fas.fa-edit', function (){
+			var doctor_id = $(this).attr('doctor_id');
+			$.ajax({
+				url: '{{ route('ajax.doctor_information') }}',
+				type: 'GET',
+				dataType: 'json',
+				data: {doctor_id : doctor_id},
+			})
+			.done(function(response) {
+				var genderValue = response[0]['gender'];
+					$("#routes").attr('action','{{ route('doctor.process_update') }}');
+					$("#doctor_id").val(response[0]['doctor_id']);
+                   	$("#first_name").val(response[0]['first_name']);
+                   	$("#last_name").val(response[0]['last_name']);
+                   	$("#birthday").val(response[0]['birthday']);
+                   	$("#competence_id").val(response[0]['competence_id']);
+                   	$("#phone").val(response[0]['phone']);
+                   	$("#address").val(response[0]['address']);
+                   	$("#email").val(response[0]['email']);
+                   	$('input:radio[name="gender"]').filter('[value = "' + response[0]['gender'] +'" ]').attr('checked', true);
+				})
+		});
+
+		$(document).on('click', '.btn.btn-primary.fas.fa-pencil-alt', function (){
+			$("#routes").attr('action','{{ route('doctor.process_insert') }}');
+			$("#routes").trigger("reset");
+		});
+
+	});
+
 function show() {
     document.getElementById("form_insert").style.display = "block";
+    document.getElementById("password_label").style.display = "block";
+    document.getElementById("password_input").style.display = "block";
+}
+
+function update() {
+    document.getElementById("form_insert").style.display = "block";
+    document.getElementById("password_label").style.display = "none";
+    document.getElementById("password_input").style.display = "none";
 }
 
 function hiden() {
   	document.getElementById("form_insert").style.display = "none";
 }
 </script>
+@endpush

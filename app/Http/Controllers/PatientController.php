@@ -34,7 +34,7 @@ class PatientController extends Controller
     public function view_insert(){
     	return view('patient.insert');
     }
-    public function process_insert(PatientRequest $rq){
+    public function process_insert(Request $rq){
     	Patient::create($rq->all()); 
         return redirect()->back();
     }
