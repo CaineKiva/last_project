@@ -114,7 +114,7 @@
 			    <div class="row form-group">
 				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chức vụ</label></div>
 				<div class="col-12 col-md-9">
-					<select name="competence_id" class="form-control" id="select_speciallist">
+					<select name="competence_id" class="form-control" id="select_competence">
 						<option selected="selected">Chức vụ</option>
 						@foreach ($competence  as $competence)
 						    <option value="{{ $competence->competence_id }}">
@@ -169,9 +169,7 @@
 <script type="text/javascript" >
 	jQuery(document).ready(function($) {
 		$(document).on('click', '.btn.btn-success.fas.fa-edit', function (){
-			console.log($(this).attr('doctor_id'));
 			var doctor_id = $(this).attr('doctor_id');
-			console.log('ajax');
 			// $("#first_name").html('');
 			$.ajax({
 				url: '{{ route('ajax.doctor_information') }}',
@@ -180,18 +178,18 @@
 				data: {doctor_id : doctor_id},
 			})
 			.done(function(response) {
-				console.log(response);
+				console.log(response[0]['speciallist_id']);
 					$("#routes").attr('action','{{ route('doctor.process_update') }}');
 					$("#doctor_id").val(response[0]['doctor_id']);
                    	$("#first_name").val(response[0]['first_name']);
                    	$("#last_name").val(response[0]['last_name']);
                    	$("#birthday").val(response[0]['birthday']);
-                   	$("#speciallist_id").val(response[0]['speciallist_id']);
-                   	$("#competence_id").val(response[0]['competence_id']);
+                   	$("#select_speciallist").val(response[0]['speciallist_id']);
+                   	$("#select_competence").val(response[0]['competence_id']);
                    	$("#phone").val(response[0]['phone']);
                    	$("#address").val(response[0]['address']);
                    	$("#email").val(response[0]['email']);
-                   	$("#gender").val(response[0]['gender']);
+                   	$('input:radio[name="gender"]').filter('[value = "' + response[0]['gender'] +'" ]').attr('checked', true);
 			})
 		});
 
