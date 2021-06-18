@@ -102,7 +102,7 @@
 			    <div class="row form-group">
 				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chức vụ</label></div>
 				<div class="col-12 col-md-9">
-					<select name="competence_id" class="form-control" id="select_speciallist">
+					<select name="competence_id" class="form-control" id="select_competence">
 						<option selected="selected">Chức vụ</option>
 						@foreach ($competence as $competence)
 						    <option value="{{ $competence->competence_id }}">
@@ -171,7 +171,7 @@
                    	$("#first_name").val(response[0]['first_name']);
                    	$("#last_name").val(response[0]['last_name']);
                    	$("#birthday").val(response[0]['birthday']);
-                   	$("#competence_id").val(response[0]['competence_id']);
+                   	$("#select_competence").val(response[0]['competence_id']);
                    	$("#phone").val(response[0]['phone']);
                    	$("#address").val(response[0]['address']);
                    	$("#email").val(response[0]['email']);

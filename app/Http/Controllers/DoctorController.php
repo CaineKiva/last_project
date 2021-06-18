@@ -103,17 +103,19 @@ class DoctorController extends Controller
         ]);
     }
     public function appointment_list(Request $rq){
-        $speciallist =Speciallist::get();
         $doctor = Doctor::get();
-        $patient = Patient::get();
+        $speciallist = Speciallist::get();
         $search = $rq->search;
-        $array_list = Appointment::where('doctor_id',Session::get('doctor_id'))->where('status','0')->join('patient','appointment.patient_id','patient.patient_id')->where('last_name','like',"%$search%")->paginate(10);
+        $array_list = Appointment::where('doctor_id',Session::get('doctor_id'))
+                                ->where('status','0')
+                                ->join('patient','patient.patient_id','appointment.patient_id')
+                                ->where('patient.last_name','like',"%$search%")
+                                ->paginate(10);
         return view('doctor.appointment_list',[
-            'speciallist'=> $speciallist, 
-            'doctor'=> $doctor,
-            'patient'=> $patient,
             'array_list' => $array_list,
             'search'=> $search,
+            'speciallist' => $speciallist,
+            'doctor' => $doctor,
         ]);
     }
     public function update_appointment(){

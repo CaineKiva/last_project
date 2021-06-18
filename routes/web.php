@@ -23,6 +23,7 @@ route::group(["prefix" => "ajax", "as" => "ajax."], function () use ($controller
 	route::get("doctor_speciallist", "$controller@doctor_speciallist")->name("doctor_speciallist");
 	route::get("doctor_information", "$controller@doctor_information")->name("doctor_information");
 	route::get("appointment_patient", "$controller@appointment_patient")->name("appointment_patient");
+	route::get("appointment_doctor_patient", "$controller@appointment_doctor_patient")->name("appointment_doctor_patient");
 });	
 
 route::get("login", "LoginController@login")->name("login");
