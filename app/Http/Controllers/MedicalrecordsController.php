@@ -59,6 +59,22 @@ class MedicalrecordsController extends Controller
 			'medicalrecords' => $medicalrecords,
 		]);
 	}
+	public function being_treated(Request $rq){
+		$speciallist =Speciallist::get();
+		$doctor = Doctor::get();
+		$patient = Patient::get();
+		$medicine = Medicine::get();
+		$search = $rq->search;
+		$array_list = Medicalrecords::latest()->join('patient','medicalrecords.patient_id','patient.patient_id')->where('patient.last_name','like',"%$search%")->paginate(10);
+		return view('medicalrecords.being_treated',[
+			'speciallist'=> $speciallist, 
+			'doctor'=> $doctor,
+			'patient'=> $patient,
+			'medicine' => $medicine,
+			'array_list' => $array_list,
+			'search'=> $search,
+		]);
+	}
 	public function process_insert(Request $rq){
         Medicalrecords::create($rq->all()); 
         return redirect()->route('medicalrecords.medicalrecords_index');

@@ -34,6 +34,14 @@ class AjaxController extends Controller
                                     ->join('speciallist','appointment.speciallist_id' , 'speciallist.speciallist_id')->paginate(5);
         return $appointment;
     }
+    public function patient_medicalrecords(Request $rq){
+        $medicalrecords_id = $rq->get('medicalrecords_id');
+        $medicalrecords = Medicalrecords::where('medicalrecords_id',$medicalrecords_id)->where('treatment','0')
+                                    ->join('doctor','medicalrecords.doctor_id' , 'doctor.doctor_id')
+                                    ->join('speciallist','medicalrecords.speciallist_id' , 'speciallist.speciallist_id')
+                                    ->join('patient','medicalrecords.patient_id' , 'patient.patient_id')->get();
+        return $medicalrecords;
+    }
     public function appointment_doctor_patient(Request $rq){
         $appointment_id = $rq->get('appointment_id');
         $appointment = Appointment::where('appointment_id',$appointment_id)

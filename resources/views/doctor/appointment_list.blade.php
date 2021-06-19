@@ -158,6 +158,7 @@ jQuery(document).ready(function($) {
 				$("#select_speciallist").val(response[0]['speciallist_id']);
 				$("#select_doctor").val(response[0]['doctor_id']);
 				$("#symptom").val(response[0]['symptom']);
+				$("#room").val(response[0]['room']);
 				$("#speciallist_div").hide();
 				$("#doctor_div").hide();
 				$("#symptom_div").hide();

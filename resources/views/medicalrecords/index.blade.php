@@ -25,6 +25,7 @@
 		<th scope="col" style="text-align: center;">Giới tính</th>
 		<th scope="col" style="text-align: center;">Chuyên khoa</th>
 		<th scope="col" style="text-align: center;">Ngày nhập viện</th>
+		<th scope="col" style="text-align: center;">Phòng điều trị</th>
 		<th scope="col" style="text-align: right;"><button class="btn btn-primary fas fa-pencil-alt" style="color: white;" onclick="show()"></button></th>
 	</tr>
 	<tbody>
@@ -51,6 +52,9 @@
 			<td align="center">
 				{{ $medicalrecords->created_at->format('d/m/Y') }}
 			</td>
+			<td align="center">
+				{{ $medicalrecords->room }}
+			</td>
 			<th scope="col" align="center" style="text-align: right;">
 				<a href="{{ route('medicalrecords.view_update',['medicalrecords_id' => $medicalrecords->medicalrecords_id]) }}" class="btn btn-success fas fa-edit" style="color: white;"></a>
 				<a href="{{ route('medicalrecords.delete',['medicalrecords_id' => $medicalrecords->doctor_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;"></a>
@@ -61,6 +65,7 @@
 	</tbody>
 </table>
 </div>
+
 <div id="form_insert" style="display: none ;">
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">

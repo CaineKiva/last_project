@@ -77,7 +77,7 @@
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">
 			<div class="row form-group">
-			<div class="col-12 col-md-11"><strong>Thêm Bác Sĩ</</strong></div>
+			<div class="col-12 col-md-11"><strong>Thông tin bác sĩ</</strong></div>
 			<div class="col-12 col-md-1"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;"></div>
 			</div>
 		</div>
@@ -129,10 +129,6 @@
 						</div>
 						{{ $errors->first('gender') }}
 					</div>
-				</div>
-				<div class="row form-group">
-					<div class="col col-md-3"><label for="email-input" class=" form-control-label">Triệu Chứng</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="symptom" name="symptom" class="form-control"></div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="email-input" class=" form-control-label">Email</label></div>

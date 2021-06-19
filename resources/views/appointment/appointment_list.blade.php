@@ -11,18 +11,17 @@
 		<th scope="col" style="text-align: center;">Chuyên khoa</th>
 		<th scope="col" style="text-align: center;">Phòng khám</th>
 		<th></th>
-		<th></th>
 	</tr>
 		<tbody>
 			@foreach ($array_list as $appointment)
 			<tr>
-				<th style="text-align: center">
-					{{ $appointment->patient->full_name }}
+				<th style="text-align: center; font-size: medium">
+					{{ $appointment->first_name }} {{ $appointment->last_name }}
 				</td>
 				<td align="center">
 					{{ $appointment->time }}
 				</td>
-				<td>
+				<td align="center">
 					{{$appointment->symptom}}
 				</td>
 				<td align="center">

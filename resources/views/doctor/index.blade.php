@@ -133,7 +133,7 @@
 					<div class="col col-md-9">
 						<div class="form-check-inline form-check">
 							<label for="inline-radio1" class="form-check-label ">
-								<input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam    
+								<input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam &ensp;   
 							</label>
 							<label for="inline-radio2" class="form-check-label ">
 								<input type="radio" id="inline-radio2" name="gender" value="0" class="form-check-input" @if (old('gender')==='0')checked @endif>Nữ

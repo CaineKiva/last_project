@@ -25,6 +25,7 @@ route::group(["prefix" => "ajax", "as" => "ajax."], function () use ($controller
 	route::get("doctor_information", "$controller@doctor_information")->name("doctor_information");
 	route::get("appointment_patient", "$controller@appointment_patient")->name("appointment_patient");
 	route::get("appointment_doctor_patient", "$controller@appointment_doctor_patient")->name("appointment_doctor_patient");
+	route::get("patient_medicalrecords", "$controller@patient_medicalrecords")->name("patient_medicalrecords");
 });	
 
 route::get("login", "LoginController@login")->name("login");
@@ -94,6 +95,8 @@ route::group(['middleware' => 'CheckLogin'], function () {
 	route::group(["prefix" => "medicalrecords", "as" => "medicalrecords."], function () use ($controller) {
 		route::get("medicalrecords_index", "$controller@medicalrecords_index")->name("medicalrecords_index");
 		route::get("medicalrecords_doctor", "$controller@medicalrecords_doctor")->name("medicalrecords_doctor");
+		route::get("being_treated", "$controller@being_treated")->name("being_treated");
+		route::post("discharge", "$controller@discharge")->name("discharge");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
 			route::post("process_insert", "$controller@process_insert")->name("process_insert");
