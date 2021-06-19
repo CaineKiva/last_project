@@ -16,6 +16,7 @@ route::group(["prefix" => "appointment", "as" => "appointment."], function () us
 	route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
 	route::post("process_insert", "$controller@process_insert")->name("process_insert");
 	route::post("process_update", "$controller@process_update")->name("process_update");
+	route::get("done/{appointment_id}", "$controller@done")->name("done");
 });	
 
 $controller = "AjaxController";

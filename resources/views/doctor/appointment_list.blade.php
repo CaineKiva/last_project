@@ -58,7 +58,8 @@
 					@endphp
 				</td>
 				<th scope="col" align="center" style="text-align: center;">
-				<button class="btn btn-success fas fa-edit" style="color: white;" onclick="update()" 
+				<a href="{{ route('appointment.done',['appointment_id' => $appointment->appointment_id]) }}" class="btn btn-success fas fa-check" style="color: white;"></a>
+				<button class="btn btn-primary fas fa-edit" style="color: white;" onclick="update()" 
 				appointment_id = "{{$appointment->appointment_id}}"></button>
 				<button class="btn btn-info fas fa-exchange-alt" style="color: white;" onclick="change()" 
 				appointment_id = "{{$appointment->appointment_id}}"></button>
@@ -78,7 +79,7 @@
 			</div>
 		</div>
 		<div class="card-body card-block" >
-			<form action="{{ route('appointment.process_insert') }}" id="routes" method="post" enctype="multipart/form-data" class="form-horizontal">
+			<form action="{{ route('appointment.process_update') }}" id="routes" method="post" enctype="multipart/form-data" class="form-horizontal">
 				@csrf
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Họ và tên bệnh nhân</label></div>
@@ -87,7 +88,7 @@
 						<input type="hidden" id="patient_id" name="patient_id" readonly="readonly" class="form-control">
 						<input type="text" id="patient_name" readonly="readonly" class="form-control"></div>
 				</div>
-			    <div class="row form-group" id="speciallist">
+			    <div class="row form-group" id="speciallist_div">
 				<div class="col col-md-3"><label for="select" class=" form-control-label">Chuyên khoa</label></div>
 				<div class="col-12 col-md-9">
 					<select name="speciallist_id" class="form-control" id="select_speciallist">
@@ -100,26 +101,30 @@
                     </select>
 				</div>
 			    </div>
-			    <div class="row form-group" id="doctor">
+			    <div class="row form-group" id="doctor_div">
 				<div class="col col-md-3"><label for="select" class=" form-control-label">Bác sĩ</label></div>
 				<div class="col-12 col-md-9">
 					<select class="form-control" name="doctor_id" id="select_doctor">
 						<option selected="selected" value="0">Chọn Bác Sĩ</option>
-                        @foreach ($doctor as $doctor)
+						 @foreach ($doctor as $doctor)
                             <option value="{{ $doctor->doctor_id }}">
-                              	{{ $doctor->first_name }} {{ $doctor->last_name }}
+                                {{ $doctor->first_name }} {{ $doctor->last_name }}
                             </option>
                         @endforeach
                     </select>
 				</div>
 			    </div>
+			    <div class="row form-group" id="symptom_div">
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Triệu Chứng</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="symptom" name="symptom" class="form-control"></div>
+				</div>
 			    <div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Thời gian hẹn khám</label></div>
 					<div class="col-12 col-md-9"><input type="datetime-local" id="time" name="time" class="form-control"></div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Phòng Khám</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="room" name="room" placeholder="Nhập Số Phòng Khám" class="form-control"></div>
+					<div class="col-12 col-md-9"><input type="text" id="room" name="room" placeholder="Nhập Số Phòng Khám (Nếu chuyển khoa khám thì không cần nhập phòng)" class="form-control"></div>
 				</div>
                 <div class="card-footer" align="center" >
 					<button class="btn btn-success btn-sm">
@@ -135,7 +140,7 @@
 @push('js')
 <script type="text/javascript" >
 jQuery(document).ready(function($) {
-		$(document).on('click', '.btn.btn-success.fas.fa-edit', function (){
+		$(document).on('click', '.btn.btn-primary.fas.fa-edit', function (){
 			var appointment_id = $(this).attr('appointment_id');
 			console.log(appointment_id);
 			$.ajax({
@@ -152,9 +157,10 @@ jQuery(document).ready(function($) {
 				$("#time").val(response[0]['time'].replace(' ', 'T'));
 				$("#select_speciallist").val(response[0]['speciallist_id']);
 				$("#select_doctor").val(response[0]['doctor_id']);
-				$("#select_doctor").val(response[0]['doctor_id']);
-				$("#speciallist").hide();
-				$("#doctor").hide();
+				$("#symptom").val(response[0]['symptom']);
+				$("#speciallist_div").hide();
+				$("#doctor_div").hide();
+				$("#symptom_div").hide();
 			})
 		});
 
@@ -169,15 +175,18 @@ jQuery(document).ready(function($) {
 			})
 			.done(function(response) {
 				console.log(response);
-				$("strong").text('Chuyển chuyên khoa khám');
+				$("strong").text('Chuyển bác sĩ khám');
 				$("#appointment_id").val(response[0]['appointment_id']);
 				$("#patient_id").val(response[0]['patient_id']);
 				$("#patient_name").val(response[0]['first_name']+' '+response[0]['last_name']);
 				$("#time").val(response[0]['time'].replace(' ', 'T'));
-				$("#speciallist").show();
-				$("#doctor").show();
+				$("#symptom").val(response[0]['symptom']);
+				$("#speciallist_div").show();
+				$("#doctor_div").show();
+				$("#symptom_div").show();
 				$("#select_speciallist").val('0');
 				$("#select_doctor").val('0');
+				$("#room").val('');
 			})
 		});
 

@@ -131,6 +131,10 @@
 					</div>
 				</div>
 				<div class="row form-group">
+					<div class="col col-md-3"><label for="email-input" class=" form-control-label">Triệu Chứng</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="symptom" name="symptom" class="form-control"></div>
+				</div>
+				<div class="row form-group">
 					<div class="col col-md-3"><label for="email-input" class=" form-control-label">Email</label></div>
 					<div class="col-12 col-md-9"><input type="text" id="email" name="email" placeholder="...@gmail.com" class="form-control" value="{{ old('email') }}">{{ $errors->first('email') }}</div>
 				</div>
@@ -175,6 +179,7 @@
                    	$("#phone").val(response[0]['phone']);
                    	$("#address").val(response[0]['address']);
                    	$("#email").val(response[0]['email']);
+                   	$("#symptom").val(response[0]['symptom']);
                    	$('input:radio[name="gender"]').filter('[value = "' + response[0]['gender'] +'" ]').attr('checked', true);
 				})
 		});

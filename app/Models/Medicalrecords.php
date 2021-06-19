@@ -13,7 +13,7 @@ class Medicalrecords extends Model
 
     protected $table = 'medicalrecords';
 	protected $primaryKey = 'medicalrecords_id';
-	protected $fillable = ['medicalrecords_id','hospitalized_day','discharge_day','status','price','patient_id','speciallist_id','doctor_id','medicine_id'];
+	protected $fillable = ['medicalrecords_id','hospitalized_day','discharge_day','treatment','status','advice','room','price','patient_id','speciallist_id','doctor_id','medicine_id'];
 	public $timestamps = [ "created_at", "updated_at" ];
 	public function Doctor()
     {

@@ -35,9 +35,27 @@ class AppointmentController extends Controller
             'search'=> $search,
 		]);
     }
-	public function process_update(Request $rq,$medicalrecords_id){
-        Medicalrecords::find($medicalrecords_id)->join('patient','medicalrecords.patient_id' , 'patient.patient_id')->update($rq->except('_token'));
-        return redirect()->route('medicalrecords.medicalrecords_index');
+	public function process_update(Request $rq){
+        $appointment_id = $rq->appointment_id;
+        $time = $rq->time;
+        $symptom = $rq->symptom;
+        $room = $rq->room;
+        $doctor_id = $rq->doctor_id;
+        $speciallist_id = $rq->speciallist_id;
+        Appointment::where('appointment_id',$appointment_id)->update([
+            'time' => $time,
+            'symptom' => $symptom,
+            'room' => $room,
+            'doctor_id' => $doctor_id,
+            'speciallist_id' => $speciallist_id,
+        ]);
+        return redirect()->back();
+    }
+    public function done(Request $rq,$appointment_id){
+        Appointment::where('appointment_id',$appointment_id)->update([
+            'status' => '1',
+        ]);
+        return redirect()->back();
     }
 
 

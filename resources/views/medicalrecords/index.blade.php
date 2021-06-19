@@ -99,18 +99,6 @@
 				</div>
 			    </div>
 			    <div class="row form-group">
-				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chọn Thuốc điều trị</label></div>
-				<div class="col-12 col-md-9">
-					<select name="medicine_id" class="form-control" id="select_medicine">
-						@foreach ($medicine  as $medicine)
-						    <option value="{{ $medicine->medicine_id }}" selected>
-							    {{ $medicine->medicine_name }}
-							</option>
-						@endforeach
-					</select>
-				</div>
-			    </div>
-			    <div class="row form-group">
 			    <div class="col col-md-3" ><label for="select" class=" form-control-label">Bác Sĩ Điều trị</label></div>
 			    <div class="col-12 col-md-9">
 				    <select class="form-control" name="doctor_id" id="select_doctor" >
@@ -119,20 +107,17 @@
 			    </div>
                 </div>
                 <div class="row form-group">
-					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Phí khám bệnh</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="text-input" name="price" placeholder="Text" class="form-control" value="<?php echo (int)1000 + (int)20; ?>">{{ $errors->first('price') }}</div>
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Tình Trạng</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="text-input" name="status" placeholder="Tình Trạng" class="form-control" ></div>
 				</div>
-
 				<div class="row form-group">
-				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Tình trạng</label></div>
-				<div class="col-12 col-md-9">
-					    <select name="status" class="form-control">
-						        <option value="1" selected>
-							        bình thường
-							    </option>
-					    </select>
-				    </div>
-			    </div>
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Dặn dò</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="text-input" name="advice" placeholder="Dặn dò" class="form-control"></div>
+				</div>
+                <div class="row form-group">
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Phí khám bệnh</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="text-input" name="price" placeholder="Text" class="form-control" value="<?php echo (int)1000 ?>"></div>
+				</div>
                 <div class="card-footer" align="center" >
 					<button class="btn btn-success btn-sm" >
 					<i class="far fa-check-circle"></i>Submit</button>

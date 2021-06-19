@@ -16,12 +16,15 @@ class Medicalrecords extends Migration
         Schema::create('medicalrecords', function (Blueprint $table) {
             $table->increments('medicalrecords_id');
             $table->timestamps();
-            $table->integer('status');
+            $table->boolean('treatment');
+            $table->text('status');
+            $table->text('advice')->nullable();
+            $table->text('room');
             $table->float('price');
             $table->integer('patient_id')->unsigned();
             $table->integer('speciallist_id')->unsigned();
             $table->integer('doctor_id')->unsigned();
-            $table->integer('medicine_id')->unsigned();
+            $table->integer('medicine_id')->unsigned()->nullable();
             $table->foreign('patient_id')->references('patient_id')->on('patient');
             $table->foreign('speciallist_id')->references('speciallist_id')->on('speciallist');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctor');
