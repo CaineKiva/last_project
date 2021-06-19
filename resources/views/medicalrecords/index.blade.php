@@ -49,7 +49,7 @@
 				{{ $medicalrecords->speciallist->speciallist_name }}
 			</td>
 			<td align="center">
-				{{ $medicalrecords->created_at }}
+				{{ $medicalrecords->created_at->format('d/m/Y') }}
 			</td>
 			<th scope="col" align="center" style="text-align: right;">
 				<a href="{{ route('medicalrecords.view_update',['medicalrecords_id' => $medicalrecords->medicalrecords_id]) }}" class="btn btn-success fas fa-edit" style="color: white;"></a>
@@ -107,7 +107,16 @@
 			    </div>
                 </div>
                 <div class="row form-group">
-					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Tình Trạng</label></div>
+			    <div class="col col-md-3" ><label for="select" class=" form-control-label">Tình trạng trong viện</label></div>
+			    <div class="col-12 col-md-9">
+				    <select class="form-control" name="treatment" >
+				    	<option value="0" selected="selected">Đang điều trị</option>
+				    	<option value="1">Xuất viện</option>
+				    </select>
+			    </div>
+                </div>
+                <div class="row form-group">
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Tình trạng sức khoẻ</label></div>
 					<div class="col-12 col-md-9"><input type="text" id="text-input" name="status" placeholder="Tình Trạng" class="form-control" ></div>
 				</div>
 				<div class="row form-group">
