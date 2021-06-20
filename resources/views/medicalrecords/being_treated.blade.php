@@ -57,7 +57,7 @@
 				{{ $medicalrecords->room }}
 			</td>
 			<th scope="col" align="center" style="text-align: right;">
-				<button class="btn btn-primary fas fa-edit" style="color: white;" onclick="show()" 
+				<button class="btn btn-success fas fa-check" style="color: white;" onclick="show()" 
 				medicalrecords_id = "{{$medicalrecords->medicalrecords_id}}"></button>
 			</th>
 		</tr>
@@ -125,9 +125,8 @@
 @push('js')
 <script type="text/javascript" >
 jQuery(document).ready(function($) {
-		$(document).on('click', '.btn.btn-primary.fas.fa-edit', function (){
+		$(document).on('click', '.btn.btn-success.fas.fa-check', function (){
 			var medicalrecords_id = $(this).attr('medicalrecords_id');
-			console.log(medicalrecords_id);
 			$.ajax({
 				url: '{{ route('ajax.patient_medicalrecords') }}',
 				type: 'GET',
@@ -138,14 +137,14 @@ jQuery(document).ready(function($) {
 				today = new Date(); 
 				hospitalized_day_date = new Date(response[0]['created_at']);
 				hospitalized_day = new Date(response[0]['created_at']).toLocaleDateString();
-				day_in = new Date( today - hospitalized_day_date ).getDate();
+				day_in = parseInt( Number(new Date( today - hospitalized_day_date )) / Number('86400000') );
 				console.log(day_in);
 				console.log(hospitalized_day);
 				$("#patient_name").val(response[0]['first_name']+' '+response[0]['last_name']);
 				$("#speciallist_name").val(response[0]['speciallist_name']);
 				$("#created_at").val(hospitalized_day);
 				$("#room").val(response[0]['room'])
-				$("#price").val( parseFloat('100000') *  Number(day_in) );
+				$("#price").val( parseFloat('250000') *  Number(day_in) );
 			})
 		});
 
