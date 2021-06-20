@@ -55,6 +55,17 @@ class AppointmentController extends Controller
         ]);
         return redirect()->back();
     }
-
+    public function massDone(Request $rq){
+        $id = $rq->id;
+        if(!empty($id)){
+            foreach ($id as $appointment_id) 
+            {
+                Appointment::where('appointment_id', $appointment_id)->update([
+                'status' => '1'
+                ]);
+            }
+        }
+        return redirect()->back();
+    }
 
 }

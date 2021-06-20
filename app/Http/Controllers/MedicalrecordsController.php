@@ -75,6 +75,24 @@ class MedicalrecordsController extends Controller
 			'search'=> $search,
 		]);
 	}
+	public function change_room(Request $rq){
+		$medicalrecords_id = $rq->medicalrecords_id;
+		$room = $rq->room;
+		Medicalrecords::where('medicalrecords_id',$medicalrecords_id)->update([
+			'room' => $room
+		]);
+		return redirect()->back();
+	}
+	public function massDone(Request $rq){
+		$id = $rq->id;
+		foreach ($id as $id) 
+		{
+			User::where('id', $id)->update([
+				'status' => '1'
+			]);
+		}
+		return redirect()->back();
+	}
 	public function process_insert(Request $rq){
         Medicalrecords::create($rq->all()); 
         return redirect()->route('medicalrecords.medicalrecords_index');

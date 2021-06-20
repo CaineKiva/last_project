@@ -18,8 +18,16 @@
 		height: 40px;
 	}
 </style>
+<div>
+<form method="get" action="" id="form_routes">
 <table class="table">
 	<tr>
+		<td align="left" colspan="8">
+			<button class="btn btn-success fas fa-home"></button>
+			<button class="btn btn-primary fas fa-exchange-alt"></button>
+		</td>
+	</tr>
+	<tr><th scope="col" style="text-align: center;">ID</th>
 		<th scope="col" style="text-align: center;">Tên bệnh nhân</th>
 		<th scope="col" style="text-align: center;">Ngày hẹn khám</th>
 		<th scope="col" style="text-align: center;">Tình trạng</th>
@@ -30,6 +38,9 @@
 		<tbody>
 			@foreach ($array_list as $appointment)
 			<tr>
+				<th style="text-align: center; font-weight: normal;">
+					<input type="checkbox" name="id[]" value="{{ $appointment->appointment_id }}">
+				</td>
 				<th style="text-align: center; font-weight: normal;">
 					{{ $appointment->first_name }} {{ $appointment->last_name }}
 				</td>
@@ -69,6 +80,8 @@
 			<br>
 </tbody>
 </table>
+</form>
+</div>
 
 <div id="form_update" style="display: none ;">
 	    <div class="card"  >
@@ -208,9 +221,17 @@ jQuery(document).ready(function($) {
               				${this.first_name} ${this.last_name}
               			</option>`)
           		})
-        })
+        	})
 
-    })
+    	})
+
+    	$(document).on('click', '.btn-success.fas.fa-home', function (){
+			$("#form_routes").attr('action','{{ route('appointment.massDone') }}');
+		});
+
+		$(document).on('click', '.btn.btn-primary.fas.fa-exchange-alt', function (){
+			$("#form_routes").attr('action','{{ route('appointment.massRoom') }}');
+		});
 });
 
 function update() {
@@ -225,3 +246,6 @@ function hiden() {
 }
 </script>
 @endpush
+
+<!-- // link https://www.itsolutionstuff.com/post/how-to-delete-multiple-records-using-checkbox-in-laravel-5-example.html -->
+<!-- link https://websolutionstuff.com/post/how-to-delete-multiple-records-using-checkbox-in-laravel -->

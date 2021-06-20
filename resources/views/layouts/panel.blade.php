@@ -115,15 +115,15 @@
                 </ul>
             </li>
             <li class="menu-item-has-children dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-user-md "></i>Lịch Sử Khám Bệnh</a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-wheelchair "></i>Bệnh nhân</a>
                 <ul class="sub-menu children dropdown-menu">
-                    <li><i class="fa fas fa-list-alt"></i><a href="">Danh sách bệnh án</a></li>
-                    <li><i class="fas fa-edit"></i><a href="">Cập nhật thông tin</a></li>
+                    <li><i class="fa fas fa-wheelchair"></i><a href="">Thông tin bệnh án</a></li>
+                    <li><i class="fas fa-check"></i><a href="{{ route('medicalrecords.being_treated') }}">Xuất viện và thanh toán viện phí</a></li>
                 </ul>
             </li>
-            <li class="menu-item">
+            <!-- <li class="menu-item">
                 <a href="{{ route('medicalrecords.being_treated') }}">Xuất viện và thanh toán viện phí</a>
-            </li>
+            </li> -->
         @endif
                 <h3 class="menu-title">Người dùng</h3><!-- /.menu-title -->
                 <li class="menu-item-has-children dropdown">

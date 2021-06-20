@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('titles', "Danh sách các lịch hẹn")
+@section('titles', "Danh sách các bệnh nhân")
 @section('content')
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <style type="text/css">
@@ -27,7 +27,7 @@
 		<th scope="col" style="text-align: center;">Chuyên khoa</th>
 		<th scope="col" style="text-align: center;">Ngày nhập viện</th>
 		<th scope="col" style="text-align: center;">Phòng điều trị</th>
-		<th scope="col" style="text-align: right;"><button class="btn btn-primary fas fa-pencil-alt" style="color: white;" onclick="show()"></button></th>
+		<th scope="col" style="text-align: right;"></th>
 	</tr>
 	<tbody>
 		@foreach ($array_list as $medicalrecords)
@@ -59,6 +59,8 @@
 			<th scope="col" align="center" style="text-align: right;">
 				<button class="btn btn-success fas fa-check" style="color: white;" onclick="show()" 
 				medicalrecords_id = "{{$medicalrecords->medicalrecords_id}}"></button>
+				<button class="btn btn-primary fas fa-edit" style="color: white;" onclick="show()" 
+				medicalrecords_id = "{{$medicalrecords->medicalrecords_id}}"></button>
 			</th>
 		</tr>
         @endforeach
@@ -81,7 +83,7 @@
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Họ và tên bệnh nhân</label></div>
 					<div class="col-12 col-md-9">
-						<input type="hidden" id="appointment_id" name="appointment_id" readonly="readonly" class="form-control">
+						<input type="hidden" id="medicalrecords_id" name="medicalrecords_id" readonly="readonly" class="form-control">
 						<input type="hidden" id="patient_id" name="patient_id" readonly="readonly" class="form-control">
 						<input type="text" id="patient_name" readonly="readonly" class="form-control"></div>
 				</div>
@@ -90,15 +92,7 @@
 					<div class="col-12 col-md-9">
 						<input type="text" id="speciallist_name" class="form-control" readonly="readonly"></div>
 				</div>
-			    <div class="row form-group" id="symptom_div">
-					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Ngày nhập viện</label></div>
-					<div class="col-12 col-md-9"><input type="datetime" id="created_at" name="created_at" class="form-control"></div>
-				</div>
-			    <div class="row form-group">
-					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Phòng điều trị</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="room" name="room" class="form-control"></div>
-				</div>
-				<div class="row form-group">
+				<div class="row form-group" id="treatment_div">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Tình trạng</label></div>
 					<div class="col-12 col-md-9">
 						<select name="treatment" class="form-control" id="treatment_status">
@@ -108,8 +102,22 @@
 					</div>
 				</div>
 				<div class="row form-group">
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Phòng điều trị</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="room" name="room" class="form-control"></div>
+				</div>
+				<div class="row form-group" id="hospitalized_day">
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Ngày nhập viện</label></div>
+					<div class="col-12 col-md-9"><input type="datetime" id="created_at" name="created_at" class="form-control" readonly="readonly"></div>
+				</div>
+				<div class="row form-group" id="day_in_div">
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Số ngày điều trị</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="day_in" class="form-control" readonly="readonly"></div>
+				</div>
+				<div class="row form-group" id="price_div">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Viện phí tính tới hôm nay</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="price" name="price" class="form-control" readonly="readonly"></div>
+					<div class="col-12 col-md-9">
+						<input type="hidden" id="price" id="price" class="form-control" readonly="readonly">
+						<input type="text" id="price_vnd" class="form-control" readonly="readonly"></div>
 				</div>
                 <div class="card-footer" align="center" >
 					<button class="btn btn-success btn-sm">
@@ -138,13 +146,48 @@ jQuery(document).ready(function($) {
 				hospitalized_day_date = new Date(response[0]['created_at']);
 				hospitalized_day = new Date(response[0]['created_at']).toLocaleDateString();
 				day_in = parseInt( Number(new Date( today - hospitalized_day_date )) / Number('86400000') );
-				console.log(day_in);
-				console.log(hospitalized_day);
+				console.log(response[0]['medicalrecords_id']);
+				$("strong").text("Thanh toán viện phí");
+				$("#medicalrecords_id").val(response[0]['medicalrecords_id']);
 				$("#patient_name").val(response[0]['first_name']+' '+response[0]['last_name']);
 				$("#speciallist_name").val(response[0]['speciallist_name']);
 				$("#created_at").val(hospitalized_day);
 				$("#room").val(response[0]['room'])
+				$("#day_in").val(Number(day_in) + ' ngày'+ ' ('+ '250000 đồng/ngày' +')' );
 				$("#price").val( parseFloat('250000') *  Number(day_in) );
+				$("#price_vnd").val( (parseFloat('250000') *  Number(day_in))+ ' đồng' );
+				$("#price_div").show();
+				$("#treatment_div").show();
+				$("#day_in_div").show();
+				$("#hospitalized_day").show();
+			})
+		});
+
+		$(document).on('click', '.btn.btn-primary.fas.fa-edit', function (){
+			var medicalrecords_id = $(this).attr('medicalrecords_id');
+			$.ajax({
+				url: '{{ route('ajax.patient_medicalrecords') }}',
+				type: 'GET',
+				dataType: 'json',
+				data: {medicalrecords_id : medicalrecords_id},
+			})
+			.done(function(response) {
+				today = new Date(); 
+				hospitalized_day_date = new Date(response[0]['created_at']);
+				hospitalized_day = new Date(response[0]['created_at']).toLocaleDateString();
+				day_in = parseInt( Number(new Date( today - hospitalized_day_date )) / Number('86400000') );
+				console.log(response[0]['medicalrecords_id']);
+				$("#medicalrecords_id").val(response[0]['medicalrecords_id']);
+				$("#routes").attr('action','{{ route('medicalrecords.change_room') }}');
+				$("strong").text("Đổi phòng điều trị");
+				$("#patient_name").val(response[0]['first_name']+' '+response[0]['last_name']);
+				$("#speciallist_name").val(response[0]['speciallist_name']);
+				$("#created_at").val(hospitalized_day);
+				$("#room").val(response[0]['room']);
+				$("#price_div").hide();
+				$("#treatment_div").hide();
+				$("#day_in_div").hide();
+				$("#hospitalized_day").hide();
 			})
 		});
 

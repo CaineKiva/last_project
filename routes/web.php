@@ -17,6 +17,8 @@ route::group(["prefix" => "appointment", "as" => "appointment."], function () us
 	route::post("process_insert", "$controller@process_insert")->name("process_insert");
 	route::post("process_update", "$controller@process_update")->name("process_update");
 	route::get("done/{appointment_id}", "$controller@done")->name("done");
+	route::get("massDone", "$controller@massDone")->name("massDone");
+	route::get("massRoom", "$controller@massRoom")->name("massRoom");
 });	
 
 $controller = "AjaxController";
@@ -97,6 +99,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		route::get("medicalrecords_doctor", "$controller@medicalrecords_doctor")->name("medicalrecords_doctor");
 		route::get("being_treated", "$controller@being_treated")->name("being_treated");
 		route::post("discharge", "$controller@discharge")->name("discharge");
+		route::post("change_room", "$controller@change_room")->name("change_room");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
 			route::post("process_insert", "$controller@process_insert")->name("process_insert");
