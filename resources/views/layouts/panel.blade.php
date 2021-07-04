@@ -47,7 +47,7 @@
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-user-nurse"></i></i>Y Tá</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fas fa-list-alt"></i><a href="{{ route('nurse.index') }}">Danh sách y tá</a></li>
+                        <li><i class="fa fas fa-list-alt"></i><a href="{{ route('nurse.nurse_index') }}">Danh sách y tá</a></li>
                         <li><i class="fa fa-plus-square"></i><a href="{{ route('nurse.view_insert') }}">Thêm</a></li>
                         <li><i class="fas fa-edit"></i><a href="">Cập nhật thông tin</a></li>
                     </ul>
@@ -94,10 +94,10 @@
                 </ul>
             </li>
             <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-user-md "></i>Lịch Sử Khám Bệnh</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-list-alt "></i>Bệnh án và bệnh nhân</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fas fa-list-alt"></i><a href="{{ route('doctor.view_list') }}">Danh sách bệnh án</a></li>
-                        <li><i class="fas fa-edit"></i><a href="">Cập nhật thông tin</a></li>
+                        <li><i class="fa fas fa-wheelchair"></i><a href="{{ route('doctor.view_list') }}">Danh sách bệnh nhân đang điều trị</a></li>
+                        <li><i class="fas fa-list-alt"></i><a href="{{ route('doctor.medicalrecords_history') }}">Danh sách bệnh án</a></li>
                     </ul>
                 </li>
         @endif
@@ -117,7 +117,7 @@
             <li class="menu-item-has-children dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-wheelchair "></i>Bệnh nhân</a>
                 <ul class="sub-menu children dropdown-menu">
-                    <li><i class="fa fas fa-wheelchair"></i><a href="">Thông tin bệnh án</a></li>
+                    <li><i class="fa fas fa-wheelchair"></i><a href="{{ route('doctor.medicalrecords_history') }}">Thông tin bệnh án</a></li>
                     <li><i class="fas fa-check"></i><a href="{{ route('medicalrecords.being_treated') }}">Xuất viện và thanh toán viện phí</a></li>
                 </ul>
             </li>
@@ -129,7 +129,7 @@
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Tài khoản</a>
                     <ul class="sub-menu children dropdown-menu"> 
-                       <li><i class="menu-icon fa fa-paper-plane"></i><a href="" >Thông tin User </a></li>
+                       <li><i class="menu-icon fa fa-paper-plane"></i><a href="{{ route('password.view_update_password') }}" >Thông tin User </a></li>
                        <li><i class="menu-icon fa fa-sign-in"></i><a href="{{ route('login.logout') }}">Đăng xuất</a></li>
                     </ul>
                 </li>

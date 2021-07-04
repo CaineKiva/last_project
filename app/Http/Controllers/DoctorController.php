@@ -72,6 +72,8 @@ class DoctorController extends Controller
         $last_name = $rq->last_name;
         $birthday = $rq->birthday;
         $address = $rq->address;
+        $speciallist_id = $rq->speciallist_id;
+        $competence_id = $rq->competence_id;
         $gender = $rq->gender;
         $email = $rq->email;
         $phone = $rq->phone;
@@ -80,6 +82,8 @@ class DoctorController extends Controller
             'last_name'=> $last_name,
     		'birthday'=> $birthday,
     		'address'=> $address,
+            'competence_id' => $competence_id,
+            'speciallist_id' => $speciallist_id,
     		'gender'=> $gender,
             'email' => $email,
             'phone' => $phone,
@@ -87,17 +91,41 @@ class DoctorController extends Controller
     	return redirect()->back();
     }
 
-    public function view_list(){
+    public function view_list(Request $rq){
         $speciallist =Speciallist::get();
         $doctor = Doctor::get();
         $patient = Patient::get();
         $medicine = Medicine::get();
-        $array_list = Medicalrecords::where('doctor_id',Session::get('doctor_id'))->latest()->get();
+        $search = $rq->search;
+        $array_list = Medicalrecords::where('doctor_id',Session::get('doctor_id'))
+                                    ->where('treatment','0')
+                                    ->join('patient','patient.patient_id','medicalrecords.patient_id')
+                                    ->where('patient.last_name','like',"%$search%")
+                                    ->latest()
+                                    ->get();
         return view('doctor.view_list',[
             'speciallist'=> $speciallist, 
             'doctor'=> $doctor,
             'patient'=> $patient,
             'medicine' => $medicine,
+            'array_list' => $array_list,
+            'search'=> $search,
+        ]);
+    }
+    public function Medicalrecords_history(Request $rq){
+        $speciallist = Speciallist::get();
+        $doctor = Doctor::get();
+        $patient = Patient::get();
+        $search = $rq->search;
+        $array_list = Medicalrecords::where('doctor_id',Session::get('doctor_id'))
+                                    ->join('patient','medicalrecords.patient_id','patient.patient_id')
+                                    ->where('patient.last_name','like',"%$search%")
+                                    ->where('treatment',1)
+                                    ->paginate(10);
+        return view('doctor.medicalrecords_history',[
+            'speciallist'=> $speciallist, 
+            'doctor'=> $doctor,
+            'patient'=> $patient,
             'array_list' => $array_list,
             'search'=> $search,
         ]);
@@ -110,12 +138,14 @@ class DoctorController extends Controller
                                 ->where('status','0')
                                 ->join('patient','patient.patient_id','appointment.patient_id')
                                 ->where('patient.last_name','like',"%$search%")
+                                ->orderBy("time", "desc")
                                 ->paginate(10);
         return view('doctor.appointment_list',[
             'array_list' => $array_list,
             'search'=> $search,
             'speciallist' => $speciallist,
             'doctor' => $doctor,
+            'search'=> $search,
         ]);
     }
     public function update_appointment(){

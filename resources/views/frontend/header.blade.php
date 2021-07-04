@@ -150,9 +150,7 @@
                 <td scope="col" style="text-align: center; font-size: 17px">${value.time}</td>
                 <td scope="col" style="text-align: center; font-size: 17px">${value.speciallist_name}</td>
                 <td scope="col" style="text-align: center; font-size: 17px">${value.first_name} ${value.last_name}</td>
-                <td scope="col" style="text-align: center; font-size: 17px">${room}
-               
-                </td>
+                <td scope="col" style="text-align: center; font-size: 17px">${room}</td>
               </tr>
             `)
           })

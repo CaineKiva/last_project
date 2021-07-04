@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Nurse;
+use App\Models\Competence;
 use App\Imports\NurseImport;
 use App\Imports\NursesExcelClassImport;
 use Excel;
@@ -14,11 +15,13 @@ use App\Exports\NursesExport;
 
 class NurseController extends Controller
 {
-	public function show_nurse(Request $rq){
+	public function nurse_index(Request $rq){
         $search = $rq->search;
-    	$array_list = Nurse::where('last_name','like',"%$search%")->paginate(15);
-        return view('nurse.show',[
+        $competence = Competence::all();
+    	$array_list = Nurse::where('last_name','like',"%$search%")->paginate(20);
+        return view('nurse.index',[
          'array_list'=> $array_list,
+         'competence'=> $competence,
          'search'=> $search
         ]);
 
@@ -60,13 +63,9 @@ class NurseController extends Controller
     public function view_insert(){
     	return view('nurse.view_insert');
     }
-    public function process_insert(NurseRequest $rq){
-    	
-        
-        Students::create($rq->all()); 
-
-    	return redirect()->route('nurse.show');
-
+    public function process_insert(Request $rq){
+        Nurse::create($rq->all()); 
+    	return redirect()->back();
     }
     public function view_insert_excel(){
         return view('nurse.view_insert_excel');
@@ -92,27 +91,26 @@ class NurseController extends Controller
     	]);
 
     }
-    public function process_update(NurseRequest $rq,$nurse_id){
-        $name    = $rq->name;
-        $date    = $rq->date;
+    public function process_update(Request $rq){
+        $nurse_id = $rq->get('nurse_id');
+        $first_name = $rq->first_name;
+        $last_name = $rq->last_name;
+        $birthday = $rq->birthday;
+        $competence_id = $rq->competence_id;
         $address = $rq->address;
-        $gender  = $rq->gender;
-        $email   = $rq->email;
-        $phone   = $rq->phone;
-        
-        $password = $rq->password;
-    	DB::table('students')->where('id',$id)->update([
-    		'name'=> $name,
-    		'date'=> $date,
-    		'address'=> $address,
-    		'gender'=> $gender,
+        $gender = $rq->gender;
+        $email = $rq->email;
+        $phone = $rq->phone;
+        Nurse::where('nurse_id',$nurse_id)->update([
+            'first_name'=> $first_name,
+            'last_name'=> $last_name,
+            'birthday'=> $birthday,
+            'address'=> $address,
+            'competence_id' => $competence_id,
+            'gender'=> $gender,
             'email' => $email,
             'phone' => $phone,
-           
-            'password' => $password,
-    	]);
-        // SinhVienLop::find($id)->update($rq->all());
-       
-    	return redirect()->route('nurse.show');
+        ]);
+        return redirect()->back();
     }
 }

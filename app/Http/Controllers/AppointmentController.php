@@ -25,7 +25,10 @@ class AppointmentController extends Controller
 		$patient = Patient::get();
         $search = $rq->search;
     	$array_list = Appointment::where('status','0')
-                    ->join('patient','patient.patient_id','appointment.patient_id')->where('patient.last_name','like',"%$search%")->paginate(10);
+                                ->join('patient','patient.patient_id','appointment.patient_id')
+                                ->where('patient.last_name','like',"%$search%")
+                                ->orderBy("time", "desc")
+                                ->paginate(10);
     	return view('appointment.appointment_list',[
 			'speciallist'=> $speciallist, 
 			'patient'=> $patient,
@@ -61,7 +64,21 @@ class AppointmentController extends Controller
             foreach ($id as $appointment_id) 
             {
                 Appointment::where('appointment_id', $appointment_id)->update([
-                'status' => '1'
+                    'status' => '1'
+                ]);
+            }
+        }
+        return redirect()->back();
+    }
+    public function massRoom(Request $rq){
+        $id = $rq->id;
+        $room = $rq->setup_room;
+        if(!empty($id)){
+            foreach ($id as $appointment_id) 
+            {
+                Appointment::where('appointment_id', $appointment_id)->update([
+                    'room' => $room,
+                    'status' => '0'
                 ]);
             }
         }

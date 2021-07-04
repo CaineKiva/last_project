@@ -25,6 +25,7 @@
 		<td align="left" colspan="8">
 			<button class="btn btn-success fas fa-home"></button>
 			<button class="btn btn-primary fas fa-exchange-alt"></button>
+			<input type="text" name="setup_room" placeholder="Nhập phòng bệnh">
 		</td>
 	</tr>
 	<tr><th scope="col" style="text-align: center;">ID</th>
@@ -39,7 +40,11 @@
 			@foreach ($array_list as $appointment)
 			<tr>
 				<th style="text-align: center; font-weight: normal;">
-					<input type="checkbox" name="id[]" value="{{ $appointment->appointment_id }}">
+					<input type="checkbox" name="id[]" value="{{ $appointment->appointment_id }}"
+						<?php if ($appointment->room == null): ?>
+							echo checked="checked";
+						<?php endif ?>
+					>
 				</td>
 				<th style="text-align: center; font-weight: normal;">
 					{{ $appointment->first_name }} {{ $appointment->last_name }}
@@ -63,17 +68,16 @@
 					@php
 					if ($appointment->room != null){
 						echo $appointment->room;
-					}else {
+					} else {
 						echo "Chưa đặt phòng khám";
 					}
 					@endphp
 				</td>
 				<th scope="col" align="center" style="text-align: center;">
-				<a href="{{ route('appointment.done',['appointment_id' => $appointment->appointment_id]) }}" class="btn btn-success fas fa-check" style="color: white;"></a>
-				<button class="btn btn-primary fas fa-edit" style="color: white;" onclick="update()" 
-				appointment_id = "{{$appointment->appointment_id}}"></button>
-				<button class="btn btn-info fas fa-exchange-alt" style="color: white;" onclick="change()" 
-				appointment_id = "{{$appointment->appointment_id}}"></button>
+					<a href="{{ route('appointment.done',['appointment_id' => $appointment->appointment_id]) }}" class="btn btn-success fas fa-check" style="color: white;"></a>
+					<button type="button" class="btn btn-primary fas fa-edit" style="color: white;" onclick="update()" 
+					appointment_id = "{{$appointment->appointment_id}}"></button>
+					<button type="button" class="btn btn-info fas fa-exchange-alt" style="color: white;" onclick="change()" appointment_id = "{{$appointment->appointment_id}}"></button>
 				</th>
 			</tr>
 			@endforeach
@@ -83,12 +87,12 @@
 </form>
 </div>
 
-<div id="form_update" style="display: none ;">
+<div id="form_update" style="display: none;">
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">
 			<div class="row form-group">
-			<div class="col-12 col-md-11"><strong>Đặt Phòng Khám</strong></div>
-			<div class="col-12 col-md-1"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;"></div>
+			<div class="col-12 col-md-11"><strong></strong></div>
+			<div class="col-12 col-md-1"><input type="reset" align="right" value=" X " onclick="hiden()" style="background-color: red;"></div>
 			</div>
 		</div>
 		<div class="card-body card-block" >
@@ -164,6 +168,7 @@ jQuery(document).ready(function($) {
 			})
 			.done(function(response) {
 				console.log(response);
+				$("strong").text('Đặt phòng khám');
 				$("#appointment_id").val(response[0]['appointment_id']);
 				$("#patient_id").val(response[0]['patient_id']);
 				$("#patient_name").val(response[0]['first_name']+' '+response[0]['last_name']);
@@ -171,10 +176,13 @@ jQuery(document).ready(function($) {
 				$("#select_speciallist").val(response[0]['speciallist_id']);
 				$("#select_doctor").val(response[0]['doctor_id']);
 				$("#symptom").val(response[0]['symptom']);
-				$("#room").val(response[0]['room']);
+				$("#room").val(response[0]['room']).attr("placeholder", "Nhập Số Phòng Khám");
 				$("#speciallist_div").hide();
 				$("#doctor_div").hide();
 				$("#symptom_div").hide();
+				// if (response[0]['room'] == null) {
+					$("#id").prop('checked', true);
+				// }
 			})
 		});
 
@@ -200,7 +208,7 @@ jQuery(document).ready(function($) {
 				$("#symptom_div").show();
 				$("#select_speciallist").val('0');
 				$("#select_doctor").val('0');
-				$("#room").val('');
+				$("#room").val('').attr("placeholder", "Nhập Số Phòng Khám (Nếu chuyển khoa khám thì không cần nhập phòng)");
 			})
 		});
 
@@ -225,7 +233,7 @@ jQuery(document).ready(function($) {
 
     	})
 
-    	$(document).on('click', '.btn-success.fas.fa-home', function (){
+    	$(document).on('click', '.btn.btn-success.fas.fa-home', function (){
 			$("#form_routes").attr('action','{{ route('appointment.massDone') }}');
 		});
 

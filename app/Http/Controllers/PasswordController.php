@@ -32,7 +32,7 @@ class PasswordController extends Controller
    	$new_password = $rq->new_password;
    	$admin = Admin::where('email', Session::get('email'))->first();
    	$doctor = Doctor::where('email', Session::get('email'))->first();
-
+      $nurse = Nurse::where('email', Session::get('email'))->first();
    	if(isset($admin) && Hash::check($password, Session::get('password'))){
    		DB::table('admin')
    		->Where('id', Session::get('id'))

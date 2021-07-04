@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('titles', "Danh sách các bác sĩ")
+@section('titles', "Danh sách các y tá")
 @section('content')
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <style type="text/css">
@@ -34,20 +34,20 @@
 		<th></th>
 	</tr>
 		<tbody>
-			@foreach ($array_list as $doctor)
+			@foreach ($array_list as $nurse)
 			<tr>
 				<td align="center">
-					{{$doctor->full_name}}
+					{{$nurse->full_name}}
 				</td>
 				<td align="center">
-					{{ $age = date_diff(date_create($doctor->birthday), date_create('now'))->y}}
+					{{ $age = date_diff(date_create($nurse->birthday), date_create('now'))->y}}
 				</td>
 				<td align="center">
-					{{$doctor->address}}
+					{{$nurse->address}}
 				</td>
 				<td align="center">
 					@php
-					if ($doctor->gender==1){
+					if ($nurse->gender==1){
 						echo "Nam";
 					}else {
 						echo "Nữ";
@@ -55,15 +55,15 @@
 					@endphp	
 				</td>
 				<td align="center">
-					{{$doctor->phone}}
+					{{$nurse->phone}}
 				</td>
 				<td align="center">
-					{{$doctor->email}}
+					{{$nurse->email}}
 				</td>
 				<th scope="col" align="center" style="text-align: right;">
-				<button class="btn btn-success fas fa-edit" style="color: white;" onclick="update()" doctor_id = "{{$doctor->doctor_id}}"></button>
+				<button class="btn btn-success fas fa-edit" style="color: white;" onclick="update()" nurse_id = "{{$nurse->nurse_id}}"></button>
 				
-				<a href="{{ route('doctor.delete',['doctor_id' => $doctor->doctor_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;"></a>
+				<a href="{{ route('nurse.delete',['nurse_id' => $nurse->nurse_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;"></a>
 				</th>
 			</tr>
 			@endforeach
@@ -77,17 +77,17 @@
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">
 			<div class="row form-group">
-			<div class="col-12 col-md-10.5"><strong></</strong></div>
+<!-- 			<div class="col-12 col-md-10.5"><strong></</strong></div> -->
 			<div class="col-12 col-md-12"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;" value="[X]"></div>
 			</div>
 		</div>
 		<div class="card-body card-block" >
-			<form action="{{ route('doctor.process_insert') }}" id="routes" method="post" enctype="multipart/form-data" class="form-horizontal">
+			<form action="{{ route('nurse.process_insert') }}" id="routes" method="post" enctype="multipart/form-data" class="form-horizontal">
 				@csrf
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Họ</label></div>
 					<div class="col-12 col-md-9">
-						<input type="hidden" id="doctor_id" name="doctor_id" class="form-control">
+						<input type="hidden" id="nurse_id" name="nurse_id" class="form-control">
 						<input type="text" id="first_name" name="first_name" placeholder="Nhập Họ (chỉ được nhập các chữ cái)" class="form-control">{{ $errors->first('first_name') }}</div>
 				</div>
 				<div class="row form-group">
@@ -99,19 +99,10 @@
 					<div class="col-12 col-md-9"><input type="date" id="birthday" name="birthday" placeholder="Text" class="form-control"  >{{ $errors->first('birthday') }}</div>
 				</div>
 				<div class="row form-group">
-				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chọn Khoa</label></div>
-				<div class="col-12 col-md-9">
-					<select name="speciallist_id" class="form-control" id="select_speciallist">
-						<option selected="selected">Chọn Khoa</option>
-						@foreach ($speciallist  as $speciallist)
-						    <option value="{{ $speciallist->speciallist_id }}">
-							    {{ $speciallist->speciallist_name }}
-							</option>
-						@endforeach
-					</select>
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Số điện thoại</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="phone" name="phone" placeholder="Nhập SĐT" class="form-control" >{{ $errors->first('phone') }}</div>
 				</div>
-			    </div>
-			    <div class="row form-group">
+				<div class="row form-group">
 				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chức vụ</label></div>
 				<div class="col-12 col-md-9">
 					<select name="competence_id" class="form-control" id="select_competence">
@@ -124,10 +115,6 @@
 					</select>
 				</div>
 			    </div>
-				<div class="row form-group">
-					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Số điện thoại</label></div>
-					<div class="col-12 col-md-9"><input type="text" id="phone" name="phone" placeholder="Nhập SĐT" class="form-control" >{{ $errors->first('phone') }}</div>
-				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label class=" form-control-label">Giới tính</label></div>
 					<div class="col col-md-9">
@@ -152,7 +139,7 @@
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="password-input" class=" form-control-label" id="password_label">Mật khẩu</label></div>
-					<div class="col-12 col-md-9"><input id="password_input" type="password" name="password" placeholder="Mật khẩu có tối thiểu 8 ký tự" class="form-control" class="form-control">{{ $errors->first('password') }}</div>
+					<div class="col-12 col-md-9"><input id="password_input" type="password" placeholder="Mật khẩu có tối thiểu 8 ký tự" class="form-control" class="form-control">{{ $errors->first('password') }}</div>
 				</div>
                 <div class="card-footer" align="center" >
 					<button class="btn btn-success btn-sm">
@@ -169,22 +156,20 @@
 <script type="text/javascript" >
 	jQuery(document).ready(function($) {
 		$(document).on('click', '.btn.btn-success.fas.fa-edit', function (){
-			var doctor_id = $(this).attr('doctor_id');
+			var nurse_id = $(this).attr('nurse_id');
 			// $("#first_name").html('');
 			$.ajax({
-				url: '{{ route('ajax.doctor_information') }}',
+				url: '{{ route('ajax.nurse_information') }}',
 				type: 'GET',
 				dataType: 'json',
-				data: {doctor_id : doctor_id},
+				data: {nurse_id : nurse_id},
 			})
 			.done(function(response) {
-				console.log(response[0]['speciallist_id']);
-					$("#routes").attr('action','{{ route('doctor.process_update') }}');
-					$("#doctor_id").val(response[0]['doctor_id']);
+					$("#routes").attr('action','{{ route('nurse.process_update') }}');
+					$("#nurse_id").val(response[0]['nurse_id']);
                    	$("#first_name").val(response[0]['first_name']);
                    	$("#last_name").val(response[0]['last_name']);
                    	$("#birthday").val(response[0]['birthday']);
-                   	$("#select_speciallist").val(response[0]['speciallist_id']);
                    	$("#select_competence").val(response[0]['competence_id']);
                    	$("#phone").val(response[0]['phone']);
                    	$("#address").val(response[0]['address']);
@@ -194,7 +179,7 @@
 		});
 
 		$(document).on('click', '.btn.btn-primary.fas.fa-pencil-alt', function (){
-			$("#routes").attr('action','{{ route('doctor.process_insert') }}');
+			$("#routes").attr('action','{{ route('nurse.process_insert') }}');
 			$("#routes").trigger("reset");
 		});
 

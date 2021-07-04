@@ -16,12 +16,14 @@ use DB;
 class MedicalrecordsController extends Controller
 {
 	public function Medicalrecords_index(Request $rq){
-		$speciallist =Speciallist::get();
+		$speciallist = Speciallist::get();
 		$doctor = Doctor::get();
 		$patient = Patient::get();
 		$medicine = Medicine::get();
 		$search = $rq->search;
-		$array_list = Medicalrecords::latest()->join('patient','medicalrecords.patient_id','patient.patient_id')->where('last_name','like',"%$search%")->paginate(10);
+		$array_list = Medicalrecords::latest()->join('patient','medicalrecords.patient_id','patient.patient_id')
+			                                ->where('patient.last_name','like',"%$search%")
+			                                ->paginate(10);
 		return view('medicalrecords.index',[
 			'speciallist'=> $speciallist, 
 			'doctor'=> $doctor,
@@ -97,9 +99,21 @@ class MedicalrecordsController extends Controller
         Medicalrecords::create($rq->all()); 
         return redirect()->route('medicalrecords.medicalrecords_index');
     }
-	public function process_update(Request $rq,$medicalrecords_id){
-        Medicalrecords::find($medicalrecords_id)->join('patient','medicalrecords.patient_id' , 'patient.patient_id')->update($rq->except('_token'));
-        return redirect()->route('medicalrecords.medicalrecords_index');
+	public function process_update(Request $rq){
+		$medicalrecords_id = $rq->medicalrecords_id;
+		$doctor_id = $rq->doctor_id;
+		$speciallist_id = $rq->speciallist_id;
+		$room = $rq->room;
+		$price = $rq->price;
+		$advice = $rq->advice;
+		Medicalrecords::where('medicalrecords_id',$medicalrecords_id)->update([
+			'doctor_id' => $doctor_id,
+			'speciallist_id' => $speciallist_id,
+			'room' => $room,
+			'price' => $price,
+			'advice' => $advice,
+        ]);
+        return redirect()->back();
     }
 	public function process_assignment_teacher(Request $rq){
 		$input = $rq -> all();

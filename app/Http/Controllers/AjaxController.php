@@ -27,11 +27,20 @@ class AjaxController extends Controller
         $doctor = Doctor::where('speciallist_id',$speciallist_id)->get();
         return $doctor;
     }
+    public function doctor_medicalrecords(Request $rq){
+        $medicalrecords_id = $rq->get('medicalrecords_id');
+        $medicalrecords = Medicalrecords::where('medicalrecords_id',$medicalrecords_id)
+                                        ->join('patient','medicalrecords.patient_id' , 'patient.patient_id')
+                                        ->get();
+        return $medicalrecords;
+    }
     public function appointment_patient(Request $rq){
         $patient_id = $rq->get('patient_id');
         $appointment = Appointment::where('patient_id',$patient_id)->where('status','0')
                                     ->join('doctor','appointment.doctor_id' , 'doctor.doctor_id')
-                                    ->join('speciallist','appointment.speciallist_id' , 'speciallist.speciallist_id')->paginate(5);
+                                    ->join('speciallist','appointment.speciallist_id' , 'speciallist.speciallist_id')
+                                    ->orderBy("time", "desc")
+                                    ->paginate(8);
         return $appointment;
     }
     public function patient_medicalrecords(Request $rq){
@@ -39,14 +48,23 @@ class AjaxController extends Controller
         $medicalrecords = Medicalrecords::where('medicalrecords_id',$medicalrecords_id)->where('treatment','0')
                                     ->join('doctor','medicalrecords.doctor_id' , 'doctor.doctor_id')
                                     ->join('speciallist','medicalrecords.speciallist_id' , 'speciallist.speciallist_id')
-                                    ->join('patient','medicalrecords.patient_id' , 'patient.patient_id')->get();
+                                    ->join('patient','medicalrecords.patient_id' , 'patient.patient_id')
+                                    ->latest()
+                                    ->get();
         return $medicalrecords;
     }
     public function appointment_doctor_patient(Request $rq){
         $appointment_id = $rq->get('appointment_id');
         $appointment = Appointment::where('appointment_id',$appointment_id)
-                                    ->join('patient','appointment.patient_id' , 'patient.patient_id')->get();
+                                    ->where('status','0')
+                                    ->join('patient','appointment.patient_id' , 'patient.patient_id')
+                                    ->get();
         return $appointment;
+    }
+    public function nurse_information(Request $rq){
+        $nurse_id = $rq->get('nurse_id');
+        $nurse = Nurse::where('nurse_id',$nurse_id)->get();
+        return $nurse;
     }
     public function medicine_supplier(Request $rq){
         $medicine_id = $rq->get('medicine_id');

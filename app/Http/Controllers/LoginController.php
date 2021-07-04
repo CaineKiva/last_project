@@ -28,6 +28,10 @@ class LoginController extends Controller {
 			Session::put('first_name', $doctor->first_name);
 			Session::put('speciallist_id', $doctor->speciallist_id);
 			Session::put('competence_id', $doctor->competence_id);
+			Session::put('birthday', $doctor->birthday);
+			Session::put('phone', $doctor->phone);
+			Session::put('email', $doctor->email);
+			Session::put('address', $doctor->address);
 			return redirect()->route('index');
 		} else {
 			return redirect()->route('login')->with('error', 'Sai');

@@ -27,6 +27,10 @@
 					<div class="col-12 col-md-9"><input class="form-control" value=" @php if ($medicalrecords->patient->gender==1){echo "Nam";}else {echo "Nữ";} @endphp"></div>
 				</div>
 				<div class="row form-group">
+					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Phòng điều trị</label></div>
+					<div class="col-12 col-md-9"><input type="text" id="text-input" name="room" placeholder="Text" class="form-control" value="{{$medicalrecords->room}}">{{ $errors->first('room') }}</div>
+				</div>
+				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Số điện thoại</label></div>
 					<div class="col-12 col-md-9"><input type="tex" id="text-input" name="contact_phone" placeholder="Text" class="form-control" value="{{$medicalrecords->patient->contact_phone}}">{{ $errors->first('contact_phone') }}</div>
 				</div>

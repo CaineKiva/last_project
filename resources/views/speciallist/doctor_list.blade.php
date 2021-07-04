@@ -176,7 +176,7 @@
                    	$("#address").val(response[0]['address']);
                    	$("#email").val(response[0]['email']);
                    	$("#symptom").val(response[0]['symptom']);
-                   	$('input:radio[name="gender"]').filter('[value = "' + response[0]['gender'] +'" ]').attr('checked', true);
+                   	$('input:radio[name="gender"]').filter('[value = "' + response[0]['gender'] + '" ]').prop('checked', true);
 				})
 		});
 

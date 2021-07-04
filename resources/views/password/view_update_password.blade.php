@@ -8,8 +8,8 @@
 			<td>{{ Session::get('first_name') }} {{ Session::get('last_name') }}</td>
 		</tr>
 		<tr>
-			<th>Date</th>
-			<td>{{ Session::get('date') }}</td>
+			<th>Birthday</th>
+			<td>{{ Session::get('birthday') }}</td>
 		</tr>
 		<tr>
 			<th>Phone</th>

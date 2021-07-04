@@ -57,9 +57,9 @@
 				{{ $medicalrecords->room }}
 			</td>
 			<th scope="col" align="center" style="text-align: right;">
-				<button class="btn btn-success fas fa-check" style="color: white;" onclick="show()" 
+				<button type="button" class="btn btn-success fas fa-check" style="color: white;" onclick="show()" 
 				medicalrecords_id = "{{$medicalrecords->medicalrecords_id}}"></button>
-				<button class="btn btn-primary fas fa-edit" style="color: white;" onclick="show()" 
+				<button type="button" class="btn btn-primary fas fa-edit" style="color: white;" onclick="show()" 
 				medicalrecords_id = "{{$medicalrecords->medicalrecords_id}}"></button>
 			</th>
 		</tr>

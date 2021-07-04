@@ -25,6 +25,8 @@ $controller = "AjaxController";
 route::group(["prefix" => "ajax", "as" => "ajax."], function () use ($controller) {
 	route::get("doctor_speciallist", "$controller@doctor_speciallist")->name("doctor_speciallist");
 	route::get("doctor_information", "$controller@doctor_information")->name("doctor_information");
+	route::get("doctor_medicalrecords", "$controller@doctor_medicalrecords")->name("doctor_medicalrecords");
+	route::get("nurse_information", "$controller@nurse_information")->name("nurse_information");
 	route::get("appointment_patient", "$controller@appointment_patient")->name("appointment_patient");
 	route::get("appointment_doctor_patient", "$controller@appointment_doctor_patient")->name("appointment_doctor_patient");
 	route::get("patient_medicalrecords", "$controller@patient_medicalrecords")->name("patient_medicalrecords");
@@ -62,6 +64,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		route::get("view_list", "$controller@view_list")->name("view_list");
 		route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
 		route::post("update_appointment", "$controller@update_appointment")->name("update_appointment");
+		route::get("medicalrecords_history", "$controller@medicalrecords_history")->name("medicalrecords_history");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
             route::get("", "$controller@show")->name("show");
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
@@ -80,7 +83,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
     // Nurse
 	$controller = "NurseController";
 	route::group(["prefix" => "nurse", "as" => "nurse."], function () use ($controller) {
-		route::get("index", "$controller@index")->name("index");
+		route::get("nurse_index", "$controller@nurse_index")->name("nurse_index");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
             route::get("", "$controller@show_nurse")->name("show_nurse");
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
@@ -89,7 +92,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 			route::post("process_insert_excel", "$controller@process_insert_excel")->name("process_insert_excel");
 			route::get("delete/{nurse_id}", "$controller@delete")->name("delete");
 			route::get("view_update/{nurse_id}", "$controller@view_update")->name("view_update");
-			route::post("process_update/{nurse_id}", "$controller@process_update")->name("process_update");
+			route::post("process_update", "$controller@process_update")->name("process_update");
         });
 	});
     // Medicalrecords
@@ -100,12 +103,12 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		route::get("being_treated", "$controller@being_treated")->name("being_treated");
 		route::post("discharge", "$controller@discharge")->name("discharge");
 		route::post("change_room", "$controller@change_room")->name("change_room");
+		route::post("process_update", "$controller@process_update")->name("process_update");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
 			route::post("process_insert", "$controller@process_insert")->name("process_insert");
 			route::get("delete/{medicalrecords_id}", "$controller@delete")->name("delete");
 			route::get("view_update/{medicalrecords_id}", "$controller@view_update")->name("view_update");
-			route::post("process_update/{medicalrecords_id}", "$controller@process_update")->name("process_update");
 		});
 
 	});
@@ -245,8 +248,8 @@ route::group(['middleware' => 'CheckLogin'], function () {
 	route::group(["prefix" => "password", "as" => "password."], function () use ($controller) {
 		
 		route::get("view_update_password", "$controller@view_update_password")->name("view_update_password");
-		route::get("view_change_password/{id}", "$controller@view_change_password")->name("view_change_password");
-		route::post("process_change_password/{id}", "$controller@process_change_password")->name("process_change_password");
+		route::get("view_change_password", "$controller@view_change_password")->name("view_change_password");
+		route::post("process_change_password", "$controller@process_change_password")->name("process_change_password");
 		
 	});
 
