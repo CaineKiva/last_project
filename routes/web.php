@@ -25,6 +25,7 @@ $controller = "AjaxController";
 route::group(["prefix" => "ajax", "as" => "ajax."], function () use ($controller) {
 	route::get("doctor_speciallist", "$controller@doctor_speciallist")->name("doctor_speciallist");
 	route::get("doctor_information", "$controller@doctor_information")->name("doctor_information");
+	route::get("patient_information", "$controller@patient_information")->name("patient_information");
 	route::get("doctor_medicalrecords", "$controller@doctor_medicalrecords")->name("doctor_medicalrecords");
 	route::get("nurse_information", "$controller@nurse_information")->name("nurse_information");
 	route::get("appointment_patient", "$controller@appointment_patient")->name("appointment_patient");
@@ -116,6 +117,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 	$controller = "PatientController";
 	route::group(["prefix" => "patient", "as" => "patient."], function () use ($controller) {
 		route::get("patient_index", "$controller@patient_index")->name("patient_index");
+		route::post("process_update", "$controller@process_update")->name("process_update");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
             route::get("", "$controller@show_patient")->name("show_patient");
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
@@ -124,7 +126,6 @@ route::group(['middleware' => 'CheckLogin'], function () {
 			route::post("process_insert_excel", "$controller@process_insert_excel")->name("process_insert_excel");
 			route::get("delete/{patient_id}", "$controller@delete")->name("delete");
 			route::get("view_update/{patient_id}", "$controller@view_update")->name("view_update");
-			route::post("process_update/{patient_id}", "$controller@process_update")->name("process_update");
         });
 	});
 	// Speciallist

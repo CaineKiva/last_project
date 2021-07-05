@@ -10,7 +10,7 @@
 		<tr>
 			<th>Birthday</th>
 			<td>{{ Session::get('birthday') }}</td>
-		</tr>
+		</tr>s
 		<tr>
 			<th>Phone</th>
 			<td>{{ Session::get('phone') }}</td>

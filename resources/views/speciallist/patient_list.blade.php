@@ -7,7 +7,9 @@
 		<th scope="col" style="text-align: center;">Tuổi</th>
 		<th scope="col" style="text-align: center;">Giới tính</th>
 		<th scope="col" style="text-align: center;">Điện thoại liên hệ</th>
-		<th scope="col" style="text-align: center;">Email</th>
+		<th scope="col" style="text-align: center;">Tình trạng và chuẩn đoán</th>
+		<th scope="col" style="text-align: center;">Bác sĩ phụ trách</th>
+		<th scope="col" style="text-align: center;">Phòng bệnh</th>
 	</tr>
 		<tbody>
 			@foreach ($array_list as $patient)
@@ -31,13 +33,13 @@
 					{{$patient->patient->contact_phone}}
 				</td>
 				<td align="center">
-					@php
-					if (!empty($patient->patient->email)) {
-						echo $patient->patient->email;
-					} else {
-						echo "Không có email";
-					}
-					@endphp
+					{{$patient->status}}
+				</td>
+				<td align="center">
+					{{$patient->doctor->full_name}}
+				</td>
+				<td align="center">
+					{{$patient->room}}
 				</td>
 			</tr>
 			@endforeach
@@ -46,4 +48,5 @@
 	<button type="submit"></button> --}}
 </tbody>
 </table>
+{{$array_list->appends(['search' => $search])->links()}}
 @endsection

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('titles', "Danh sách các lịch hẹn")
+@section('titles', "Danh sách bệnh án")
 @section('content')
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <style type="text/css">

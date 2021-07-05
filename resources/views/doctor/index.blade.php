@@ -77,8 +77,8 @@
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">
 			<div class="row form-group">
-			<div class="col-12 col-md-10.5"><strong></</strong></div>
-			<div class="col-12 col-md-12"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;" value="[X]"></div>
+			<div class="col-12 col-md-10"><strong></strong></div>
+			<div class="col-12 col-md-2"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;" value="[X]"></div>
 			</div>
 		</div>
 		<div class="card-body card-block" >
@@ -179,6 +179,7 @@
 			})
 			.done(function(response) {
 				console.log(response[0]['speciallist_id']);
+					$("strong").text('Cập nhật thông tin');
 					$("#routes").attr('action','{{ route('doctor.process_update') }}');
 					$("#doctor_id").val(response[0]['doctor_id']);
                    	$("#first_name").val(response[0]['first_name']);
@@ -194,6 +195,7 @@
 		});
 
 		$(document).on('click', '.btn.btn-primary.fas.fa-pencil-alt', function (){
+			$("strong").text('Thêm bác sĩ');
 			$("#routes").attr('action','{{ route('doctor.process_insert') }}');
 			$("#routes").trigger("reset");
 		});

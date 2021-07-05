@@ -24,7 +24,7 @@
                         <a href="{{ route('index') }}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a>
                     </li>
                 </li>
-                <h3 class="menu-title"><i class="fa fa-book"></i>Quản lý dữ liệu bệnh viện</h3>
+                <h3 class="menu-title"><i class="fa fa-book"></i> Quản lý dữ liệu bệnh viện</h3>
                 <li>
                     <a href="{{ route('speciallist.index_list') }}"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-clipboard "></i>Chuyên Khoa</a>
                 </li>
@@ -32,42 +32,42 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-clipboard "></i>Bệnh Án</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-bars"></i><a href="{{ route('medicalrecords.medicalrecords_index') }}">Chi tiết</a></li>
-                        <li><i class="fa fa-share-square-o"></i><a href="">Cập nhật thông tin bệnh án</a></li>
+<!--                         <li><i class="fa fa-share-square-o"></i><a href="">Cập nhật thông tin bệnh án</a></li> -->
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-user-md "></i>Bác Sĩ</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fas fa-list-alt"></i><a href="{{ route('doctor.doctor_index') }}">Danh sách bác sĩ</a></li>
-                        <li><i class="fa fa-plus-square"></i><a href="{{ route('doctor.view_insert') }}">Thêm</a></li>
+<!--                         <li><i class="fa fa-plus-square"></i><a href="{{ route('doctor.view_insert') }}">Thêm</a></li> -->
                         <!-- <li><i class="fa fa-file-excel-o"></i><a href="{{ route('doctor.view_insert_excel') }}">Add by Excel</a></li> -->
-                        <li><i class="fas fa-edit"></i><a href="">Cập nhật thông tin</a></li>
+<!--                         <li><i class="fas fa-edit"></i><a href="">Cập nhật thông tin</a></li> -->
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-user-nurse"></i></i>Y Tá</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fas fa-list-alt"></i><a href="{{ route('nurse.nurse_index') }}">Danh sách y tá</a></li>
-                        <li><i class="fa fa-plus-square"></i><a href="{{ route('nurse.view_insert') }}">Thêm</a></li>
-                        <li><i class="fas fa-edit"></i><a href="">Cập nhật thông tin</a></li>
+<!--                         <li><i class="fa fa-plus-square"></i><a href="{{ route('nurse.view_insert') }}">Thêm</a></li>
+                        <li><i class="fas fa-edit"></i><a href="">Cập nhật thông tin</a></li> -->
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-wheelchair"></i>Bệnh nhân</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa far fa-clipboard"></i><a href="{{ route('patient.patient_index') }}">Xem</a></li>
-                        <li><i class="fa fa-plus-square"></i><a href="">Thêm</a></li>
+                        <li><i class="fa far fa-clipboard"></i><a href="{{ route('patient.patient_index') }}">Danh sách bệnh nhân</a></li>
+<!--                         <li><i class="fa fa-plus-square"></i><a href="">Thêm</a></li> -->
                         <!-- <li><i class="fa fa-id-badge"></i><a href="">Sửa môn</a></li> -->
                        </ul>
                 </li>
-                <li class="menu-item-has-children dropdown">
+<!--                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-flask"></i>Dược liệu, Thuốc</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="">Danh sách nhà cung cấp</a></li>
                         <li><i class="fa fa-file-excel-o"></i><a href="">Thêm Thuốc</a></li>
                         <li><i class="fa fa-id-badge"></i><a href="">Cập nhật thông tin</a></li>
                        </ul>
-                </li>
+                </li> -->
                 
 <!--                  <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-view-list"></i>Phân công</a>
@@ -117,7 +117,8 @@
             <li class="menu-item-has-children dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-wheelchair "></i>Bệnh nhân</a>
                 <ul class="sub-menu children dropdown-menu">
-                    <li><i class="fa fas fa-wheelchair"></i><a href="{{ route('doctor.medicalrecords_history') }}">Thông tin bệnh án</a></li>
+                    <li><i class="fa fas fa-wheelchair"></i><a href="{{ route('patient.patient_index') }}">Bệnh nhân</a></li>
+                    <li><i class="fa fas fa-wheelchair"></i><a href="">Thủ tục nhập viện</a></li>
                     <li><i class="fas fa-check"></i><a href="{{ route('medicalrecords.being_treated') }}">Xuất viện và thanh toán viện phí</a></li>
                 </ul>
             </li>

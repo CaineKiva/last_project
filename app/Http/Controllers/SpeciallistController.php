@@ -34,13 +34,21 @@ class SpeciallistController extends Controller
         ]);
     }
     public function patient_list(Request $rq,$speciallist_id){
+        $doctor = Doctor::get();
         $patient = Patient::get();
+        $search = $rq->search;
         $speciallist = Speciallist::find($speciallist_id);
-        $array_list = Medicalrecords::where('speciallist_id',$speciallist_id)->get();
+        $array_list = Medicalrecords::where('speciallist_id',$speciallist_id)
+                                        ->join('patient','medicalrecords.patient_id','patient.patient_id')
+                                        // ->join('doctor','medicalrecords.doctor_id','doctor.doctor_id')
+                                        ->where('patient.last_name','like',"%$search%")
+                                        ->paginate(10);
         return view('speciallist.patient_list',[
             'patient' => $patient,
+            'doctor' => $doctor,
             'speciallist' => $speciallist,
             'array_list'=> $array_list,
+            'search' => $search,
         ]);
     }
     public function view_insert(){

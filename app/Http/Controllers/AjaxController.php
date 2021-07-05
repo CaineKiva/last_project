@@ -22,6 +22,11 @@ class AjaxController extends Controller
         $doctor = Doctor::where('doctor_id',$doctor_id)->get();
         return $doctor;
     }
+    public function patient_information(Request $rq){
+        $patient_id = $rq->get('patient_id');
+        $patient = Patient::where('patient_id',$patient_id)->get();
+        return $patient;
+    }
     public function doctor_speciallist(Request $rq){
         $speciallist_id = $rq->get('speciallist_id');
         $doctor = Doctor::where('speciallist_id',$speciallist_id)->get();
