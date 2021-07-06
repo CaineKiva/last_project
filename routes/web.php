@@ -46,6 +46,7 @@ route::get("login_doctor", "LoginController@login_doctor")->name("login_doctor")
 route::post("process_login_doctor", "LoginController@process_login_doctor")->name("process_login_doctor");
 // login patient
 route::post("process_login_patient", "LoginController@process_login_patient")->name("process_login_patient");
+route::post("process_signup", "LoginController@process_signup")->name("process_signup");
 
 // middleware
 route::group(['middleware' => 'CheckLogin'], function () {
@@ -116,12 +117,12 @@ route::group(['middleware' => 'CheckLogin'], function () {
 	// Patient
 	$controller = "PatientController";
 	route::group(["prefix" => "patient", "as" => "patient."], function () use ($controller) {
+		route::post("process_insert", "$controller@process_insert")->name("process_insert");
 		route::get("patient_index", "$controller@patient_index")->name("patient_index");
 		route::post("process_update", "$controller@process_update")->name("process_update");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
             route::get("", "$controller@show_patient")->name("show_patient");
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
-			route::post("process_insert", "$controller@process_insert")->name("process_insert");
 			route::get("view_insert_excel", "$controller@view_insert_excel")->name("view_insert_excel");
 			route::post("process_insert_excel", "$controller@process_insert_excel")->name("process_insert_excel");
 			route::get("delete/{patient_id}", "$controller@delete")->name("delete");

@@ -56,7 +56,7 @@
              <div class="appointment-form">
                 <h3 style="text-align: center;"><button data-scroll onclick="show_appointment()" class="appointment data  show" patient_id = "{{ Session::get('patient_id') }}" style="color: white; margin: auto;">Xem lịch hẹn khám</button></h3>
                 <div class="form">
-                   <form action="" id="routes" method="post" enctype="multipart/form-data">@csrf
+                   <form action="" id="route" method="post" enctype="multipart/form-data">@csrf
                       <fieldset>
                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="row">
@@ -159,7 +159,7 @@
 
     })
     $(document).on('click', '.appointment_submit', function (){
-      $("#routes").attr('action','{{ route('appointment.process_insert') }}');
+      $("#route").attr('action','{{ route('appointment.process_insert') }}');
     });
   });
 
@@ -171,11 +171,6 @@ function hide_appointment() {
 }
 </script>
 @endpush
-<script type="text/javascript">
-  function success() {
-      alert("Đặt lịch hẹn thành công!");
-  }
-</script>
 
  <!-- end section -->
  

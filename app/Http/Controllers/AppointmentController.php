@@ -17,8 +17,20 @@ use DB;
 class AppointmentController extends Controller
 {
 	public function process_insert(Request $rq){
-        Appointment::create($rq->all()); 
-        return redirect()->back();
+        $doctor_id = $rq->doctor_id;
+        $start_time = (int)date('Y-m-d H:i:s',strtotime($rq->time));
+        $end_time = (int)date('Y-m-d H:i:s',strtotime('+30 minutes',strtotime($rq->time) ));
+        $allData = Appointment::where('doctor_id',$doctor_id)->get();
+        foreach ($allData as $data) {
+            $startTime = (int)date('Y-m-d H:i:s',strtotime($data['time']));
+            $endTime = (int)date('Y-m-d H:i:s',strtotime('+30 minutes',strtotime($data['time']) ));
+            if ($end_time <= $startTime && $start_time >= $endTime) {
+                Appointment::create($rq->all()); 
+                return redirect()->back();
+            } else {
+                return redirect()->back('login');
+            }
+        }
     }
     public function appointment_list(Request $rq){
     	$speciallist = Speciallist::get();

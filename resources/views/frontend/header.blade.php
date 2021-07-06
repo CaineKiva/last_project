@@ -51,7 +51,7 @@
                    <li></li>
                    <li></li>
                    @if (Session::get('patient_id') == null)
-                   <li style="margin-left: 30px"><a data-scroll onclick="show_login()">Login</a></li>
+                   <li style="margin-left: 30px"><a data-scroll class="button_login" onclick="show_login()">Login</a></li>
                    @elseif (Session::get('patient_id'))
                    <li style="margin-left: 30px"><a data-scroll href="{{ route('login.logout_patient') }}">Logout</a></li>
                    @endif
@@ -75,19 +75,48 @@
         </div>
       </div>
       <div class="row form-group">
-        <strong style="font-weight: normal; font-size: 30px">LOG IN</</strong>
+        <strong style="font-weight: normal; font-size: 30px" id="login_title">Đăng nhập</strong>
       </div>
     </div>
-      <form action="{{ route('process_login_patient') }}" method="post" enctype="multipart/form-data">@csrf
-          <div class="row form-group">
-          <div class="col-12 col-md-12"><input type="text" id="text-input" name="email" placeholder="Email" class="form-control" ></div>
+      <form action="{{ route('process_login_patient') }}" id="routes" method="post" enctype="multipart/form-data">@csrf
+          <div class="row form-group" id="first_name_div">
+            <div class="col-12 col-md-12"><input type="text" id="first_name" name="first_name" placeholder="Họ" class="form-control" ></div>
+          </div>
+          <div class="row form-group" id="last_name_div">
+            <div class="col-12 col-md-12"><input type="text" id="last_name" name="last_name" placeholder="Tên" class="form-control" ></div>
+          </div>
+          <div class="row form-group" id="birthday_div">
+            <div class="col-12 col-md-12"><input type="date" id="birthday" name="birthday" placeholder="Ngày sinh" class="form-control" ></div>
+          </div>
+          <div class="row form-group" id="gender_div">
+          <div class="col-12 col-md-12">
+            <div class="form-check-inline form-check">
+              <label for="inline-radio1" class="form-check-label" style="align-content: center;">
+                <input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif style="height: 15px; font-size: 15px;">Nam
+              </label>
+              <label for="inline-radio2" class="form-check-label ">
+                <input type="radio" id="inline-radio2" name="gender" value="0" class="form-check-input" @if (old('gender')==='0')checked @endif style="height: 15px; font-size: 15px;">Nữ
+              </label>
+            </div>
+          </div>
+          </div>
+          <div class="row form-group" id="address_div">
+            <div class="col-12 col-md-12"><input type="text" id="address" name="address" placeholder="Địa chỉ" class="form-control" ></div>
+          </div>
+          <div class="row form-group" id="contact_phone_div">
+            <div class="col-12 col-md-12"><input type="text" id="contact_phone" name="contact_phone" placeholder="Số điện thoại" class="form-control" ></div>
           </div>
           <div class="row form-group">
-          <div class="col-12 col-md-12" style="margin-top: 10px"><input type="text" id="text-input" name="password" placeholder="Password" class="form-control" ></div>
+            <div class="col-12 col-md-12"><input type="text" id="text-input" name="email" placeholder="Email" class="form-control" ></div>
+          </div>
+            <div class="row form-group">
+          <div class="col-12 col-md-12" style="margin-top: 10px"><input type="password" id="password" name="password" placeholder="Password" class="form-control" ></div>
           </div>
           <div class="row form-group" align="center">
-          <button class="btn btn-success btn-sm" style="margin-top: 20px">
-          <i class="far fa-check-circle"></i> Login</button>
+            <button id="button_button" type="button" class="btn btn-primary btn-sm click" style="margin-top: 20px" onclick="show_div()">
+              <i class="far fa-check-circle"></i> Đăng ký</button>
+            <button id="submit_button" type="submit" class="btn btn-success btn-sm click" style="margin-top: 20px">
+              <i class="far fa-check-circle"></i> Đăng nhập</button>
       </form>
     </div>
   </div>
@@ -103,7 +132,7 @@
         </div>
       </div>
       <div class="row form-group">
-        <strong style="font-weight: normal; font-size: 30px">Lịch hẹn khám</</strong>
+        <strong style="font-weight: normal; font-size: 30px" id="appointment_time">Lịch hẹn khám</strong>
       </div>
     </div>
     <div>
@@ -156,6 +185,31 @@
           })
       })
     });
+    $(document).on('click', '.btn.btn-success.btn-sm.click', function (){
+      $("#routes").attr('method','post');
+    });
+    $(document).on('click', '.btn.btn-primary.btn-sm.click', function (){
+      $("#login_title").text('Đăng ký');
+      $("#first_name_div").show();
+      $("#last_name_div").show();
+      $("#birthday_div").show();
+      $("#gender_div").show();
+      $("#contact_phone_div").show();
+      $("#address_div").show();
+      $("#submit_button").text('Đăng ký');
+      $("#button_button").hide();
+      $("#routes").attr('action','{{ route('process_signup') }}');
+      $("#routes").attr('method','post');
+    });
+    $(document).on('click', '.button_login', function (){
+      $("#login_title").text('Đăng nhập');
+      $("#first_name_div").hide();
+      $("#last_name_div").hide();
+      $("#birthday_div").hide();
+      $("#gender_div").hide();
+      $("#contact_phone_div").hide();
+      $("#address_div").hide();
+    });
   });
 
 function show_login() {
@@ -172,8 +226,8 @@ function hiden_login() {
   }
   #form_login{
     position: fixed;
-    margin-top: 5%;
     z-index: 90;
+    margin-top: -5%;
     background-color: white;
     min-height: 300px;
     width: 40%;

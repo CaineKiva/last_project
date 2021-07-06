@@ -171,7 +171,6 @@
 		});
 
 		$(document).on('click', '.btn.btn-primary.fas.fa-pencil-alt', function (){
-			$("strong").text('Thêm bác sĩ');
 			$("#routes").attr('action','{{ route('patient.process_insert') }}');
 			$("#routes").trigger("reset");
 		});

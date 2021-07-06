@@ -120,6 +120,10 @@ class LoginController extends Controller {
 		return redirect()->back();
 
 	}
+	public function process_signup(Request $rq){
+        Patient::create($rq->all());
+        return redirect()->route('layout');
+    }
 
 }
 // && Hash::check($rq->password, $nurse->password)
