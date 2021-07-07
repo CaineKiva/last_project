@@ -18,18 +18,26 @@ class AppointmentController extends Controller
 {
 	public function process_insert(Request $rq){
         $doctor_id = $rq->doctor_id;
-        $start_time = (int)date('Y-m-d H:i:s',strtotime($rq->time));
-        $end_time = (int)date('Y-m-d H:i:s',strtotime('+30 minutes',strtotime($rq->time) ));
+        $start_time = (int)strtotime( date('Y-m-d H:i:s',strtotime($rq->time)) );
         $allData = Appointment::where('doctor_id',$doctor_id)->get();
+        $arrayData = array();
         foreach ($allData as $data) {
-            $startTime = (int)date('Y-m-d H:i:s',strtotime($data['time']));
-            $endTime = (int)date('Y-m-d H:i:s',strtotime('+30 minutes',strtotime($data['time']) ));
-            if ($end_time <= $startTime && $start_time >= $endTime) {
-                Appointment::create($rq->all()); 
-                return redirect()->back();
-            } else {
-                return redirect()->back('login');
+            $startTime = (int)strtotime( date('Y-m-d H:i:s',strtotime('-30 minutes',strtotime($data['time']))) );
+            $endTime = (int)strtotime( date('Y-m-d H:i:s',strtotime('+30 minutes',strtotime($data['time']))) );
+            // đếm xem có cái time có rơi vào khoảng nào không, nếu có thì tích số 1 vào mảng, không thì đánh số 0
+            if ( $start_time <= $endTime && $start_time >= $startTime ) {
+                $arrayData[] = 1;
             }
+            else {
+                $arrayData[] = 0;
+            }
+        }
+        //kiểm tra xem trong mảng có số 1 không, nếu có thì thất bại
+        if (in_array('1', $arrayData)) {
+            return redirect()->route('login');
+        } 
+        else {
+            return redirect()->back();
         }
     }
     public function appointment_list(Request $rq){
