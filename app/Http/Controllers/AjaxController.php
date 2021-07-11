@@ -17,6 +17,11 @@ use Session;
 
 class AjaxController extends Controller
 {
+    public function appointment_list(Request $rq){
+        $doctor_id = $rq->get('doctor_id');
+        $appointment_list = Appointment::where('doctor_id',$doctor_id)->get();
+        return $appointment_list;
+    }
     public function doctor_information(Request $rq){
         $doctor_id = $rq->get('doctor_id');
         $doctor = Doctor::where('doctor_id',$doctor_id)->get();

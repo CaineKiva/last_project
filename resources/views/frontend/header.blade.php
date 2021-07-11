@@ -151,6 +151,10 @@
   </div>
 </div>
 
+ <div class="alert alert-success" style="display: block">
+        {{ session()->get('message') }}
+    </div>
+
 @push('js')
 <script type="text/javascript" >
   jQuery(document).ready(function($) {
@@ -227,7 +231,7 @@ function hiden_login() {
   #form_login{
     position: fixed;
     z-index: 90;
-    margin-top: -5%;
+    margin-top: 2%;
     background-color: white;
     min-height: 300px;
     width: 40%;

@@ -14,7 +14,7 @@ route::get("layout","FrontendController@layout")->name("layout");
 $controller = "AppointmentController";
 route::group(["prefix" => "appointment", "as" => "appointment."], function () use ($controller) {
 	route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
-	route::post("process_insert", "$controller@process_insert")->name("process_insert");
+	route::get("process_insert", "$controller@process_insert")->name("process_insert");
 	route::post("process_update", "$controller@process_update")->name("process_update");
 	route::get("done/{appointment_id}", "$controller@done")->name("done");
 	route::get("massDone", "$controller@massDone")->name("massDone");
@@ -31,6 +31,7 @@ route::group(["prefix" => "ajax", "as" => "ajax."], function () use ($controller
 	route::get("appointment_patient", "$controller@appointment_patient")->name("appointment_patient");
 	route::get("appointment_doctor_patient", "$controller@appointment_doctor_patient")->name("appointment_doctor_patient");
 	route::get("patient_medicalrecords", "$controller@patient_medicalrecords")->name("patient_medicalrecords");
+	route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
 });	
 
 route::get("login", "LoginController@login")->name("login");

@@ -56,7 +56,7 @@
              <div class="appointment-form">
                 <h3 style="text-align: center;"><button data-scroll onclick="show_appointment()" class="appointment data  show" patient_id = "{{ Session::get('patient_id') }}" style="color: white; margin: auto;">Xem lịch hẹn khám</button></h3>
                 <div class="form">
-                   <form action="" id="route" method="post" enctype="multipart/form-data">@csrf
+                   <form method="post" enctype="multipart/form-data">@csrf
                       <fieldset>
                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="row">
@@ -78,7 +78,7 @@
                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="row">
                                <div class="form-group">
-                                 <input type="datetime-local" id="date" name="time" align="center" />
+                                 <input type="datetime-local" id="time" name="time" align="center" />
                                </div>
                             </div>
                          </div>
@@ -91,7 +91,7 @@
                                         <option value="{{ $speciallist->speciallist_id }}">
                                           {{ $speciallist->speciallist_name }}
                                         </option>
-                                       @endforeach
+                                      @endforeach
                                   </select>
                                </div>
                             </div>
@@ -100,7 +100,12 @@
                             <div class="row">
                                <div class="form-group">
                                   <select class="form-control" name="doctor_id" id="select_doctor">
-                                      <option selected="selected">Chọn Bác Sĩ</option>
+                                      <option selected="selected" value='0'>Chọn Bác Sĩ</option>
+                                      @foreach ($doctor as $doctor)
+                                        <option value="{{ $doctor->doctor_id }}">
+                                          {{ $doctor->first_name }} {{ $doctor->last_name }}
+                                        </option>
+                                      @endforeach
                                   </select>
                                </div>
                             </div>
@@ -116,7 +121,7 @@
                             <div class="row">
                                 <div class="form-group">
                                   <div class="center">
-                                    <button type="submit" onclick="success()" style="font-size: 10px" class="appointment_submit">Đặt lịch</button>
+                                    <button type="button" onclick="success()" style="font-size: 10px" class="appointment_submit">Đặt lịch</button>
                                   </div>
                                 </div>
                             </div>
@@ -136,6 +141,7 @@
 
 @push('js')
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" >
   jQuery(document).ready(function($) {
     $("#select_speciallist").change(function(){
@@ -158,8 +164,39 @@
         })
 
     })
+
     $(document).on('click', '.appointment_submit', function (){
-      $("#route").attr('action','{{ route('appointment.process_insert') }}');
+      newArray = [];
+      var doctor_id = $("#select_doctor option:selected").val();
+      $.ajax({
+        url: '{{ route('ajax.appointment_list') }}',
+        type: 'GET',
+        dataType: 'json',
+        data: {doctor_id : doctor_id},
+      })
+      .done(function(response){
+        timeValue = $('#time').val();
+        time = parseInt( Number(new Date(timeValue)) );
+        $(response).each(function(index,value){
+          downLimit = parseInt( Number(new Date(value.time)) - Number(1800000) );
+          baseTime = parseInt( Number(new Date(value.time)) )
+          upLimit = parseInt( Number(new Date(value.time)) + Number(1800000) );
+          if ( time > downLimit && time < upLimit) {
+            newArray.push(1);
+          }
+          else {
+            newArray.push(0);
+          } 
+        })
+      console.log(newArray);
+        // if (jQuery.inArray(1, newArray) !== -1) {
+        //   alert("Lịch hẹn của bạn đã bị trùng, vui lòng chọn khoảng thời gian khác");
+        // }
+        // else {
+        //   alert("Đặt lịch hẹn thành công");
+        //   $.post(window.location.href = "{{ route('appointment.process_insert') }}");
+        // }
+      });
     });
   });
 
@@ -171,7 +208,3 @@ function hide_appointment() {
 }
 </script>
 @endpush
-
- <!-- end section -->
- 
- <!-- doctor -->
