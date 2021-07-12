@@ -56,7 +56,7 @@
              <div class="appointment-form">
                 <h3 style="text-align: center;"><button data-scroll onclick="show_appointment()" class="appointment data  show" patient_id = "{{ Session::get('patient_id') }}" style="color: white; margin: auto;">Xem lịch hẹn khám</button></h3>
                 <div class="form">
-                   <form method="post" enctype="multipart/form-data">@csrf
+                   <form method="post" enctype="multipart/form-data" id="route">@csrf
                       <fieldset>
                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="row">
@@ -113,7 +113,7 @@
                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="row">
                                <div class="form-group">
-                                  <textarea rows="4" id="textarea_message" class="form-control" placeholder="Triệu Chứng..." style="max-width: 320px; height: 120px; resize: none;" name="symptom"></textarea>
+                                  <textarea rows="4" id="symptom" class="form-control" placeholder="Triệu Chứng..." style="max-width: 320px; height: 120px; resize: none;" name="symptom"></textarea>
                                </div>
                             </div>
                          </div>
@@ -179,7 +179,6 @@
         time = parseInt( Number(new Date(timeValue)) );
         $(response).each(function(index,value){
           downLimit = parseInt( Number(new Date(value.time)) - Number(1800000) );
-          baseTime = parseInt( Number(new Date(value.time)) )
           upLimit = parseInt( Number(new Date(value.time)) + Number(1800000) );
           if ( time > downLimit && time < upLimit) {
             newArray.push(1);
@@ -188,14 +187,22 @@
             newArray.push(0);
           } 
         })
-      console.log(newArray);
-        // if (jQuery.inArray(1, newArray) !== -1) {
-        //   alert("Lịch hẹn của bạn đã bị trùng, vui lòng chọn khoảng thời gian khác");
-        // }
-        // else {
-        //   alert("Đặt lịch hẹn thành công");
-        //   $.post(window.location.href = "{{ route('appointment.process_insert') }}");
-        // }
+        console.log(newArray);
+        if (jQuery.inArray(1, newArray) !== -1) {
+          alert("Lịch hẹn của bạn đã bị trùng, vui lòng chọn khoảng thời gian khác");
+        }
+        else {
+          alert("Đặt lịch hẹn thành công");
+          $.post( "{{ route('appointment.process_insert') }}", { 
+              patient_id : $("#patient_id").val(),
+              doctor_id : $("#select_doctor option:selected").val(),
+              speciallist_id : $("#select_speciallist option:selected").val(),
+              time : $("#time").val(),
+              symptom : $("#symptom").val(),
+              "_token": "{{ csrf_token() }}",
+          } );
+          window.location.reload();
+        }
       });
     });
   });

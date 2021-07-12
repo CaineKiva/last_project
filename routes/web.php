@@ -14,7 +14,7 @@ route::get("layout","FrontendController@layout")->name("layout");
 $controller = "AppointmentController";
 route::group(["prefix" => "appointment", "as" => "appointment."], function () use ($controller) {
 	route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
-	route::get("process_insert", "$controller@process_insert")->name("process_insert");
+	route::post("process_insert", "$controller@process_insert")->name("process_insert");
 	route::post("process_update", "$controller@process_update")->name("process_update");
 	route::get("done/{appointment_id}", "$controller@done")->name("done");
 	route::get("massDone", "$controller@massDone")->name("massDone");

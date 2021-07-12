@@ -17,7 +17,19 @@ use DB;
 class AppointmentController extends Controller
 {
 	public function process_insert(Request $rq){
-        Appointment::create($rq->all()); 
+        $patient_id = $rq->get('patient_id');
+        $doctor_id = $rq->get('doctor_id');
+        $speciallist_id = $rq->get('speciallist_id');
+        $time = $rq->get('time');
+        $symptom = $rq->get('symptom');
+        Appointment::create([
+            'patient_id' => $patient_id,
+            'doctor_id' => $doctor_id,
+            'speciallist_id' => $speciallist_id,
+            'time' => $time,
+            'symptom' => $symptom,
+            'status' => '0',
+        ]); 
         return redirect()->back();
     }
     public function appointment_list(Request $rq){
