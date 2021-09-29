@@ -1,11 +1,11 @@
 <div id="service" class="services wow fadeIn">
     <div class="container">
       <div class="row">
-        @if (!empty(Session::get('patient_id'))) 
+        @if (!empty(Session::get('patient_id')))
           <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
-        @else 
+        @else
           <div>
-        @endif 
+        @endif
              <div class="inner-services">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                    <div class="serv">
@@ -74,7 +74,7 @@
                                </div>
                             </div>
                          </div>
-                         
+
                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="row">
                                <div class="form-group">
@@ -86,7 +86,7 @@
                             <div class="row">
                                <div class="form-group">
                                   <select name="speciallist_id" class="form-control" id="select_speciallist">
-                                    <option selected="selected">Chọn Khoa</option>
+                                    <option selected="selected" disabled>Chuyên Khoa</option>
                                       @foreach ($speciallist as $speciallist)
                                         <option value="{{ $speciallist->speciallist_id }}">
                                           {{ $speciallist->speciallist_name }}
@@ -100,7 +100,7 @@
                             <div class="row">
                                <div class="form-group">
                                   <select class="form-control" name="doctor_id" id="select_doctor">
-                                      <option selected="selected" value='0'>Chọn Bác Sĩ</option>
+                                      <option selected="selected" value='0' disabled>Bác Sĩ</option>
                                       @foreach ($doctor as $doctor)
                                         <option value="{{ $doctor->doctor_id }}">
                                           {{ $doctor->first_name }} {{ $doctor->last_name }}
@@ -185,7 +185,7 @@
           }
           else {
             newArray.push(0);
-          } 
+          }
         })
         console.log(newArray);
         if (jQuery.inArray(1, newArray) !== -1) {
@@ -193,7 +193,7 @@
         }
         else {
           alert("Đặt lịch hẹn thành công");
-          $.post( "{{ route('appointment.process_insert') }}", { 
+          $.post( "{{ route('appointment.process_insert') }}", {
               patient_id : $("#patient_id").val(),
               doctor_id : $("#select_doctor option:selected").val(),
               speciallist_id : $("#select_speciallist option:selected").val(),

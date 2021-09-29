@@ -14,25 +14,25 @@ route::get("layout","FrontendController@layout")->name("layout");
 $controller = "AppointmentController";
 route::group(["prefix" => "appointment", "as" => "appointment."], function () use ($controller) {
 	route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
-	route::post("process_insert", "$controller@process_insert")->name("process_insert");
-	route::post("process_update", "$controller@process_update")->name("process_update");
 	route::get("done/{appointment_id}", "$controller@done")->name("done");
 	route::get("massDone", "$controller@massDone")->name("massDone");
 	route::get("massRoom", "$controller@massRoom")->name("massRoom");
-});	
+    route::post("process_insert", "$controller@process_insert")->name("process_insert");
+    route::post("process_update", "$controller@process_update")->name("process_update");
+});
 
 $controller = "AjaxController";
 route::group(["prefix" => "ajax", "as" => "ajax."], function () use ($controller) {
+    route::get("appointment_doctor_patient", "$controller@appointment_doctor_patient")->name("appointment_doctor_patient");
+    route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
+    route::get("appointment_patient", "$controller@appointment_patient")->name("appointment_patient");
+    route::get("doctor_information", "$controller@doctor_information")->name("doctor_information");
+    route::get("doctor_medicalrecords", "$controller@doctor_medicalrecords")->name("doctor_medicalrecords");
 	route::get("doctor_speciallist", "$controller@doctor_speciallist")->name("doctor_speciallist");
-	route::get("doctor_information", "$controller@doctor_information")->name("doctor_information");
 	route::get("patient_information", "$controller@patient_information")->name("patient_information");
-	route::get("doctor_medicalrecords", "$controller@doctor_medicalrecords")->name("doctor_medicalrecords");
-	route::get("nurse_information", "$controller@nurse_information")->name("nurse_information");
-	route::get("appointment_patient", "$controller@appointment_patient")->name("appointment_patient");
-	route::get("appointment_doctor_patient", "$controller@appointment_doctor_patient")->name("appointment_doctor_patient");
 	route::get("patient_medicalrecords", "$controller@patient_medicalrecords")->name("patient_medicalrecords");
-	route::get("appointment_list", "$controller@appointment_list")->name("appointment_list");
-});	
+    route::get("nurse_information", "$controller@nurse_information")->name("nurse_information");
+});
 
 route::get("login", "LoginController@login")->name("login");
 
@@ -83,6 +83,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		});
 
 	});
+
     // Nurse
 	$controller = "NurseController";
 	route::group(["prefix" => "nurse", "as" => "nurse."], function () use ($controller) {
@@ -98,6 +99,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 			route::post("process_update", "$controller@process_update")->name("process_update");
         });
 	});
+
     // Medicalrecords
 	$controller = "MedicalrecordsController";
 	route::group(["prefix" => "medicalrecords", "as" => "medicalrecords."], function () use ($controller) {
@@ -107,6 +109,8 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		route::post("discharge", "$controller@discharge")->name("discharge");
 		route::post("change_room", "$controller@change_room")->name("change_room");
 		route::post("process_update", "$controller@process_update")->name("process_update");
+        route::get("hospitalized_view", "$controller@hospitalized_view")->name("hospitalized_view");
+        route::post("hospitalized_insert", "$controller@hospitalized_insert")->name("hospitalized_insert");
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
 			route::get("view_insert", "$controller@view_insert")->name("view_insert");
 			route::post("process_insert", "$controller@process_insert")->name("process_insert");
@@ -115,6 +119,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		});
 
 	});
+
 	// Patient
 	$controller = "PatientController";
 	route::group(["prefix" => "patient", "as" => "patient."], function () use ($controller) {
@@ -130,6 +135,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 			route::get("view_update/{patient_id}", "$controller@view_update")->name("view_update");
         });
 	});
+
 	// Speciallist
 	$controller = "SpeciallistController";
 	route::group(["prefix" => "speciallist", "as" => "speciallist."], function () use ($controller) {
@@ -159,7 +165,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 			route::post("process_update_discipline/{id}", "$controller@process_update_discipline")->name("process_update_discipline");
 			route::get("index_discipline", "$controller@index_discipline")->name("index_discipline");
 		});
-	});	
+	});
 
 	//mon hoc
 
@@ -197,7 +203,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 	});
 
 	//phân công
-	
+
 	$controller = "AssignmentController";
 	route::group(["prefix" => "assignment", "as" => "assignment."], function () use ($controller) {
 		route::group(['middleware' => 'CheckAdmin'], function () use ($controller){
@@ -206,7 +212,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 			route::get("show", "$controller@show")->name("show");
 			route::post("process_assignment_teacher", "$controller@process_assignment_teacher")->name("process_assignment_teacher");
 			route::get("assignment_class", "$controller@assignment_class")->name("assignment_class");
-			
+
 			// route::post("process_assignment_class", "$controller@process_assignment_class")->name("process_assignment_class");
 
 		});
@@ -235,7 +241,7 @@ route::group(['middleware' => 'CheckLogin'], function () {
 	// diem danh
 	$controller = "ListpointsController";
 	route::group(["prefix" => "listpoints", "as" => "listpoints."], function () use ($controller) {
-		
+
 		route::get("view_listpoints", "$controller@view_listpoints")->name("view_listpoints");
 		// route::post("process_listpoint", "$controller@process_listpoint")->name("process_listpoint");
 		route::post("process_post", "$controller@process_post")->name("process_post");
@@ -243,17 +249,17 @@ route::group(['middleware' => 'CheckLogin'], function () {
 		route::post("process_history", "$controller@process_history")->name("process_history");
 		route::post("view_history", "$controller@view_history")->name("view_history");
 		route::post("view_listpoints_history", "$controller@view_listpoints_history")->name("view_listpoints_history");
-		
+
 	});
 
 	// password
 	$controller = "PasswordController";
 	route::group(["prefix" => "password", "as" => "password."], function () use ($controller) {
-		
+
 		route::get("view_update_password", "$controller@view_update_password")->name("view_update_password");
 		route::get("view_change_password", "$controller@view_change_password")->name("view_change_password");
 		route::post("process_change_password", "$controller@process_change_password")->name("process_change_password");
-		
+
 	});
 
 });

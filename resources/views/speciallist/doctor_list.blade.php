@@ -47,12 +47,12 @@
 				</td>
 				<td align="center">
 					@php
-					if ($doctor->gender==1){
+					if ($doctor->gender == 1){
 						echo "Nam";
 					}else {
 						echo "Nữ";
 					}
-					@endphp	
+					@endphp
 				</td>
 				<td align="center">
 					{{$doctor->phone}}
@@ -62,7 +62,7 @@
 				</td>
 				<th scope="col" align="center" style="text-align: right;">
 				<button class="btn btn-success fas fa-edit" style="color: white;" onclick="update()" doctor_id = "{{$doctor->doctor_id}}"></button>
-				
+
 				<a href="{{ route('doctor.delete',['doctor_id' => $doctor->doctor_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;"></a>
 				</th>
 			</tr>
@@ -77,8 +77,8 @@
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">
 			<div class="row form-group">
-			<div class="col-12 col-md-11"><strong>Thông tin bác sĩ</</strong></div>
-			<div class="col-12 col-md-1"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;"></div>
+                <div class="col-12 col-md-11"><strong>Thông tin bác sĩ</strong></div>
+                <div class="col-12 col-md-1"><input type="reset" align="right" value=" X " onclick="hiden()" style="background-color: red;"></div>
 			</div>
 		</div>
 		<div class="card-body card-block" >
@@ -103,12 +103,14 @@
 				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chức vụ</label></div>
 				<div class="col-12 col-md-9">
 					<select name="competence_id" class="form-control" id="select_competence">
-						<option selected="selected">Chức vụ</option>
-						@foreach ($competence as $competence)
-						    <option value="{{ $competence->competence_id }}">
-							    {{ $competence->competence_name }}
-							</option>
-						@endforeach
+                        @foreach ($competence as $competence)
+                            @if ($competence->competence_id < 4){
+                                <option value="{{ $competence->competence_id }}" @if ($competence->competence_id == 3) selected @endif>
+                                    {{ $competence->competence_name }}
+                                </option>
+                            }
+                            @endif
+                        @endforeach
 					</select>
 				</div>
 			    </div>

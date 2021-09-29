@@ -45,7 +45,7 @@ class DoctorController extends Controller
     	return view('doctor.insert');
     }
     public function process_insert(Request $rq){
-    	Doctor::create($rq->all()); 
+    	Doctor::create($rq->all());
         return redirect()->back();
     }
     public function view_insert_excel(){
@@ -98,13 +98,13 @@ class DoctorController extends Controller
         $medicine = Medicine::get();
         $search = $rq->search;
         $array_list = Medicalrecords::where('doctor_id',Session::get('doctor_id'))
-                                    ->where('treatment','0')
+                                    ->where('treatment',0)
                                     ->join('patient','patient.patient_id','medicalrecords.patient_id')
                                     ->where('patient.last_name','like',"%$search%")
                                     ->latest()
                                     ->get();
         return view('doctor.view_list',[
-            'speciallist'=> $speciallist, 
+            'speciallist'=> $speciallist,
             'doctor'=> $doctor,
             'patient'=> $patient,
             'medicine' => $medicine,
@@ -123,7 +123,7 @@ class DoctorController extends Controller
                                     ->where('treatment',1)
                                     ->paginate(10);
         return view('doctor.medicalrecords_history',[
-            'speciallist'=> $speciallist, 
+            'speciallist'=> $speciallist,
             'doctor'=> $doctor,
             'patient'=> $patient,
             'array_list' => $array_list,
@@ -142,7 +142,6 @@ class DoctorController extends Controller
                                 ->paginate(10);
         return view('doctor.appointment_list',[
             'array_list' => $array_list,
-            'search'=> $search,
             'speciallist' => $speciallist,
             'doctor' => $doctor,
             'search'=> $search,
@@ -154,7 +153,7 @@ class DoctorController extends Controller
         $patient = Patient::get();
         $array_list = Appointment::where('doctor_id',Session::get('doctor_id'))->where('status','0')->get();
         return view('doctor.appointment_list',[
-            'speciallist'=> $speciallist, 
+            'speciallist'=> $speciallist,
             'doctor'=> $doctor,
             'patient'=> $patient,
             'array_list' => $array_list,
@@ -165,7 +164,7 @@ class DoctorController extends Controller
     //     $subjects= Subject::get();
 
     //     $Doctors= Doctor::all();
-       
+
     //     return view('Doctor.assignment_subject_Doctor',[
     //      'subjects'=> $subjects,
     //      'Doctors'=> $Doctors
@@ -173,13 +172,13 @@ class DoctorController extends Controller
     // }
     // public function process_assignment_subject_Doctor(Request $rq){
 
-       
+
     //     $input = $rq -> all();
     //     $id_Doctor = $rq -> get('id_Doctor');
-       
+
     //     Subject_Doctor::where('id_Doctor',$id_Doctor)->delete();
     //     foreach ($rq->check as $id_subject) {
-        
+
 
     //          Subject_Doctor::insert([
     //             'id_Doctor' => $rq->id_Doctor,
@@ -187,7 +186,7 @@ class DoctorController extends Controller
     //          ]);
     //     }
     //     return redirect()->route('Doctor.subject_Doctor');
-    // }   
+    // }
 }
-        
-       
+
+

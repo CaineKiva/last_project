@@ -23,8 +23,8 @@
 <table class="table">
 	<tr>
 		<td align="left" colspan="8">
-			<button class="btn btn-success fas fa-home"></button>
-			<button class="btn btn-primary fas fa-exchange-alt"></button>
+			<button class="btn btn-success fas fa-home" title="Đã khám xong"></button>
+			<button class="btn btn-primary fas fa-exchange-alt" title="Đặt/Đổi phòng khám"></button>
 			<input type="text" name="setup_room" placeholder="Nhập phòng bệnh">
 		</td>
 	</tr>
@@ -59,7 +59,7 @@
 					}else {
 						echo "Chưa khám";
 					}
-					@endphp	
+					@endphp
 				</td>
 				<td align="center">
 					{{$appointment->symptom}}
@@ -74,10 +74,10 @@
 					@endphp
 				</td>
 				<th scope="col" align="center" style="text-align: center;">
-					<a href="{{ route('appointment.done',['appointment_id' => $appointment->appointment_id]) }}" class="btn btn-success fas fa-check" style="color: white;"></a>
-					<button type="button" class="btn btn-primary fas fa-edit" style="color: white;" onclick="update()" 
-					appointment_id = "{{$appointment->appointment_id}}"></button>
-					<button type="button" class="btn btn-info fas fa-exchange-alt" style="color: white;" onclick="change()" appointment_id = "{{$appointment->appointment_id}}"></button>
+					<a href="{{ route('appointment.done',['appointment_id' => $appointment->appointment_id]) }}" class="btn btn-success fas fa-check" style="color: white;" title="Đã khám xong"></a>
+					<button type="button" class="btn btn-primary fas fa-edit" style="color: white;" onclick="update()"
+					appointment_id = "{{$appointment->appointment_id}}" title="Đặt/Đổi phòng khám"></button>
+					<button type="button" class="btn btn-info fas fa-exchange-alt" style="color: white;" onclick="change()" appointment_id = "{{$appointment->appointment_id}}" title="Đổi chuyên khoa/bác sĩ khám"></button>
 				</th>
 			</tr>
 			@endforeach

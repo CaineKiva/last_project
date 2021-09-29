@@ -29,20 +29,23 @@ class AppointmentController extends Controller
             'time' => $time,
             'symptom' => $symptom,
             'status' => '0',
-        ]); 
+        ]);
         return redirect()->back();
     }
     public function appointment_list(Request $rq){
     	$speciallist = Speciallist::get();
+        $doctor = Doctor::get();
 		$patient = Patient::get();
         $search = $rq->search;
     	$array_list = Appointment::where('status','0')
                                 ->join('patient','patient.patient_id','appointment.patient_id')
                                 ->where('patient.last_name','like',"%$search%")
+                                ->orderBy("status", "desc")
                                 ->orderBy("time", "desc")
                                 ->paginate(10);
     	return view('appointment.appointment_list',[
-			'speciallist'=> $speciallist, 
+			'speciallist'=> $speciallist,
+            'doctor' => $doctor,
 			'patient'=> $patient,
 			'array_list' => $array_list,
             'search'=> $search,
@@ -73,7 +76,7 @@ class AppointmentController extends Controller
     public function massDone(Request $rq){
         $id = $rq->id;
         if(!empty($id)){
-            foreach ($id as $appointment_id) 
+            foreach ($id as $appointment_id)
             {
                 Appointment::where('appointment_id', $appointment_id)->update([
                     'status' => '1'
@@ -86,7 +89,7 @@ class AppointmentController extends Controller
         $id = $rq->id;
         $room = $rq->setup_room;
         if(!empty($id)){
-            foreach ($id as $appointment_id) 
+            foreach ($id as $appointment_id)
             {
                 Appointment::where('appointment_id', $appointment_id)->update([
                     'room' => $room,

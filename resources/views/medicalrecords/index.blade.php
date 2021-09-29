@@ -44,7 +44,7 @@
 					}else {
 						echo "Nữ";
 					}
-					@endphp	
+					@endphp
 				</td>
 				<td align="center">
 					{{$medicalrecords->speciallist->speciallist_name}}
@@ -60,7 +60,7 @@
 				</td>
 				<th scope="col" align="center" style="text-align: center;">
 
-					<button type="button" class="btn btn-primary fas fa-edit" style="color: white;" onclick="update()" 
+					<button type="button" class="btn btn-primary fas fa-edit" style="color: white;" onclick="update()"
 					medicalrecords_id = "{{$medicalrecords->medicalrecords_id}}"></button>
 					<button type="button" class="btn btn-info fas fa-exchange-alt" style="color: white;" onclick="change()" medicalrecords_id = "{{$medicalrecords->medicalrecords_id}}"></button>
 				</th>
@@ -86,7 +86,7 @@
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Họ và tên bệnh nhân</label></div>
 					<div class="col-12 col-md-9">
-						<input type="hidden" id="appointment_id" name="appointment_id" readonly="readonly" class="form-control">
+						<input type="hidden" id="medicalrecords_id" name="medicalrecords_id" readonly="readonly" class="form-control">
 						<input type="hidden" id="patient_id" name="patient_id" readonly="readonly" class="form-control">
 						<input type="text" id="patient_name" readonly="readonly" class="form-control"></div>
 				</div>
@@ -94,7 +94,7 @@
 				<div class="col col-md-3"><label for="select" class=" form-control-label">Chuyên khoa</label></div>
 				<div class="col-12 col-md-9">
 					<select name="speciallist_id" class="form-control" id="select_speciallist">
-						<option selected="selected" value="0">Chọn Chuyên Khoa</option>
+						<option selected="selected" value="0" disabled>Chọn Chuyên Khoa</option>
                         @foreach ($speciallist as $speciallist)
                             <option value="{{ $speciallist->speciallist_id }}">
                                 {{ $speciallist->speciallist_name }}
@@ -107,7 +107,7 @@
 				<div class="col col-md-3"><label for="select" class=" form-control-label">Bác sĩ</label></div>
 				<div class="col-12 col-md-9">
 					<select class="form-control" name="doctor_id" id="select_doctor">
-						<option selected="selected" value="0">Chọn Bác Sĩ</option>
+						<option selected="selected" value="0" disabled>Chọn Bác Sĩ</option>
 						 @foreach ($doctor as $doctor)
                             <option value="{{ $doctor->doctor_id }}">
                                 {{ $doctor->first_name }} {{ $doctor->last_name }}
@@ -143,59 +143,65 @@
 <script type="text/javascript" >
 jQuery(document).ready(function($) {
 		$(document).on('click', '.btn.btn-primary.fas.fa-edit', function (){
-			var appointment_id = $(this).attr('appointment_id');
-			console.log(appointment_id);
-			$.ajax({
-				url: '{{ route('ajax.appointment_doctor_patient') }}',
-				type: 'GET',
-				dataType: 'json',
-				data: {appointment_id : appointment_id},
-			})
-			.done(function(response) {
-				console.log(response);
-				$("strong").text('Đặt phòng khám');
-				$("#appointment_id").val(response[0]['appointment_id']);
-				$("#patient_id").val(response[0]['patient_id']);
-				$("#patient_name").val(response[0]['first_name']+' '+response[0]['last_name']);
-				$("#time").val(response[0]['time'].replace(' ', 'T'));
-				$("#select_speciallist").val(response[0]['speciallist_id']);
-				$("#select_doctor").val(response[0]['doctor_id']);
-				$("#symptom").val(response[0]['symptom']);
-				$("#room").val(response[0]['room']).attr("placeholder", "Nhập Số Phòng Khám");
-				$("#speciallist_div").hide();
-				$("#doctor_div").hide();
-				$("#symptom_div").hide();
-				// if (response[0]['room'] == null) {
-					$("#id").prop('checked', true);
-				// }
-			})
-		});
+            var medicalrecords_id = $(this).attr('medicalrecords_id');
+                $.ajax({
+                    url: '{{ route('ajax.patient_medicalrecords') }}',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {medicalrecords_id : medicalrecords_id},
+                })
+                .done(function(response) {
+                    console.log(response);
+                    today = new Date();
+                    hospitalized_day_date = new Date(response[0]['created_at']);
+                    hospitalized_day = new Date(response[0]['created_at']).toLocaleDateString();
+                    day_in = parseInt( Number(new Date( today - hospitalized_day_date )) / Number('86400000') );
+                    console.log(response[0]['medicalrecords_id']);
+                    $("strong").text("Thanh toán viện phí");
+                    $("#medicalrecords_id").val(response[0]['medicalrecords_id']);
+                    $("#select_doctor").val(response[0]['doctor_id']);
+                    $("#select_speciallist").val(response[0]['speciallist_id']);
+                    $("#patient_name").val(response[0]['first_name']+' '+response[0]['last_name']);
+                    $("#speciallist_name").val(response[0]['speciallist_name']);
+                    $("#created_at").val(hospitalized_day);
+                    $("#room").val(response[0]['room'])
+                    $("#day_in").val(Number(day_in) + ' ngày'+ ' ('+ '250000 đồng/ngày' +')' );
+                    $("#price").val( parseFloat('250000') *  Number(day_in) );
+                    $("#price_vnd").val( (parseFloat('250000') *  Number(day_in))+ ' đồng' );
+                    $("#price_div").show();
+                    $("#treatment_div").show();
+                    $("#day_in_div").show();
+                    $("#hospitalized_day").show();
+                })
+        });
 
-		$(document).on('click', '.btn.btn-info.fas.fa-exchange-alt', function (){
-			var appointment_id = $(this).attr('appointment_id');
-			console.log(appointment_id);
-			$.ajax({
-				url: '{{ route('ajax.appointment_doctor_patient') }}',
-				type: 'GET',
-				dataType: 'json',
-				data: {appointment_id : appointment_id},
-			})
-			.done(function(response) {
-				console.log(response);
-				$("strong").text('Chuyển bác sĩ khám');
-				$("#appointment_id").val(response[0]['appointment_id']);
-				$("#patient_id").val(response[0]['patient_id']);
-				$("#patient_name").val(response[0]['first_name']+' '+response[0]['last_name']);
-				$("#time").val(response[0]['time'].replace(' ', 'T'));
-				$("#symptom").val(response[0]['symptom']);
-				$("#speciallist_div").show();
-				$("#doctor_div").show();
-				$("#symptom_div").show();
-				$("#select_speciallist").val('0');
-				$("#select_doctor").val('0');
-				$("#room").val('').attr("placeholder", "Nhập Số Phòng Khám (Nếu chuyển khoa khám thì không cần nhập phòng)");
-			})
-		});
+        $(document).on('click', '.btn.btn-primary.fas.fa-edit', function (){
+            var medicalrecords_id = $(this).attr('medicalrecords_id');
+            $.ajax({
+                url: '{{ route('ajax.patient_medicalrecords') }}',
+                type: 'GET',
+                dataType: 'json',
+                data: {medicalrecords_id : medicalrecords_id},
+            })
+                .done(function(response) {
+                    today = new Date();
+                    hospitalized_day_date = new Date(response[0]['created_at']);
+                    hospitalized_day = new Date(response[0]['created_at']).toLocaleDateString();
+                    day_in = parseInt( Number(new Date( today - hospitalized_day_date )) / Number('86400000') );
+                    console.log(response[0]['medicalrecords_id']);
+                    $("#medicalrecords_id").val(response[0]['medicalrecords_id']);
+                    $("#routes").attr('action','{{ route('medicalrecords.change_room') }}');
+                    $("strong").text("Đổi phòng điều trị");
+                    $("#patient_name").val(response[0]['first_name']+' '+response[0]['last_name']);
+                    $("#speciallist_name").val(response[0]['speciallist_name']);
+                    $("#created_at").val(hospitalized_day);
+                    $("#room").val(response[0]['room']);
+                    $("#price_div").hide();
+                    $("#treatment_div").hide();
+                    $("#day_in_div").hide();
+                    $("#hospitalized_day").hide();
+                })
+        });
 
 		$("#select_speciallist").change(function(){
       		var speciallist_id = $(this).val();

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible">
     <title>Quản lí Bệnh Viện</title>
@@ -11,7 +11,7 @@
 
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
-    
+
     <link rel="stylesheet" href="{{ asset('public/vendors/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/vendors/font-awesome/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/vendors/themify-icons/css/themify-icons.css') }}">
@@ -23,17 +23,18 @@
     <link rel="stylesheet" href="{{ asset('public/assets/css/style.css') }}">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-    
-    
+
+
     {{-- datatable --}}
      <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
-    
+
 
      <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 
      <!-- Jqr datatables -->
      <link rel="stylesheet" href="{{ asset('public/css/dataTables.bootstrap4.min.css') }}">
-     <link rel="stylesheet" href="{{ asset('public/css/jquery.dataTables.min.css') }}"> 
+     <link rel="stylesheet" href="{{ asset('public/css/jquery.dataTables.min.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -61,12 +62,12 @@
         <div class="content mt-3">
             <div class="card" id="content">
                 <div class="card-body">
-                    @yield('content') 
-                    
+                    @yield('content')
+
                 </div>
             </div>
-        </div> 
-       
+        </div>
+
     </div>
     <script src="{{ asset('public/js/jquery.min.js') }}"></script>
 
@@ -78,13 +79,17 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+
     <script>
       $( function() {
         $( "input" ).checkboxradio();
       } );
     </script>
     @stack('js')
-    
+
 </body>
 
 </html>

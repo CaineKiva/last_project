@@ -52,7 +52,7 @@
 					}else {
 						echo "Nữ";
 					}
-					@endphp	
+					@endphp
 				</td>
 				<td align="center">
 					{{$nurse->phone}}
@@ -62,7 +62,7 @@
 				</td>
 				<th scope="col" align="center" style="text-align: right;">
 				<button class="btn btn-success fas fa-edit" style="color: white;" onclick="update()" nurse_id = "{{$nurse->nurse_id}}"></button>
-				
+
 				<a href="{{ route('nurse.delete',['nurse_id' => $nurse->nurse_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;"></a>
 				</th>
 			</tr>
@@ -77,8 +77,8 @@
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">
 			<div class="row form-group">
-<!-- 			<div class="col-12 col-md-10.5"><strong></</strong></div> -->
-			<div class="col-12 col-md-12"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;" value="[X]"></div>
+ 			    <div class="col-12 col-md-11"><strong>Cập nhật nhân sự bộ phận y tá</strong></div>
+                <div class="col-12 col-md-1"><input type="reset" align="right" value=" X " onclick="hiden()" style="background-color: red;"></div>
 			</div>
 		</div>
 		<div class="card-body card-block" >
@@ -106,11 +106,13 @@
 				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chức vụ</label></div>
 				<div class="col-12 col-md-9">
 					<select name="competence_id" class="form-control" id="select_competence">
-						<option selected="selected">Chức vụ</option>
-						@foreach ($competence  as $competence)
-						    <option value="{{ $competence->competence_id }}">
-							    {{ $competence->competence_name }}
-							</option>
+						@foreach ($competence as $competence)
+                            @if ($competence->competence_id > 3){
+                                <option value="{{ $competence->competence_id }}" @if ($competence->competence_id == 5) selected @endif>
+                                    {{ $competence->competence_name }}
+                                </option>
+                            }
+                            @endif
 						@endforeach
 					</select>
 				</div>
@@ -120,7 +122,7 @@
 					<div class="col col-md-9">
 						<div class="form-check-inline form-check">
 							<label for="inline-radio1" class="form-check-label ">
-								<input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam &ensp;   
+								<input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam &ensp;
 							</label>
 							<label for="inline-radio2" class="form-check-label ">
 								<input type="radio" id="inline-radio2" name="gender" value="0" class="form-check-input" @if (old('gender')==='0')checked @endif>Nữ
@@ -165,6 +167,7 @@
 				data: {nurse_id : nurse_id},
 			})
 			.done(function(response) {
+                    $("strong").text('Cập nhật thông tin cá nhân');
 					$("#routes").attr('action','{{ route('nurse.process_update') }}');
 					$("#nurse_id").val(response[0]['nurse_id']);
                    	$("#first_name").val(response[0]['first_name']);

@@ -31,7 +31,7 @@
 		@foreach ($array_list as $medicalrecords)
 		<tr>
 			<td align="center">
-				{{$medicalrecords->patient->full_name}} 
+				{{$medicalrecords->patient->full_name}}
 			</td>
 			<td align="center">
 				{{ $age = date_diff(date_create($medicalrecords->patient->birthday), date_create('now'))->y}} tuổi

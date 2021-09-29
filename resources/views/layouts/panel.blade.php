@@ -68,16 +68,16 @@
                         <li><i class="fa fa-id-badge"></i><a href="">Cập nhật thông tin</a></li>
                        </ul>
                 </li> -->
-                
+
 <!--                  <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-view-list"></i>Phân công</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-table"></i><a href="">Theo giáo viên</a></li>
                         <li><i class="fa fa-table"></i><a href="">Xem</a></li>
-                        <li><i class="fa fa-table"></i><a href="">Theo lớp</a></li> 
+                        <li><i class="fa fa-table"></i><a href="">Theo lớp</a></li>
                         <li><i class="fa fa-table"></i><a href="">Danh sách dạy</a></li>
                     </ul>
-                    
+
                 </li> -->
         @endif
 
@@ -117,9 +117,7 @@
             <li class="menu-item-has-children dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-hospital-o"></i>Nhập/Xuất viện</a>
                 <ul class="sub-menu children dropdown-menu">
-                    <li><i class="fa fas fa-wheelchair"></i><a href="{{ route('patient.patient_index') }}">Bệnh nhân</a></li>
-                    <li><i class="fa fas fa-hospital-o"></i><a href="">Thủ tục nhập viện</a></li>
-                    <li><i class="fas fa-home"></i><a href="{{ route('medicalrecords.being_treated') }}">Xuất viện và thanh toán viện phí</a></li>
+                    <li><i class="fas fa-home"></i><a href="{{ route('medicalrecords.being_treated') }}">Nhập/Xuất viện và thanh toán viện phí</a></li>
                 </ul>
             </li>
             <!-- <li class="menu-item">
@@ -129,7 +127,7 @@
                 <h3 class="menu-title">Người dùng</h3><!-- /.menu-title -->
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Tài khoản</a>
-                    <ul class="sub-menu children dropdown-menu"> 
+                    <ul class="sub-menu children dropdown-menu">
                        <li><i class="menu-icon fa fa-paper-plane"></i><a href="{{ route('password.view_update_password') }}" >Thông tin User </a></li>
                        <li><i class="menu-icon fa fa-sign-in"></i><a href="{{ route('login.logout') }}">Đăng xuất</a></li>
                     </ul>

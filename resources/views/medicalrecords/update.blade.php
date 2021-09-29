@@ -1,7 +1,7 @@
 
 @extends('layouts.master')
 @section('content')
-	
+
 	<div class="card"  >
 		<div class="card-header" >
 			<div class="col-12 col-md-5"><strong>Cập nhật thông tin bệnh nhân</strong> </div>
@@ -55,7 +55,7 @@
 								<option value="{{ $speciallist->speciallist_id }}" selected>
 							    	{{ $speciallist->speciallist_name }}
 							    </option>
-							@else 
+							@else
 								<option value="{{ $speciallist->speciallist_id }}">
 							        {{ $speciallist->speciallist_name }}
 						        </option>
@@ -98,7 +98,7 @@
 			var speciallist_id = $(this).val();
 			$("#select_doctor").html('');
 			$.ajax({
-				url: '{{ route('ajax.doctor_speciallist') }}',
+				url: '{{ route('ajax.speciallist_doctor') }}',
 				type: 'GET',
 				dataType: 'json',
 				data: {speciallist_id : speciallist_id},

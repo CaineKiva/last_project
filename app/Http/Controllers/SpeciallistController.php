@@ -42,6 +42,7 @@ class SpeciallistController extends Controller
                                         ->join('patient','medicalrecords.patient_id','patient.patient_id')
                                         // ->join('doctor','medicalrecords.doctor_id','doctor.doctor_id')
                                         ->where('patient.last_name','like',"%$search%")
+                                        ->where('treatment',0)
                                         ->paginate(10);
         return view('speciallist.patient_list',[
             'patient' => $patient,
@@ -55,7 +56,7 @@ class SpeciallistController extends Controller
     	return view('speciallist.insert');
     }
     public function process_insert(DisciplineRequest $rq){
-    	Speciallist::create($rq->all()); 
+    	Speciallist::create($rq->all());
         return redirect()->route('speciallist.index_list');
 
     }
@@ -79,7 +80,7 @@ class SpeciallistController extends Controller
             'name_collapse'=> $name_collapse,
     	]);
         // SinhVienLop::find($id)->update($rq->all());
-       
+
     	return redirect()->route('speciallist.index_list');
     }
 }

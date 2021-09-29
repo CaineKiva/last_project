@@ -52,7 +52,7 @@
 					}else {
 						echo "Nữ";
 					}
-					@endphp	
+					@endphp
 				</td>
 				<td align="center">
 					{{$doctor->phone}}
@@ -62,7 +62,7 @@
 				</td>
 				<th scope="col" align="center" style="text-align: right;">
 				<button class="btn btn-success fas fa-edit" style="color: white;" onclick="update()" doctor_id = "{{$doctor->doctor_id}}"></button>
-				
+
 				<a href="{{ route('doctor.delete',['doctor_id' => $doctor->doctor_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;"></a>
 				</th>
 			</tr>
@@ -77,8 +77,8 @@
 	    <div class="card"  >
 		<div class="card-header" align="center" style="height: 50px;">
 			<div class="row form-group">
-			<div class="col-12 col-md-10"><strong></strong></div>
-			<div class="col-12 col-md-2"><input type="reset" align="right" class="btn btn-danger fas fa-user" onclick="hiden()" style="color: white;" value="[X]"></div>
+                <div class="col-12 col-md-11"><strong></strong></div>
+                <div class="col-12 col-md-1"><input type="reset" align="right" value=" X " onclick="hiden()" style="background-color: red;"></div>
 			</div>
 		</div>
 		<div class="card-body card-block" >
@@ -102,7 +102,7 @@
 				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chọn Khoa</label></div>
 				<div class="col-12 col-md-9">
 					<select name="speciallist_id" class="form-control" id="select_speciallist">
-						<option selected="selected">Chọn Khoa</option>
+						<option selected="selected" disabled>Chọn Chuyên Khoa</option>
 						@foreach ($speciallist  as $speciallist)
 						    <option value="{{ $speciallist->speciallist_id }}">
 							    {{ $speciallist->speciallist_name }}
@@ -115,12 +115,14 @@
 				<div class="col col-md-3" style="margin: auto;"><label for="select" class=" form-control-label">Chức vụ</label></div>
 				<div class="col-12 col-md-9">
 					<select name="competence_id" class="form-control" id="select_competence">
-						<option selected="selected">Chức vụ</option>
-						@foreach ($competence  as $competence)
-						    <option value="{{ $competence->competence_id }}">
-							    {{ $competence->competence_name }}
-							</option>
-						@endforeach
+                        @foreach ($competence as $competence)
+                            @if ($competence->competence_id < 4){
+                                <option value="{{ $competence->competence_id }}" @if ($competence->competence_id == 3) selected @endif>
+                                    {{ $competence->competence_name }}
+                                </option>
+                                }
+                            @endif
+                        @endforeach
 					</select>
 				</div>
 			    </div>
@@ -133,7 +135,7 @@
 					<div class="col col-md-9">
 						<div class="form-check-inline form-check">
 							<label for="inline-radio1" class="form-check-label ">
-								<input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam &ensp;   
+								<input type="radio" id="inline-radio1" name="gender" value="1" class="form-check-input" @if (old('gender')==='1')checked @endif>Nam &ensp;
 							</label>
 							<label for="inline-radio2" class="form-check-label ">
 								<input type="radio" id="inline-radio2" name="gender" value="0" class="form-check-input" @if (old('gender')==='0')checked @endif>Nữ
