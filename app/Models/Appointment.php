@@ -10,9 +10,9 @@ class Appointment extends Model
     protected $table = 'appointment'; // kết nối bảng lớp
     protected $primaryKey = 'appointment_id'; // đổi khóa chính thành id
 
-    protected $fillable = ['time','symptom','room','status','doctor_id','speciallist_id','patient_id']; //khai báo cột cần 
-    
-    public $timestamps = false; 
+    protected $fillable = ['time','symptom','room','status','advice','doctor_id','speciallist_id','patient_id','medicine_id']; //khai báo cột cần
+
+    public $timestamps = false;
 
     public function Speciallist()
     {

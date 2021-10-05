@@ -12,6 +12,7 @@ use App\Models\Medicalrecords;
 use App\Models\Appointment;
 use Session;
 use DB;
+use function GuzzleHttp\Psr7\str;
 
 
 class AppointmentController extends Controller
@@ -67,14 +68,22 @@ class AppointmentController extends Controller
         ]);
         return redirect()->back();
     }
-    public function done(Request $rq,$appointment_id){
+    public function done(Request $rq){
+        $advice = $rq->advice;
+        $appointment_id = $rq->appointment_id;
+        $medicine_data = $rq->medicine_data;
+        $medicine_id = implode(' ', $medicine_data);
         Appointment::where('appointment_id',$appointment_id)->update([
             'status' => '1',
+            'advice' => $advice,
+            'medicine_id' => $medicine_id,
         ]);
         return redirect()->back();
     }
     public function massDone(Request $rq){
         $id = $rq->id;
+        dump($id);
+        die();
         if(!empty($id)){
             foreach ($id as $appointment_id)
             {

@@ -60,18 +60,18 @@ class SpeciallistController extends Controller
         return redirect()->route('speciallist.index_list');
 
     }
-    public function delete($speciallist_id)
-    {
-        Speciallist::find($id)->delete();
-    	return redirect()->route('speciallist.show_speciallist');
-    }
-    public function view_update($speciallist_id){
-        $speciallist= Speciallist::find($id);
-    	return view('speciallist.edit',[
-    		'speciallist'=> $speciallist,
-    	]);
-
-    }
+//    public function delete($speciallist_id)
+//    {
+//        Speciallist::find($id)->delete();
+//    	return redirect()->route('speciallist.show_speciallist');
+//    }
+//    public function view_update($speciallist_id){
+//        $speciallist= Speciallist::find($id);
+//    	return view('speciallist.edit',[
+//    		'speciallist'=> $speciallist,
+//    	]);
+//
+//    }
     public function process_update_speciallist(speciallistRequest $rq,$speciallist_id){
         $name    = $rq->name;
         $name_collapse = $rq->name_collapse;

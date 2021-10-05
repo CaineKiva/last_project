@@ -22,7 +22,7 @@
 <table class="table" id="list">
 	<tr>
 		<td align="right" colspan="7">
-			<button class="btn btn-primary fas fa-pencil-alt" style="color: white;" onclick="show()"></button>
+			<button class="btn btn-primary fas fa-pencil-alt" style="color: white;" onclick="show()" title="Đăng ký bệnh nhân"></button>
 		</td>
 	</tr>
 	<tr>
@@ -64,8 +64,8 @@
                 @endphp
 			</td>
 			<td align="center">
-				<button class="btn btn-success fas fa-edit" style="color: white;" onclick="update()" patient_id = "{{$patient->patient_id}}"></button>
-				<a href="{{ route('patient.delete',['patient_id' => $patient->patient_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;"></a>
+				<button class="btn btn-success fas fa-edit" style="color: white;" onclick="update()" patient_id = "{{$patient->patient_id}}" title="Thông tin bệnh nhân"></button>
+				<a href="{{ route('patient.delete',['patient_id' => $patient->patient_id]) }}" class="btn btn-danger far fa-trash-alt" style="color: white;" title="Xoá"></a>
 			</td>
 		</tr>
         @endforeach
@@ -99,7 +99,7 @@
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Ngày sinh</label></div>
 					<div class="col-12 col-md-9"><input type="date" id="birthday" name="birthday" placeholder="Text" class="form-control"  value="{{ old('birthday') }}">{{ $errors->first('birthday') }}</div>
 				</div>
-			
+
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Số điện thoại</label></div>
 					<div class="col-12 col-md-9"><input type="text" id="contact_phone" name="contact_phone" placeholder="Nhập SĐT" class="form-control" value="{{ old('contact_phone') }}">{{ $errors->first('contact_phone') }}</div>

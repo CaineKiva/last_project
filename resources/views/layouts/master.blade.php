@@ -26,69 +26,64 @@
 
 
     {{-- datatable --}}
-     <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 
 
-     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 
-     <!-- Jqr datatables -->
-     <link rel="stylesheet" href="{{ asset('public/css/dataTables.bootstrap4.min.css') }}">
-     <link rel="stylesheet" href="{{ asset('public/css/jquery.dataTables.min.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <!-- Jqr datatables -->
+    <link rel="stylesheet" href="{{ asset('public/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/jquery.dataTables.min.css') }}">
 </head>
 
 <body>
-    @include('layouts.panel')
-    <div id="right-panel" class="right-panel">
-        @include('layouts.header')
-       <div class="breadcrumbs">
-            <div class="col-sm-4">
-                <div class="page-header float-left">
-                    <div class="page-title">
-                        <h1>@yield('titles')</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="page-header float-right">
-                    <div class="page-title">
-                        <ol class="breadcrumb text-right">
-                            <li class="active"></li>
-                        </ol>
-                    </div>
+@include('layouts.panel')
+<div id="right-panel" class="right-panel">
+    @include('layouts.header')
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>@yield('titles')</h1>
                 </div>
             </div>
         </div>
-        <div class="content mt-3">
-            <div class="card" id="content">
-                <div class="card-body">
-                    @yield('content')
-
+        <div class="col-sm-8">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li class="active"></li>
+                    </ol>
                 </div>
             </div>
         </div>
-
     </div>
-    <script src="{{ asset('public/js/jquery.min.js') }}"></script>
+    <div class="content mt-3">
+        <div class="card" id="content">
+            <div class="card-body">
+                @yield('content')
 
-    <script src="{{ asset('public/vendors/popper.js/dist/umd/popper.min.js') }}"></script>
-    <script src="{{ asset('public/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('public/assets/js/main.js') }}"></script>
+            </div>
+        </div>
+    </div>
 
-    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+</div>
+<script src="{{ asset('public/js/jquery.min.js') }}"></script>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="{{ asset('public/vendors/popper.js/dist/umd/popper.min.js') }}"></script>
+<script src="{{ asset('public/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('public/assets/js/main.js') }}"></script>
 
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 
-    <script>
-      $( function() {
+<script>
+    $( function() {
         $( "input" ).checkboxradio();
-      } );
-    </script>
-    @stack('js')
+    } );
+</script>
+@stack('js')
 
 </body>
 

@@ -60,14 +60,12 @@
                         <!-- <li><i class="fa fa-id-badge"></i><a href="">Sửa môn</a></li> -->
                        </ul>
                 </li>
-<!--                 <li class="menu-item-has-children dropdown">
+                <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-flask"></i>Dược liệu, Thuốc</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-card-o"></i><a href="">Danh sách nhà cung cấp</a></li>
-                        <li><i class="fa fa-file-excel-o"></i><a href="">Thêm Thuốc</a></li>
-                        <li><i class="fa fa-id-badge"></i><a href="">Cập nhật thông tin</a></li>
-                       </ul>
-                </li> -->
+                        <li><i class="menu-icon fa fa-flask"></i><a href="{{ route('supplier.supplier_list') }}">Danh sách nhà cung cấp</a></li>
+                    </ul>
+                </li>
 
 <!--                  <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-view-list"></i>Phân công</a>

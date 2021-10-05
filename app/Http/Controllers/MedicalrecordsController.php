@@ -80,10 +80,31 @@ class MedicalrecordsController extends Controller
 			'search'=> $search,
 		]);
 	}
+    public function discharged(Request $rq){
+        $speciallist =Speciallist::get();
+        $doctor = Doctor::get();
+        $patient = Patient::get();
+        $medicine = Medicine::get();
+        $search = $rq->search;
+        $array_list = Medicalrecords::orderBy('updated_at', 'desc')->join('patient','medicalrecords.patient_id','patient.patient_id')
+            ->where('patient.last_name','like',"%$search%")
+            ->where('treatment','1')
+            ->paginate(10);
+        return view('medicalrecords.discharged',[
+            'speciallist'=> $speciallist,
+            'doctor'=> $doctor,
+            'patient'=> $patient,
+            'medicine' => $medicine,
+            'array_list' => $array_list,
+            'search'=> $search,
+        ]);
+    }
     public function discharge(Request $rq){
         $medicalrecords_id = $rq->medicalrecords_id;
+        $price = $rq->price;
         Medicalrecords::where('medicalrecords_id',$medicalrecords_id)->update([
-            'treatment' => 1
+            'treatment' => 1,
+            'price' => $price
         ]);
         return redirect()->back();
     }

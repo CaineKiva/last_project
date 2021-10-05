@@ -46,7 +46,7 @@ class AjaxController extends Controller
     }
     public function appointment_patient(Request $rq){
         $patient_id = $rq->get('patient_id');
-        $appointment = Appointment::where('patient_id',$patient_id)->where('status','0')
+        $appointment = Appointment::where('patient_id',$patient_id)
                                     ->join('doctor','appointment.doctor_id' , 'doctor.doctor_id')
                                     ->join('speciallist','appointment.speciallist_id' , 'speciallist.speciallist_id')
                                     ->orderBy("time", "desc")
@@ -55,7 +55,7 @@ class AjaxController extends Controller
     }
     public function patient_medicalrecords(Request $rq){
         $medicalrecords_id = $rq->get('medicalrecords_id');
-        $medicalrecords = Medicalrecords::where('medicalrecords_id',$medicalrecords_id)->where('treatment','0')
+        $medicalrecords = Medicalrecords::where('medicalrecords_id',$medicalrecords_id)
                                     ->join('doctor','medicalrecords.doctor_id' , 'doctor.doctor_id')
                                     ->join('speciallist','medicalrecords.speciallist_id' , 'speciallist.speciallist_id')
                                     ->join('patient','medicalrecords.patient_id' , 'patient.patient_id')
@@ -76,89 +76,111 @@ class AjaxController extends Controller
         $nurse = Nurse::where('nurse_id',$nurse_id)->get();
         return $nurse;
     }
-    public function medicine_supplier(Request $rq){
+    public function medicine_information(Request $rq){
         $medicine_id = $rq->get('medicine_id');
+        $medicine = Medicine::where('medicine_id',$medicine_id)->get();
+        return $medicine;
+    }
+    public function supplier_information(Request $rq){
         $supplier_id = $rq->get('supplier_id');
-        $array_selection = Medicalrecords::where('medicine_id',$medicine_id)
-                            ->where('supplier_id',$supplier_id)  
-                            ->join('supplier','medicalrecord.supplier_id' , 'supplier.supplier_id')
-                            ->join('medicine','medicalrecord.medicine_id' , 'medicine.medicine_id')
-                           ->get();
-        return $array_medicalrecords;
-        
-       
+        $supplier = Supplier::where('supplier_id',$supplier_id)->get();
+        return $supplier;
     }
-    public function assignment_class_subject(Request $rq){
-        $id_discipline = $rq->get('id_discipline');
-        $id_course = $rq->get('id_course');
-        $array_class = Classs::where('id_discipline',$id_discipline)
-                            ->where('id_course',$id_course) 
-                            ->leftJoin('discipline','class.id_discipline' , 'discipline.id')
-                            ->leftJoin('course','class.id_course' , 'course.id')
-                            ->select()
-                            ->getFullName()
-                            ->get();
-                
-        return $array_class;
-        
-       
+    public function appointment_advice(Request $rq){
+        $appointment_id = $rq->appointment_id;
+        $appointment = Appointment::where('appointment_id',$appointment_id)
+                                    ->join('doctor','appointment.doctor_id' , 'doctor.doctor_id')
+                                    ->join('speciallist','appointment.speciallist_id' , 'speciallist.speciallist_id')
+                                    ->get();
+        $medicine_id = Appointment::where('appointment_id',$appointment_id)->select('medicine_id')->get();
+        $data = preg_match_all('!\d+!', $medicine_id, $matches);
+        $medicine_data = Medicine::whereIn('medicine_id',$matches[0])->get();
+
+        return [$appointment, $medicine_data];
     }
+//    public function medicine_supplier(Request $rq){
+//        $medicine_id = $rq->get('medicine_id');
+//        $supplier_id = $rq->get('supplier_id');
+//        $array_selection = Medicalrecords::where('medicine_id',$medicine_id)
+//                            ->where('supplier_id',$supplier_id)
+//                            ->join('supplier','medicalrecord.supplier_id' , 'supplier.supplier_id')
+//                            ->join('medicine','medicalrecord.medicine_id' , 'medicine.medicine_id')
+//                           ->get();
+//        return $array_medicalrecords;
+//
+//
+//    }
+//    public function assignment_class_subject(Request $rq){
+//        $id_discipline = $rq->get('id_discipline');
+//        $id_course = $rq->get('id_course');
+//        $array_class = Classs::where('id_discipline',$id_discipline)
+//                            ->where('id_course',$id_course)
+//                            ->leftJoin('discipline','class.id_discipline' , 'discipline.id')
+//                            ->leftJoin('course','class.id_course' , 'course.id')
+//                            ->select()
+//                            ->getFullName()
+//                            ->get();
+//
+//        return $array_class;
+//
+//
+//    }
     public function listpoint(Request $rq){
         $id_teacher=Session::get('id');
         $id_discipline = $rq->get('id_discipline');
         $id_course = $rq->get('id_course');
         $array_class = Medicalrecords::where('id_discipline',$id_discipline)
-                            ->where('id_course',$id_course) 
+                            ->where('id_course',$id_course)
                             ->where('id_teacher',$id_teacher)
                             ->join('discipline','class.id_discipline' , 'discipline.id')
                             ->join('course','class.id_course' , 'course.id')
                             ->join('assignmen','assignmen.id_class','class.id')
                             ->select('class.id','class.name')
-                            
+
                             ->get();
-                
+
         return $array_class;
         // đây là cái truyền ra sinh viên à
-        
-       
+
+
     }
     public function assignment_discipline_subject(Request $rq){
         $id = $rq->get('id');
-       
+
         $array_subject= Subject::where('id_discipline',$id)->get();
-         
+
         return $array_subject;
     }
     public function subject_teacher(Request $rq){
         $id = $rq->get('id');
         // $array_subject_teacher= Subject_teacher::join('subject','subject_teacher.id_subject','subject.id')
         //                                     ->where('id_teacher',$id)
-                                           
-        //                                     ->get(['name','id']);  
+
+        //                                     ->get(['name','id']);
         // $id_teacher=$rq->get('id_teacher');
         $array_subject_teacher=Subject_teacher::where('subject_teacher.id_teacher',$id)
                                             ->where('assignmen.id_teacher',null)
                                             ->join('subject','subject.id','subject_teacher.id_subject')
                                             ->leftJoin('assignmen','assignmen.id_subject','subject.id')
                                             ->select('subject.name','subject.id')
-                                            ->get();                       
+                                            ->get();
         return $array_subject_teacher;
     }
     public function assignment_class(Request $rq){
     	$id = $rq->get('id');
     	$array_class= Classs::where('id_course',$id)->get();
-       
+
     	return $array_class;
-       
+
 
     }
      public function assignment_class_td(Request $rq){
         $id = $rq->get('id');
 
         $array_class= Classs::where('id_course',$id)->get();
-       
+
         return $array_class;
-       
+
 
     }
 
@@ -184,9 +206,9 @@ class AjaxController extends Controller
     public function listpoint_class(Request $rq){
         $id = $rq->get('id');
         $array_class= Classs::where('id_course',$id)->get();
-       
+
         return $array_class;
-       
+
 
     }
 
@@ -224,7 +246,7 @@ class AjaxController extends Controller
                         $value->status="nghi";
                     }
                     else{
-                        
+
                         if($value->dem%3==1)
                         {
                             $so_du=0.3;
@@ -262,18 +284,18 @@ class AjaxController extends Controller
             date as birthday, 0 as dem, 'nghi' as status")->where('id_class',$id_class)->get();
         }
         $subject=Subject::find($id_subject);
-        return [$ajax_students,$subject->time];  
-        
+        return [$ajax_students,$subject->time];
+
     }
     public function view_assignment(Request $rq)
     {
         $id_class=$rq->get('id_class');
         // $id_discipline=Classs::where('id',$id_class)->get('id_discipline');
-       
+
         // $subjects=Subject::where('id_discipline',1)
         //                     ->get();
 
-                            
+
         // return $subjects;
         // $teachers=Teacher::get();
         // $teachers=Teacher::selectRaw('id, concat(first_name,last_name) as name')->get();
@@ -285,11 +307,11 @@ class AjaxController extends Controller
                             ->selectRaw('class.name as lop ,subject.name as mon,concat(teacher.first_name,teacher.last_name) as giaovien')
                             -> get();
        return $array;
-       
+
        // return [$subjects,$teachers];
     }
     public function history_listpoint(Request $rq)
-    {   
+    {
         $id_class=$rq->get('id_class');
         $array_history=Subject::where('assignmen.id_class',$id_class)
                         ->join('assignmen','assignmen.id_subject','subject.id')

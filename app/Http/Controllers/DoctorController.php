@@ -8,7 +8,6 @@ use App\Models\Competence;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\Medicine;
-use App\Models\Supplier;
 use App\Models\Medicalrecords;
 use App\Models\Appointment;
 use Session;
@@ -112,7 +111,7 @@ class DoctorController extends Controller
             'search'=> $search,
         ]);
     }
-    public function Medicalrecords_history(Request $rq){
+    public function medicalrecords_history(Request $rq){
         $speciallist = Speciallist::get();
         $doctor = Doctor::get();
         $patient = Patient::get();
@@ -133,6 +132,7 @@ class DoctorController extends Controller
     public function appointment_list(Request $rq){
         $doctor = Doctor::get();
         $speciallist = Speciallist::get();
+        $medicine = Medicine::get();
         $search = $rq->search;
         $array_list = Appointment::where('doctor_id',Session::get('doctor_id'))
                                 ->where('status','0')
@@ -143,6 +143,7 @@ class DoctorController extends Controller
         return view('doctor.appointment_list',[
             'array_list' => $array_list,
             'speciallist' => $speciallist,
+            'medicine' => $medicine,
             'doctor' => $doctor,
             'search'=> $search,
         ]);

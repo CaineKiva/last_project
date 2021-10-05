@@ -18,19 +18,23 @@ class FrontendController extends Controller
     	$patient = Patient::get();
     	$speciallist = Speciallist::get();
 		$doctor = Doctor::get();
+        $medicine = Medicine::get();
         return view('frontend.master',[
-			'speciallist' => $speciallist, 
+			'speciallist' => $speciallist,
 			'doctor' => $doctor,
 			'patient' => $patient,
+            'medicine' => $medicine
 		]);
     }
 
     public function service_select(){
 		$speciallist = Speciallist::get();
 		$doctor = Doctor::get();
+        $medicine = Medicine::get();
 		return view('frontend.service',[
-			'speciallist'=> $speciallist, 
+			'speciallist'=> $speciallist,
 			'doctor'=> $doctor,
+            'medicine' => $medicine
 		]);
 	}
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Medicine extends Model {
 	protected $table = 'medicine';
 	protected $primaryKey = 'medicine_id';
-	protected $fillable = ['medicine_name', 'using','price','status','supplier_id'];
+	protected $fillable = ['medicine_name','using','price','status','quantity','supplier_id'];
 	public $timestamps = false;
 	public function Supplier()
     {

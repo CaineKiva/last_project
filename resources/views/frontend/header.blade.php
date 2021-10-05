@@ -6,15 +6,15 @@
              <div class="header-info">
                 <div class="info-inner">
                    <span class="icontop"><img src="{{ asset('public/images/phone-icon.png') }}" alt="#"></span>
-                   <span class="iconcont"><a href="tel:800 123 456">800 123 456</a></span>	
+                   <span class="iconcont"><a href="tel:800 123 456">800 123 456</a></span>
                 </div>
                 <div class="info-inner">
                    <span class="icontop"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                   <span class="iconcont"><a data-scroll href="mailto:info@yoursite.com">info@Lifecare.com</a></span>	
+                   <span class="iconcont"><a data-scroll href="mailto:info@yoursite.com">info@Lifecare.com</a></span>
                 </div>
                 <div class="info-inner">
                    <span class="icontop"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-                   <span class="iconcont"><a data-scroll href="#">Daily: 7:00am - 8:00pm</a></span>	
+                   <span class="iconcont"><a data-scroll href="#">Daily: 7:00am - 8:00pm</a></span>
                 </div>
              </div>
           </div>
@@ -25,7 +25,7 @@
              <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i class="fa fa-bars" aria-hidden="true"></i></button>
              </div>
-             
+
              <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                    <li><a class="active" href="index.html">Home</a></li>
@@ -58,7 +58,7 @@
                 </ul>
              </div>
           </nav>
-          
+
        </div>
     </div>
 
@@ -142,13 +142,65 @@
           <th scope="col" style="text-align: center; font-size: 17px">Chuyên Khoa</th>
           <th scope="col" style="text-align: center; font-size: 17px">Bác Sĩ</th>
           <th scope="col" style="text-align: center; font-size: 17px">Phòng khám</th>
+          <th scope="col" style="text-align: center; font-size: 17px">Thông tin chi tiết</th>
         </tr>
         <tbody id="show_appointment_patient" style="text-align: center;">
-        
+
         </tbody>
       </table>
     </div>
   </div>
+</div>
+
+<div id="appointment_advice">
+    <div class="card"  >
+        <div class="card-header" align="center" style="height: 50px;">
+            <div class="row form-group">
+                <div class="col-12 col-md-11" align="right"></div>
+                <div class="col-12 col-md-1" align="right">
+                    <input type="reset" align="right" class="btn btn-danger fas fa-user" value="[X]" onclick="hide_advice()" style="color: white; font-family: Arial, Helvetica, sans-serif; ">
+                </div>
+            </div>
+            <div class="row form-group">
+                <strong style="font-weight: normal; font-size: 30px" id="appointment_time">Dặn dò từ bác sĩ</strong>
+            </div>
+        </div>
+        <div>
+            <table class="table" id="list">
+                <tr>
+                    <th scope="col" style="text-align: center; font-size: 17px">Ngày khám</th>
+                    <th scope="col" style="text-align: center; font-size: 17px"><input type="text" name="time" id="time" readonly style="width: 600px"></th>
+                </tr>
+                <tr>
+                    <th scope="col" style="text-align: center; font-size: 17px">Chuyên Khoa</th>
+                    <th scope="col" style="text-align: center; font-size: 17px"><input type="text" name="speciallist_name" id="speciallist_name" readonly style="width: 600px"></th>
+                </tr>
+                <tr>
+                    <th scope="col" style="text-align: center; font-size: 17px">Bác sĩ</th>
+                    <th scope="col" style="text-align: center; font-size: 17px"><input type="text" name="doctor_name" id="doctor_name" readonly style="width: 600px"></th>
+                </tr>
+                <tr>
+                    <th scope="col" style="text-align: center; font-size: 17px">Phòng khám</th>
+                    <th scope="col" style="text-align: center; font-size: 17px"><input type="text" name="room" id="room" readonly style="width: 600px"></th>
+                </tr>
+                <tr>
+                    <th scope="col" style="text-align: center; font-size: 17px">Triệu chứng</th>
+                    <th scope="col" style="text-align: center; font-size: 17px"><input type="text" name="symptom" id="symptom" readonly style="width: 600px"></th>
+                </tr>
+                <tr>
+                    <th scope="col" style="text-align: center; font-size: 17px">Dặn dò</th>
+                    <th scope="col" style="text-align: center; font-size: 17px"><input type="text" name="advice" id="advice" readonly style="width: 600px"></th>
+                </tr>
+                <tr>
+                    <th scope="col" style="text-align: center; font-size: 17px">Tên thuốc</th>
+                    <th scope="col" style="text-align: center; font-size: 17px">Sử dụng</th>
+                </tr>
+                <tbody id="advice_medicine" style="text-align: center;">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
  <div class="alert alert-success" style="display: block">
@@ -169,6 +221,7 @@
         data: {patient_id : patient_id},
       })
       .done(function(response) {
+          console.log(response);
         var room;
         $(response['data']).each(function(index,value)
           {
@@ -178,17 +231,51 @@
             } else {
               room = value.room;
             }
-            $("#show_appointment_patient").append(`   
+            $("#show_appointment_patient").append(`
               <tr>
                 <td scope="col" style="text-align: center; font-size: 17px">${value.time}</td>
                 <td scope="col" style="text-align: center; font-size: 17px">${value.speciallist_name}</td>
                 <td scope="col" style="text-align: center; font-size: 17px">${value.first_name} ${value.last_name}</td>
                 <td scope="col" style="text-align: center; font-size: 17px">${room}</td>
+                <td scope="col" style="text-align: center; font-size: 17px">
+                    <button type="button" class="btn btn-primary fas fa-edit" style="color: white;" onclick="show_advice()"
+                            appointment_id = "${value.appointment_id}" title="Thông tin chi tiết"></button>
+                </td>
               </tr>
             `)
           })
       })
     });
+      $(document).on('click', '.btn.btn-primary.fas.fa-edit', function (){
+          console.log($(this).attr('patient_id'));
+          var appointment_id = $(this).attr('appointment_id');
+          console.log(appointment_id);
+          $("#advice_medicine").html('');
+          $.ajax({
+              url: '{{ route('ajax.appointment_advice') }}',
+              type: 'GET',
+              dataType: 'json',
+              data: {appointment_id : appointment_id},
+          })
+          .done(function(response) {
+              console.log(response);
+              $("#time").val(response[0][0]['time']);
+              $("#speciallist_name").val(response[0][0]['speciallist_name']);
+              $("#doctor_name").val(response[0][0]['first_name'] + ' ' + response[0][0]['last_name']);
+              $("#symptom").val(response[0][0]['symptom']);
+              $("#room").val(response[0][0]['room']);
+              $("#advice").val(response[0][0]['advice']);
+              $(response[1]).each(function(index,value)
+              {
+                  $("#advice_medicine").append(`
+                    <tr>
+                        <td scope="col" style="text-align: center; font-size: 17px">${value.medicine_name}</td>
+                        <td scope="col" style="text-align: center; font-size: 17px">${value.using}</td>
+                    </tr>
+                  `)
+              })
+          })
+      });
     $(document).on('click', '.btn.btn-success.btn-sm.click', function (){
       $("#routes").attr('method','post');
     });
@@ -219,11 +306,18 @@
 function show_login() {
     document.getElementById("form_login").style.display = "block";
 }
+function show_advice() {
+    document.getElementById("appointment_advice").style.display = "block";
+}
+function hide_advice() {
+    document.getElementById("appointment_advice").style.display = "none";
+}
 function hiden_login() {
     document.getElementById("form_login").style.display = "none";
 }
 </script>
 @endpush
+
 <style type="text/css">
   #header{
     position: absolute;
@@ -249,6 +343,16 @@ function hiden_login() {
     min-height: 500px;
     width: 60%;
     margin-left: 20%;
+  }
+  #appointment_advice{
+      display: none;
+      position: fixed;
+      margin-top: 2%;
+      z-index: 100;
+      background-color: white;
+      min-height: 650px;
+      width: 60%;
+      margin-left: 20%;
   }
   .appointment_list{
     align-self: center;
