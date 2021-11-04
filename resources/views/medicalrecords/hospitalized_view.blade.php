@@ -134,7 +134,7 @@
                     $("#birthday").val(response[0]['birthday']);
                     $("#contact_phone").val(response[0]['contact_phone']);
                     if(response[0]['gender'] == 1){
-                        $("#gender").val('Name');
+                        $("#gender").val('Nam');
                     } else {
                         $("#gender").val('Nữ');
                     }

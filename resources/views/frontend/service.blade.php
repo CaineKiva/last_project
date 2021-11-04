@@ -62,7 +62,7 @@
                             <div class="row">
                                <div class="form-group">
                                   <input type="hidden" name="patient_id" id="patient_id" value="{{ Session::get('patient_id') }}"  readonly="readonly"/>
-                                   <input type="hidden" name="status" id="status" value="0"  readonly="readonly"/>
+                                  <input type="hidden" name="status" id="status" value="0"  readonly="readonly"/>
                                   <input type="text" value="{{ Session::get('first_name') }} {{ Session::get('last_name') }}"  readonly="readonly"/>
                                </div>
                             </div>
@@ -78,7 +78,7 @@
                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="row">
                                <div class="form-group">
-                                 <input type="datetime-local" id="time" name="time" align="center" />
+                                 <input type="datetime-local" id="abctime" name="abctime" align="center" />
                                </div>
                             </div>
                          </div>
@@ -168,6 +168,8 @@
     $(document).on('click', '.appointment_submit', function (){
       newArray = [];
       var doctor_id = $("#select_doctor option:selected").val();
+      console.log($("#abctime").val());
+      console.log($("textarea#symptom").val());
       $.ajax({
         url: '{{ route('ajax.appointment_list') }}',
         type: 'GET',
@@ -175,7 +177,7 @@
         data: {doctor_id : doctor_id},
       })
       .done(function(response){
-        timeValue = $('#time').val();
+        timeValue = $('#abctime').val();
         time = parseInt( Number(new Date(timeValue)) );
         $(response).each(function(index,value){
           downLimit = parseInt( Number(new Date(value.time)) - Number(1800000) );
@@ -197,8 +199,8 @@
               patient_id : $("#patient_id").val(),
               doctor_id : $("#select_doctor option:selected").val(),
               speciallist_id : $("#select_speciallist option:selected").val(),
-              time : $("#time").val(),
-              symptom : $("#symptom").val(),
+              time : $("#abctime").val(),
+              symptom : $("textarea#symptom").val(),
               "_token": "{{ csrf_token() }}",
           } );
           window.location.reload();
