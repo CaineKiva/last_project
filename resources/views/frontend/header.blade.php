@@ -221,15 +221,23 @@
         data: {patient_id : patient_id},
       })
       .done(function(response) {
-          console.log(response);
+        // console.log(response);
         var room;
+        var status;
         $(response['data']).each(function(index,value)
           {
+              console.log(value.status);
             if (value.room == null) {
-              console.log(value.room);
+              // console.log(value.room);
               room = "Chưa có phòng khám";
             } else {
               room = value.room;
+            }
+
+            if (value.status == 1){
+                status = "block";
+            } if (value.status == 0){
+                status = "none";
             }
             $("#show_appointment_patient").append(`
               <tr>
@@ -237,8 +245,8 @@
                 <td scope="col" style="text-align: center; font-size: 17px">${value.speciallist_name}</td>
                 <td scope="col" style="text-align: center; font-size: 17px">${value.first_name} ${value.last_name}</td>
                 <td scope="col" style="text-align: center; font-size: 17px">${room}</td>
-                <td scope="col" style="text-align: center; font-size: 17px">
-                    <button type="button" class="btn btn-primary fas fa-edit" style="color: white;" onclick="show_advice()"
+                <td scope="col" style="text-align: center; font-size: 17px; display: ${status}">
+                    <button type="button" class="btn btn-primary fas fa-edit"  style="color: white;" onclick="show_advice()"
                             appointment_id = "${value.appointment_id}" title="Thông tin chi tiết"></button>
                 </td>
               </tr>
